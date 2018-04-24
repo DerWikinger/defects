@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/DerWikinger/defects/issues"
   },
-  "homepage": "https://github.com/DerWikinger/defects#readme"
+  "homepage": "https://github.com/DerWikinger/defects#readme",
+  "dependencies": {
+    "angular": "^1.6.9",
+    "jquery": "^3.3.1",
+    "xml-parse-from-string": "^1.0.1"
+  }
 }
