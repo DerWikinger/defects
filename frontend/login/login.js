@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-var bodyParser = require('body-parser');
-var request = require('sync-request');
+const bodyParser = require('body-parser');
+const request = require('sync-request');
 
 const TOKEN_LIMIT = '120m';
 const PROXY_SERVER = 'http://localhost:3000';
@@ -9,7 +9,7 @@ const SECRET_KEY = 'tgc-2-secret';
 
 module.exports = function(app) {
 
-	var users = getAllUsers();
+	let users = getAllUsers();
 
 	app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,7 +23,7 @@ module.exports = function(app) {
 				res.sendStatus(403);
 			} else {
 
-				res.render('index', function(err, html) {
+				res.render('home', function(err, html) {
 					res.send(html);
 				});
 			}
@@ -44,19 +44,17 @@ module.exports = function(app) {
 			password: req.body.password
 		}
 
-		var user = findUser(checkedUser);
+		let user = findUser(checkedUser);
 
 		if(user) {
 			jwt.sign( { user }, SECRET_KEY, { expiresIn: TOKEN_LIMIT }, ( err, token ) => {
 				
-				for(var i=0; i<users.length; i++) {
+				for(let i=0; i<users.length; i++) {
 					if(users[i].userId === user.userId) {
 						users[i].token = token;
 						break;
 					}
 				}
-
-				//console.log(users);
 
 				res.json({
 					userId: user.userId,
@@ -70,12 +68,14 @@ module.exports = function(app) {
 
 	app.all('/defects', verifyToken, function( req, res) {
 
+		let serviceCallResponse;
+
 		jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
 			if(err) {
 				res.sendStatus(403);
 			} else {
 			
-        		var serviceCallResponse = request(req.method, PROXY_SERVER + req.originalUrl, {
+        		serviceCallResponse = request(req.method, PROXY_SERVER + req.originalUrl, {
             		json:req.body
         		});
         
@@ -128,7 +128,7 @@ module.exports = function(app) {
 		var users = [
 			{ userId: 0, username: 'admin', password: '123', rigths: 0, token: '' },
 			{ userId: 1, username: 'brad', password: '111', rigths: 1, token: '' },
-			{ userId: 2, username: '', password: '', rigths: 2, token: '' }
+			{ userId: 2, username: 'guest', password: ' ', rigths: 2, token: '' }
 		]
 
 		return users;

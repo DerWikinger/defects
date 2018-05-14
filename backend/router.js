@@ -7,16 +7,7 @@ export default class HTTPRouter {
 
 			console.log ('This is a "GET" request');
 
-			//var path = __dirname.replace('server', 'client/public');
-
 			res.send('Hello GET!');
-
-			// var reqURL  = req.url;
-			// if (reqURL == '/')
-			// 	res.sendFile(path + '/index.html');
-			// else
-			// 	res.sendFile(path + reqURL);
-
 		});
 
 		this.app.post( '/defects', ( req, res ) => {

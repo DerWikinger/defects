@@ -1,7 +1,7 @@
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var MSSQLStore = require('connect-mssql')(session);
-var mssql = require('mssql');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MSSQLStore = require('connect-mssql')(session);
+const mssql = require('mssql');
 
 // mssql.connect('mssql://sa:123@192.168.1.34:62905/dbDefects').then(()=> {
 // 	new mssql.Request().query('select * from dbo.tblAppUsers').then((recordset)=>{
@@ -12,7 +12,7 @@ var mssql = require('mssql');
 // })
 
 function createStore() {
-		var config = {
+		let config = {
 			user: 'sa',
 			password: '123',
 			server: '192.168.1.34',

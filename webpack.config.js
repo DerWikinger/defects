@@ -11,16 +11,9 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports = {
 
 	mode: NODE_ENV,
-	//mode: 'production',
-
-	// scripts: {
-	//  	"start": "webpack-dev-server",
-	//   	"build": "webpack -p --progress --colors"
-	// },
-
 	context: __dirname + '/frontend',	
 	entry: {
-		main: './main',
+		home: './home',
 		auth: './login/auth'
 	},
 
@@ -63,8 +56,18 @@ module.exports = {
 			loader: ExtractTextPlugin.extract('style', 'css!stylus?resolve url')
 		}]
 	},
-
 	optimization: {
+		splitChunks: {
+	      cacheGroups: {
+	        'commons': {
+	          minChunks: 2,
+	          chunks: 'all',
+	          name: 'commons',
+	          priority: 10,
+	          enforce: true,
+	        },
+	      },
+	    },
 		minimizer: [
 			new UglifyJSPlugin({
 				uglifyOptions: {
@@ -88,7 +91,7 @@ module.exports = {
 	},
 
 	plugins: [
-		//new webpack.NoErrorsPlugin(),
+		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG']),
 		// new webpack.EnvironmentPlugin([
 		// 		NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined

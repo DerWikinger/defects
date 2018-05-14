@@ -1,5 +1,8 @@
 "use strict"
 
+import Defect from '..frontend/classes/defect';
+import Tube from '..frontend/classes/tube';
+
 function hello () {
 	let a = 5;
 
@@ -7,11 +10,9 @@ function hello () {
 		console.log('DEVELOPMENT');
 	}
 
-	//debugger;
+	debugger;
 	let s = `Hello ${a}!`;
 	console.log(s);
 }
 
 exports.hello = hello;
-
-//module.exports hello = hello;

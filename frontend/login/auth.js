@@ -10,14 +10,14 @@ jQuery(function($){
 	
 	$.mask.definitions['l'] = '[А-ЯЁа-яёA-Za-z]';
 	$.mask.definitions['n'] = '[А-ЯЁа-яёA-Za-z0-9]';
-	$("#login").mask("ln?nnnnnnnnnnnnnnnnnn",{placeholder:" "}).on('blur', onBlur);
+	$("#login").mask("lnnnnnnnnnnnnnnnnnnn",{placeholder:" "}).on('blur', onBlur);
 	
 	$.mask.definitions['s'] = '[A-Za-z0-9,.!?;:]';	
-	$("#pwd").mask("s?sssssssss",{placeholder:"" }).on('blur', function(event){ 
+	$("#pwd").mask("ssssssssss",{placeholder:"" }).on('blur', function(event){ 
 		if(checkLength(event.target)) {
 			password = this.value;
 		} else {
-			password = '';
+			password = ' ';
 		}		
 	});
 	
@@ -39,7 +39,7 @@ $("#form").submit( function(event){
 		var http = new XMLHttpRequest();
 		http.open('POST', '/login', false);
 
-		var body = 'username=' + encodeURIComponent($("#login").val()) + '&password=' + encodeURIComponent($("#pwd").val());
+		var body = 'username=' + encodeURIComponent($("#login").val() || 'guest') + '&password=' + encodeURIComponent($("#pwd").val() || ' ');
 		http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		http.send( body );
 
@@ -78,9 +78,9 @@ function error(elem) {
 function checkLength(elem) {
 	
 	var length = $(elem).attr('min');
-	var val = $(elem).val();
+	var val = $(elem).val() || ' ';
 		
-	if(!val || val.length < length) {
+	if(val.length < length) {
 		error(elem);
 		return false;
 	}
