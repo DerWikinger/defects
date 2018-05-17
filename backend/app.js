@@ -2,11 +2,15 @@ require('babel-register')({
     presets: [ 'es2015' ]
 });
 
-//var server = require('./server.js');
+var config = require('../config');
+var httpServer = require('./http-server/server');
+var httpRouter = require('./http-server/router');
 
-// var srv = new server.HTTPServer();
-// srv.start();
+var express = require('express');
+var app = express();
 
-var test = require('../frontend/classes/test');
+var path = __dirname.replace('backend', '');
+app.use('/public', express.static(path + '\\public'));
 
-test.test();
+var server = new httpServer.HTTPServer(app, config.HTTP_PORT, new httpRouter.HTTPRouter(app));
+server.start();

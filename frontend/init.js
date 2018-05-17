@@ -16,7 +16,8 @@ import Status from './classes/status';
 import TubeType from './classes/tube-type';
 import Region from './classes/region';
 import Master from './classes/master';
-import DBManager from '../backend/db-manager';//здесь на будет заменить модуль на model.js
+//import Model from './model';
+//import DBManager from '../backend/db-manager';//здесь на будет заменить модуль на model.js
 
 export const CATEGORIES = [new Category(0, 'Не выбран')];
 export const SYSTEMS = [new System(0, 'Не выбран')];
@@ -30,43 +31,45 @@ export const STATUSES = [new Status(0, 'Не выбран')];
 export const TUBE_TYPES = [new TubeType(0, 'Не выбран')];
 export const REGIONS = [new Region(0, 'Не выбран')];
 export const MASTERS = [new Master(0, 'Не выбран', REGIONS[0], 0)];
-export const EQUIPMENTS = [new Tube({
-	equipmentId: 0,
-	beginPoint: '',
-	endPoint: '',
-	equipmentSys: 0,
-	system : SYSTEMS[0],
-	category: CATEGORIES[0],
-	owner: OWNERS[0],
-	source: SOURCES[0],
-	invNumber: '0'
-})];
-export const DEFECTS = [ new Defect({
-	defectId: 0,
-	objSys: 0,
-	appearanceDate: new Date(),
-	removeDate: null,
-	status: STATUSES[0],
-	equipment: EQUIPMENTS[0],
-	location: 0,
-	diameter: DIAMETERS[0],
-	character: CHARACTERS[0],
-	addresse: '',
-	master: MASTERS[0],
-	period: PERIODS[0],
-	comment: '',
-	folowValue: 0,
-	place: PLACES[0],
-	coordX: NaN,
-	coordY: NaN
-})] 
+// export const EQUIPMENTS = [new Tube({
+// 	equipmentId: 0,
+// 	beginPoint: '',
+// 	endPoint: '',
+// 	equipmentSys: 0,
+// 	system : SYSTEMS[0],
+// 	category: CATEGORIES[0],
+// 	owner: OWNERS[0],
+// 	source: SOURCES[0],
+// 	invNumber: '0'
+// })];
+// export const DEFECTS = [ new Defect({
+// 	defectId: 0,
+// 	objSys: 0,
+// 	appearanceDate: new Date(),
+// 	removeDate: null,
+// 	status: STATUSES[0],
+// 	equipment: EQUIPMENTS[0],
+// 	location: 0,
+// 	diameter: DIAMETERS[0],
+// 	character: CHARACTERS[0],
+// 	addresse: '',
+// 	master: MASTERS[0],
+// 	period: PERIODS[0],
+// 	comment: '',
+// 	folowValue: 0,
+// 	place: PLACES[0],
+// 	coordX: NaN,
+// 	coordY: NaN
+// })] 
 
-let dbManager = new DBManager();
+//let dbManager = new DBManager();
+//let model = new Model();
 
-export function initialize() {
+//LOADS ALL CONSTANT DATA FROM SPECIFIC TABLES
+export function initialize(model) {
 
 	return new Promise( (resolve, reject) => {
-		dbManager.getAll('dbo.tblCategories')
+		model.getAll('dbo.tblCategories')
 			//CATEGORIES
 			.then( (_categories)=> {
 				for(let i = 0; i < _categories.length; i++) {
@@ -75,7 +78,7 @@ export function initialize() {
 					CATEGORIES.push(category);
 				}
 				//SYSTEMS
-				dbManager.getAll('dbo.tblSystems')
+				model.getAll('dbo.tblSystems')
 				.then((_systems)=> {
 					for(let i = 0; i < _systems.length; i++) {
 						let obj = _systems[i];
@@ -83,7 +86,7 @@ export function initialize() {
 						SYSTEMS.push(system);
 					}
 					//OWNERS
-					dbManager.getAll('dbo.tblOwners')
+					model.getAll('dbo.tblOwners')
 					.then((_owners)=> {
 						for(let i = 0; i < _owners.length; i++) {
 							let obj = _owners[i];
@@ -91,7 +94,7 @@ export function initialize() {
 							OWNERS.push(owner);
 						}
 						//SOURCES
-						dbManager.getAll('dbo.tblSources')
+						model.getAll('dbo.tblSources')
 						.then((_sources)=> {
 							for(let i = 0; i < _sources.length; i++) {
 								let obj = _sources[i];
@@ -99,7 +102,7 @@ export function initialize() {
 								SOURCES.push(source);
 							}
 							//CHARACTERS
-							dbManager.getAll('dbo.tblCharacters')
+							model.getAll('dbo.tblCharacters')
 							.then((_characters)=> {
 								for(let i = 0; i < _characters.length; i++) {
 									let obj = _characters[i];
@@ -107,7 +110,7 @@ export function initialize() {
 									CHARACTERS.push(character);
 								}
 								//DIAMETERS
-								dbManager.getAll('dbo.tblDiameters')
+								model.getAll('dbo.tblDiameters')
 								.then((_diameters)=> {
 									for(let i = 0; i < _diameters.length; i++) {
 										let obj = _diameters[i];
@@ -115,7 +118,7 @@ export function initialize() {
 										DIAMETERS.push(diameter);
 									}
 									//PERIODS
-									dbManager.getAll('dbo.tblPeriods')
+									model.getAll('dbo.tblPeriods')
 									.then((_periods)=> {
 										for(let i = 0; i < _periods.length; i++) {
 											let obj = _periods[i];
@@ -123,7 +126,7 @@ export function initialize() {
 											PERIODS.push(period);
 										}
 										//PLACES
-										dbManager.getAll('dbo.tblPlaces')
+										model.getAll('dbo.tblPlaces')
 										.then((_places)=> {
 											for(let i = 0; i < _places.length; i++) {
 												let obj = _places[i];
@@ -131,7 +134,7 @@ export function initialize() {
 												PLACES.push(place);
 											}
 											//STATUSES
-											dbManager.getAll('dbo.tblStatuses')
+											model.getAll('dbo.tblStatuses')
 											.then((_statuses)=> {
 												for(let i = 0; i < _statuses.length; i++) {
 													let obj = _statuses[i];
@@ -139,7 +142,7 @@ export function initialize() {
 													STATUSES.push(status);
 												}
 												//TUBE_TYPES
-												dbManager.getAll('dbo.tblTubeTypes')
+												model.getAll('dbo.tblTubeTypes')
 												.then((_tubeTypes)=> {
 													for(let i = 0; i < _tubeTypes.length; i++) {
 														let obj = _tubeTypes[i];
@@ -147,7 +150,7 @@ export function initialize() {
 														TUBE_TYPES.push(tubeType);
 													}
 													//REGIONS
-													dbManager.getAll('dbo.tblRegions')
+													model.getAll('dbo.tblRegions')
 													.then((_regions)=> {
 														for(let i = 0; i < _regions.length; i++) {
 															let obj = _regions[i];
@@ -155,7 +158,7 @@ export function initialize() {
 															REGIONS.push(region);
 														}
 														//MASTER
-														dbManager.getAll('dbo.tblMasters')
+														model.getAll('dbo.tblMasters')
 														.then((_masters)=> {
 															for(let i = 0; i < _masters.length; i++) {
 																let obj = _masters[i];
@@ -245,95 +248,47 @@ export function initialize() {
 
 };//FUNCTION INITIALIZE
 
-export function getAllEquipments () {
-	return new Promise((resolve, reject) => {
-		//console.log('GET_ALL_EQUIPMENTS');
-		dbManager.getAll('dbo.tblEquipments').then((_equipments) => {
-			//console.log('GET_ALL');
-			for(let i = 0; i < _equipments.length; i++){
-				let obj = _equipments[i];
-				let equipment = {
-					equipmentId: obj.equipmentId,
-					beginPoint: obj.beginPoint,
-					endPoint: obj.endPoint,
-					equipmentSys: obj.equipmentSys,
-					system : SYSTEMS[obj.systemId || 0],
-					category: CATEGORIES[obj.categoryId || 0],
-					owner: OWNERS[obj.ownerId || 0],
-					source: SOURCES[obj.sourceId || 0],
-					invNumber: obj.invNumber || '0'
-				};
-				//console.log(equipment);
-				switch(obj.equipmentTypeId || 0) {
-					case 1:
-						let tube = new Tube(equipment);
-						EQUIPMENTS.push(tube);
-						break;				
-					case 2:
-						let armature = new Armature(equipment);
-						EQUIPMENTS.push(armature);
-						break;				
-					case 3:
-						let compensator = new Compensator(equipment);
-						EQUIPMENTS.push(compensator);
-						break;
+export function getAllEquipments (model) {
+		return new Promise((resolve, reject) => {
+			//console.log('GET_ALL_EQUIPMENTS');
+			model.getAll('dbo.viewEquipments').then((_equipments) => {
+				//console.dir(_equipments);
+				//debugger;
+				for(let i = 0; i < _equipments.length; i++){
+					//debugger;
+					let obj = _equipments[i];
+					let equipment = {
+						equipmentId: obj.equipmentId,
+						beginPoint: obj.beginPoint,
+						endPoint: obj.endPoint,
+						equipmentSys: obj.equipmentSys,
+						system : SYSTEMS[obj.systemId || 0],
+						category: CATEGORIES[obj.categoryId || 0],
+						owner: OWNERS[obj.ownerId || 0],
+						source: SOURCES[obj.sourceId || 0],
+						invNumber: obj.invNumber || '0'
+					};
+					//console.log(equipment);
+					switch(obj.equipmentTypeId || 0) {
+						case 1:
+							const tube = new Tube(equipment);
+							EQUIPMENTS.push(tube);
+							break;				
+						case 2:
+							const armature = new Armature(equipment);
+							EQUIPMENTS.push(armature);
+							break;				
+						case 3:
+							const compensator = new Compensator(equipment);
+							EQUIPMENTS.push(compensator);
+							break;
+					}
 				}
-			}
-			resolve();
-		})
-		.catch((err)=> {
-			reject(err);
+				resolve();
+			})
+			.catch((err)=> {
+				reject(err);
+			});
 		});
-	});
-};
+	}
 
-export function getAllDefects () {
-	return new Promise((resolve, reject) => {
-		//console.log('GET_ALL_EQUIPMENTS');
-		dbManager.getAll('dbo.tblDefects').then((_defects) => {
-			//console.log('GET_ALL');
-			for(let i = 0; i < _defects.length; i++){
-				let obj = _defects[i];
-				let defect = {
-					defectId: obj.defectId,
-					defectSys: obj.defectSys || 0,
-					appearanceDate: obj.appearanceDate,
-					removeDate: obj.removeDate || null,
-					status: STATUSES[obj.statusId || 0],
-					equipment: EQUIPMENTS[obj.equipmentId],
-					location: obj.location || 0,
-					diameter: DIAMETERS[obj.diameterId || 0],
-					character: CHARACTERS[obj.characterId || 0],
-					addresse: obj.addresse || '',
-					master: MASTERS[obj.masterId || 0],
-					period: PERIODS[obj.periodId || 0],
-					comment: obj.comment || '',
-					folowValue: obj.folowValue || 0,
-					place: PLACES[obj.placeId || 0],
-					coordX: obj.coordX || null,
-					coordY: obj.coordY || null
-				};
-				//console.log(equipment);
-				// switch(obj.equipmentTypeId || 0) {
-				// 	case 1:
-				// 		let tube = new Tube(equipment);
-				// 		EQUIPMENTS.push(tube);
-				// 		break;				
-				// 	case 2:
-				// 		let armature = new Armature(equipment);
-				// 		EQUIPMENTS.push(armature);
-				// 		break;				
-				// 	case 3:
-				// 		let compensator = new Compensator(equipment);
-				// 		EQUIPMENTS.push(compensator);
-				// 		break;
-				// }
-				DEFECTS.push(defect);
-			}
-			resolve();
-		})
-		.catch((err)=> {
-			reject(err);
-		});
-	});
-};

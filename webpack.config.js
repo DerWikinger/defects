@@ -3,7 +3,8 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const login = require('./frontend/login/login');
+const config = require('./config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 //console.log(UglifyJSPlugin);
@@ -11,15 +12,16 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports = {
 
 	mode: NODE_ENV,
-	context: __dirname + '/frontend',	
+	context: __dirname,	
 	entry: {
-		home: './home',
-		auth: './login/auth'
+		home: './frontend/home',
+		auth: './frontend/login/auth',
+		//view: './views/home.ejs.'
 	},
 
 	output: {
 		path: __dirname + '/public/js',
-		publicPath: '/js/',
+		publicPath: '/public/',
 		filename: "[name].js",
 		library: "[name]"
 	},
@@ -45,7 +47,10 @@ module.exports = {
 	module: {
 		rules: [{
 			test: /\.js$/,
-			//include: __dirname + '/frontend',
+			// include: [
+			// 	path.resolve(__dirname , 'backend/'), 
+			// 	path.resolve(__dirname , 'backend/http-server/')
+			// ],
 			exclude: /\/node_modules\//,
 			query: {
                   presets: ['es2015']
@@ -54,7 +59,12 @@ module.exports = {
 		}, {
 			test: /\.styl$/,
 			loader: ExtractTextPlugin.extract('style', 'css!stylus?resolve url')
-		}]
+		}, 
+		// {
+		// 	test: /\.ejs$/,
+		// 	loader: "ejs-render-loader"
+		// }
+		]
 	},
 	optimization: {
 		splitChunks: {
@@ -81,14 +91,14 @@ module.exports = {
 		]
 	},
 
-	devServer: {
-		setup: function (app) {
-			login(app);
-		},
-		host: 'localhost',
-		port: 8080,
-		contentBase: __dirname + '/public'
-	},
+	// devServer: {
+	// 	setup: function (app) {
+	// 		server.start(app);
+	// 	},
+	// 	host: 'localhost',
+	// 	port: 8080,
+	// 	contentBase: __dirname + '/public'
+	// },
 
 	plugins: [
 		new webpack.NoEmitOnErrorsPlugin(),
@@ -98,5 +108,8 @@ module.exports = {
   // 				DEBUG: false
   // 			]),
 		new ExtractTextPlugin('[name].css', { allChunks: true, disable: NODE_ENV == 'development' }),
+		// new HtmlWebpackPlugin({
+		// 	template: 'home.ejs'
+		// })
 	],
 }

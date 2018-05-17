@@ -1,4 +1,17 @@
 'use strict'
+// const jQuery = require('jquery');
+// const $ = jQuery;
+//window.$ = jQuery;
+// require("jsdom").env("", function(err, window) {
+//     if (err) {
+//         console.error(err);
+//         return;
+//     }
+ 
+//     var $ = require("jquery")(window);
+// });
+
+// alert('AUTH');
 
 var password = '';
 
@@ -7,13 +20,32 @@ $(".form-control").focus(function(){
 });
 
 jQuery(function($){
+
+	// alert('JQUERY');
 	
 	$.mask.definitions['l'] = '[А-ЯЁа-яёA-Za-z]';
 	$.mask.definitions['n'] = '[А-ЯЁа-яёA-Za-z0-9]';
-	$("#login").mask("lnnnnnnnnnnnnnnnnnnn",{placeholder:" "}).on('blur', onBlur);
+	$("#login").mask("lnnnnnnnnnnnnnnnnnnn",{placeholder:" "}).on('blur', function(event) {
+		let elem = event.target;
+		checkLength(elem);
+	});
+
+	$("#login").on('blur', function(event) {
+		let elem = event.target;
+		checkLength(elem);
+	});
 	
-	$.mask.definitions['s'] = '[A-Za-z0-9,.!?;:]';	
-	$("#pwd").mask("ssssssssss",{placeholder:"" }).on('blur', function(event){ 
+	$.mask.definitions['s'] = '[A-Za-z0-9,.!?;:]';
+
+	$("#pwd").mask("ssssssssss",{placeholder:"" }).on('blur', function(event) { 
+		if(checkLength(event.target)) {
+			password = this.value;
+		} else {
+			password = ' ';
+		}		
+	});
+
+	$("#pwd").on('blur', function(event) { 
 		if(checkLength(event.target)) {
 			password = this.value;
 		} else {
@@ -23,7 +55,9 @@ jQuery(function($){
 	
 });
 
-$("#form").submit( function(event){
+$("#loginForm").on('submit', function(event){
+
+	//alert('SUBMIT!');
 
 	event.preventDefault();
 
@@ -33,14 +67,24 @@ $("#form").submit( function(event){
 	var pwd = $("#pwd");
 
 	valid = checkLength(login) && checkLength(pwd);
+
+		//alert(valid);
+
+		var str = 'username=' + encodeURIComponent($("#login").val().replace(' ', '+') || 'guest') 
+		+ '&password=' + encodeURIComponent($("#pwd").val().replace(' ', '+') || ' ');
+
+		//alert(str);
 		
 	if(valid) {
 
 		var http = new XMLHttpRequest();
 		http.open('POST', '/login', false);
 
-		var body = 'username=' + encodeURIComponent($("#login").val() || 'guest') + '&password=' + encodeURIComponent($("#pwd").val() || ' ');
+		var body = 'username=' + encodeURIComponent($("#login").val().replace(' ', '+') || 'guest') 
+		+ '&password=' + encodeURIComponent($("#pwd").val().replace(' ', '+') || ' ');
+		//alert(body);
 		http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		//console.dir(body);
 		http.send( body );
 
 		if(http.status != 200){
@@ -58,16 +102,41 @@ $("#form").submit( function(event){
 			if(http.status != 200){
 				alert('Что-то пошло не так :-)');
 			} else {
-				var data = http.responseText;
+				let data = http.responseText;
+				// let _window = window.open();
+				// console.log(_window);
+				// if(_window) {
+				// 	console.log(_window.document);
+				// 	_window.document.write(data);
+				// }
+				// let ww = window.open('', '_self');
+				// ww.close();
+				//DoCPExit();
+				//window.open(document.loaction, '_self').close();
 				document.write(data);
 			}
 		}
 	}
 });
 
+function DoCPExit() {
+	if(window != window.parent && window.parent && window.parent["DoCPExit"] !== undefined ) {
+			window.parent.DoCPExit();
+	} else {
+		if(window.top == self) {
+			var win = window.open("","_self");
+			win.close();
+		} else {
+			var win = window.top.open("","_self");
+			win.top.close();
+		}
+	}
+};
+
 function onBlur(event) {
 	var elem = event.target;
-	checkLength(elem);
+	alert('Hello');
+	//checkLength(elem);
 }
 
 function error(elem) {
@@ -77,10 +146,10 @@ function error(elem) {
 
 function checkLength(elem) {
 	
-	var length = $(elem).attr('min');
-	var val = $(elem).val() || ' ';
+	let minLength = $(elem).attr('min');
+	let val = $(elem).val() || '';
 		
-	if(val.length < length) {
+	if(val.length < minLength) {
 		error(elem);
 		return false;
 	}
