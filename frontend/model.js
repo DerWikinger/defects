@@ -17,6 +17,7 @@ import Status from './classes/status';
 import TubeType from './classes/tube-type';
 import Region from './classes/region';
 import Master from './classes/master';
+import $http from 'angular';
 
 // export const EQUIPMENTS = [new Tube({
 // 	equipmentId: 0,
@@ -60,15 +61,15 @@ export const DEFECTS = [new Defect({
 	coordY: NaN
 })] 
 
-export default class Model {
+export class Model {
 
-	constructor(/*ngApp,*/ callback) {
+	constructor($http) {
 
 		//this.ngApp = ngApp;
 
 		console.log("MODEL");
 
-		for(let i = 0; i < 9; i++) {
+		for(let i = 1; i < 10; i++) {
 			let _equip = {
 				equipmentId: i,
 				beginPoint: '',
@@ -106,7 +107,7 @@ export default class Model {
 
 		//console.log(DEFECTS);
 
-		callback();
+		//callback();
 		// init.initialize(this).then(()=> {
 		// 	init.getAllEquipments(this).then(()=> {
 		// 		console.log('INITIALIZE IS COMPLETE');
@@ -230,6 +231,10 @@ export default class Model {
 		// 	});
 		// });
 	}
+}
+
+export default function factory($http) {
+	return new Model($http);
 }
 
 //export { Model };

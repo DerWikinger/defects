@@ -16,24 +16,33 @@ class HTTPRouter {
 		
 		USERS = getAllUsers();
 
-	    this.app.get('/', verifyToken, ( req, res ) => {
-
+	    this.app.get('/', /*verifyToken, */( req, res ) => {
+/*
 			jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
 				if(err) {
 					console.log(err);
 					res.sendStatus(403);
-				} else {
-					res.render('home', function(err, html) {
-						console.log('GET');
-						res.setHeader('Access-Control-Allow-Orogin', '*');
-						res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-						res.setHeader('Content-Type', 'text/plain');
-						res.send(html);
-					});
-				}
-			})
+				} else {*/
 
-			res.end();		
+					//console.log('GET');
+					res.setHeader('Access-Control-Allow-Orogin', '*');
+					res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+					res.setHeader('Content-Type', 'text/html');
+					let path = __dirname.replace('\\backend\\http-server', '');
+					path += '\\index.html';
+					console.log(path);
+					res.sendFile(path);
+					// res.render('home', function(err, html) {
+					// 	console.log('GET');
+					// 	res.setHeader('Access-Control-Allow-Orogin', '*');
+					// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+					// 	res.setHeader('Content-Type', 'text/plain');
+					// 	res.send(html);
+					// });
+/*				}
+			})*/
+
+			//res.end();		
 
 		});
 

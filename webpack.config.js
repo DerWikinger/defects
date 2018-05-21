@@ -15,7 +15,7 @@ module.exports = {
 	context: __dirname,	
 	entry: {
 		home: './frontend/home',
-		auth: './frontend/login/auth',
+		//auth: './frontend/login/auth',
 		//view: './views/home.ejs.'
 	},
 

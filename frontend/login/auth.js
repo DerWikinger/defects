@@ -1,17 +1,4 @@
 'use strict'
-// const jQuery = require('jquery');
-// const $ = jQuery;
-//window.$ = jQuery;
-// require("jsdom").env("", function(err, window) {
-//     if (err) {
-//         console.error(err);
-//         return;
-//     }
- 
-//     var $ = require("jquery")(window);
-// });
-
-// alert('AUTH');
 
 var password = '';
 
@@ -20,8 +7,6 @@ $(".form-control").focus(function(){
 });
 
 jQuery(function($){
-
-	// alert('JQUERY');
 	
 	$.mask.definitions['l'] = '[А-ЯЁа-яёA-Za-z]';
 	$.mask.definitions['n'] = '[А-ЯЁа-яёA-Za-z0-9]';
@@ -94,27 +79,39 @@ $("#loginForm").on('submit', function(event){
 			localStorage.token = response.token;
 			localStorage.userId = response.userId;
 
-			http.open('GET', '/', false);
+			http.open('GET', '/', true);
 
 			http.setRequestHeader('Authorization', localStorage.userId + ' ' + localStorage.token);
 			http.send();
 
-			if(http.status != 200){
-				alert('Что-то пошло не так :-)');
-			} else {
-				let data = http.responseText;
-				// let _window = window.open();
-				// console.log(_window);
-				// if(_window) {
-				// 	console.log(_window.document);
-				// 	_window.document.write(data);
-				// }
-				// let ww = window.open('', '_self');
-				// ww.close();
-				//DoCPExit();
-				//window.open(document.loaction, '_self').close();
-				document.write(data);
+			http.onreadystatechange = ()=>{
+				if(http.readyState != 4) return;
+				if(http.status != 200){
+					alert('Что-то пошло не так :-)');
+				} else {
+					let data = http.responseText;
+					document.write(data);
+				}
 			}
+
+			// if(http.status != 200){
+			// 	alert('Что-то пошло не так :-)');
+			// } else {
+			// 	alert('SEND');
+			// 	let data = http.responseXML;
+			// 	alert(data || 'NULL');
+			// 	// let _window = window.open();
+			// 	// console.log(_window);
+			// 	// if(_window) {
+			// 	// 	console.log(_window.document);
+			// 	// 	_window.document.write(data);
+			// 	// }
+			// 	// let ww = window.open('', '_self');
+			// 	// ww.close();
+			// 	//DoCPExit();
+			// 	//window.open(document.loaction, '_self').close();
+			// 	document.write(data);
+			// }
 		}
 	}
 });
