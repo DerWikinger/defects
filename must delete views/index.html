@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shotcut icon" href="favicon.png"/>
+	<link rel="stylesheet" href="/public/lib/fontawesome-free-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="/public/lib/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
+	<link rel="stylesheet" href="/public/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/css/main.css">
+	<link rel="stylesheet" href="/public/css/media.css">
+	<link rel="stylesheet" href="/public/css/fonts.css">
+	<script src="/public/lib/jquery-3.2.1.js"></script>
+	<script src="/public/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>	
+	<script src="/public/lib/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
+	<script src="/public/js/build.js"></script>
+	<title>Повреждения</title>
+
+</head>
+<body ng-app="ngApp">
+	<header class="top_header">
+		<div class="header-topline">
+			<div class="container">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-8 app-header">
+							Система учёта повреждений
+						</div>
+						<div class="col-md-4 logo hidden-xs">
+							ТГК-2						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main-menu">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<button class="main-menu-button hidden-sm hidden-md hidden-lg"><i class="fas fa-bars"></i></button>
+						<ul class="">
+							<li><a href="#">главная</a></li>
+							<li><a href="#">настройки</a></li>
+							<li><a href="#">карта</a></li>
+							<li><a href="#">сервис</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="main-content">
+		<ui-view>
+			<loading-indicator></loading-indicator>
+		</ui-view>
+	</section>
+	<footer class="footer">
+		
+	</footer>
+
+<!-- 	<button id="btnGetAll" >Get All</button>
+	<div id="divMain"></div>
+	<a ui-sref="happy">HAPPY</a> -->
+
+	<script type="text/javascript">
+		//alert('HELLO');
+		build.start();
+	</script>
+</body>
+</html>

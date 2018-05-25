@@ -30,7 +30,7 @@ class HTTPRouter {
 					res.setHeader('Content-Type', 'text/html');
 					let path = __dirname.replace('\\backend\\http-server', '');
 					path += '\\index.html';
-					console.log(path);
+					console.log(req.originalUrl);
 					res.sendFile(path);
 					// res.render('home', function(err, html) {
 					// 	console.log('GET');
@@ -46,9 +46,9 @@ class HTTPRouter {
 
 		});
 
-		this.app.get('/login', ( req, res )=> {
-			res.render('auth');
-		})
+		// this.app.get('/login', ( req, res )=> {
+		// 	res.render('auth');
+		// })
 
 		this.app.post('/login', ( req, res, next ) => {
 
@@ -64,7 +64,7 @@ class HTTPRouter {
 			let user = findUser(checkedUser);
 
 			if(user) {
-				jwt.sign( { user }, SECRET_KEY, { expiresIn: config.TOKEN_LIMIT }, ( err, token ) => {
+				jwt.sign( { user }, SECRET_KEY, /*{ expiresIn: config.TOKEN_LIMIT },*/ ( err, token ) => {
 					
 					for(let i=0; i<USERS.length; i++) {
 						if(USERS[i].userId === user.userId) {

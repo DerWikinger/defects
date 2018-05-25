@@ -1,0 +1,49 @@
+@media only screen and (min-width: 576px){
+
+}
+
+@media only screen and (min-width: 768px){
+
+	.main-menu ul {
+		display: block !important;
+	}
+
+}
+
+@media only screen and (min-width: 992px){
+
+}
+
+@media only screen and (min-width: 1200px){
+
+}
+
+@media only screen and (max-width: 575px){
+
+}
+
+@media only screen and (max-width: 767px){
+
+	.main-menu ul {
+		display: none;
+		background-color: #4AAA77;
+		width: 100%;
+		position: absolute;
+		z-index: 10 !important;
+	}
+	.main-menu ul li {
+		display: block;
+	}
+
+}
+
+@media only screen and (max-width: 991px){
+
+
+
+}
+
+@media only screen and (max-width: 1199px){
+
+}
+

@@ -4,26 +4,29 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const config = require('./config');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyFilesPlugin = require('./frontend/services/copy-files-plugin');
+const path = require('path');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 //console.log(UglifyJSPlugin);
+
+//webpack.mix.copy(__dirname + '/frontend/**/*.html', 'public/views');
 
 module.exports = {
 
 	mode: NODE_ENV,
 	context: __dirname,	
 	entry: {
-		home: './frontend/home',
+		build: './frontend/build',
 		//auth: './frontend/login/auth',
 		//view: './views/home.ejs.'
 	},
 
 	output: {
 		path: __dirname + '/public/js',
-		publicPath: '/public/',
-		filename: "[name].js",
-		library: "[name]"
+		publicPath: 'public/js/',
+		filename: '[name].js',
+		library: '[name]'
 	},
 
 	watch: NODE_ENV == 'development',
@@ -108,8 +111,25 @@ module.exports = {
   // 				DEBUG: false
   // 			]),
 		new ExtractTextPlugin('[name].css', { allChunks: true, disable: NODE_ENV == 'development' }),
-		// new HtmlWebpackPlugin({
-		// 	template: 'home.ejs'
+		new CopyFilesPlugin(path.resolve(__dirname, 'frontend'), path.resolve(__dirname, 'public/views'), /\.html$/),
+		// new CopyFilesPlugin({
+  //         sourceRoot: __dirname + '/frontend/',
+  //         targetRoot: __dirname + '/public/',
+  //         files: ['login/views/login-user.html'],
+  //         renameTargetDir: true,
+  //         dirHashVarName: 'views',
+  //         //cleanDirs: [__dirname + '/public/views']
+  //       }),
+		// new CopyWebpackPlugin(
+		// 	[{
+		// 		from: '/',
+		// 		to: '/public/views/[name].[ext]',
+		// 		test: /\.html$/,
+		// 		toType: 'dir'
+		// 	}], { debug: 'info' }),
+		// , '/public/views')
+		// new HtmlWebpackPlugin( {
+		// 	template: __dirname + '/frontend/*.html'
 		// })
 	],
 }

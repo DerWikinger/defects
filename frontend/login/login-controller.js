@@ -9,35 +9,16 @@ export default class LoginController {
 			$(this).removeClass("error");
 		});
 
-		//$.mask.definitions['l'] = '[А-ЯЁа-яёA-Za-z]';
-		//$.mask.definitions['n'] = '[А-ЯЁа-яёA-Za-z0-9]';
-		//$("#login").mask("lnnnnnnnnnnnnnnnnnnn",{placeholder:" "});
-		// $("#login").mask("lnnnnnnnnnnnnnnnnnnn",{placeholder:" "}).on('blur', function(event) {
-		// 	let elem = event.target;
-		// 	//controller.checkLength(elem);
-		// });
-
 		$("#login").on('blur', (event)=> {
 			let elem = event.target;
-			//controller.checkLength(elem);
+			this.checkLength(elem);
 		});
-		
-		//$.mask.definitions['s'] = '[A-Za-z0-9,.!?;:]';
-		//$("#pwd").mask("ssssssssss",{placeholder:"" });
-
-		// $("#pwd").mask("ssssssssss",{placeholder:"" }).on('blur', (event)=> { 
-		// 	if(controller.checkLength(event.target)) {
-		// 		controller.password = this.value;
-		// 	} else {
-		// 		controller.password = ' ';
-		// 	}		
-		// });
 
 		$("#pwd").on('blur', (event)=> { 
-			if(controller.checkLength(event.target)) {
-				controller.password = this.value;
+			if(this.checkLength(event.target)) {
+				this.password = this.value;
 			} else {
-				controller.password = ' ';
+				this.password = ' ';
 			}		
 		});
 
@@ -47,14 +28,14 @@ export default class LoginController {
 			let valid = false;
 			let login = $("#login");
 			let pwd = $("#pwd");
-			valid = controller.checkLength(login) && controller.checkLength(pwd);
+			valid = this.checkLength(login) && this.checkLength(pwd);
 
 			let loginData = 'username=' + encodeURIComponent($("#login").val().replace(' ', '+') || 'guest') 
 			+ '&password=' + encodeURIComponent($("#pwd").val().replace(' ', '+') || ' ');
 		
 			if(valid) {
 				loginService.login(loginData).then(()=> {
-					$state.go('list');//default view
+					$state.go('defect-list');//default view
 				}).catch((error) => {
 					console.log(error);
 					$("#login").val('');

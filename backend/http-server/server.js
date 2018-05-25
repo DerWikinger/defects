@@ -6,8 +6,8 @@ class HTTPServer {
 
 		this.app = app;
 		let path = __dirname.replace('backend\\http-server', '');
-		this.app.set('views', path + '\\views');
-		this.app.set('view engine', 'ejs');	
+		//this.app.set('views', path + '\\views');
+		//this.app.set('view engine', 'ejs');	
 
 		this.listener = new HTTPListener(this.app, port);
 		this.router = router;

@@ -20,5 +20,5 @@ if exist npm.cmd (
 popd
 endlocal
 
-@echo npm run build
-npm run build
+@echo npm run server
+npm run server

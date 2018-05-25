@@ -3,51 +3,69 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<script src="/public/lib/jquery-3.2.1.js"></script>
-	<!-- <script src="/public/lib/angular/angular.min.js"></script> -->
-<!-- 	<script src="/public/lib/masked-input-1.4.1.js"></script>
- -->
-	<script src="/public/js/home.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shotcut icon" href="favicon.png"/>
+	<link rel="stylesheet" href="/public/libs/fontawesome-free-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="/public/libs/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
+	<link rel="stylesheet" href="/public/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/css/fonts.css">
+	<link rel="stylesheet" href="/public/css/media.css">
+	<link rel="stylesheet" href="/public/css/main.css">
+	<script src="/public/libs/jquery-3.2.1.js"></script>
+	<script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>	
+	<script src="/public/libs/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
-	<link rel="stylesheet" href="/public/css/bootstrap.min.css">
- 	<title>Document</title>
-	
-	<style>
-		body {
-			background-image: url('/public/images/bg-lightl-904.jpg');
-			background-size: cover;
-		}
-
-		.overlay {
-			position:absolute;
-			top:0;
-			left:0;
-			height:100%;
-			width:100%;
-			background:#000;
-			opacity:0;
-			filter:alpha(opacity=0);
-			z-index:50;
-			cursor: wait;
-		}
-		
-		.container {
-			position:absolute;
-			opacity:1;
-		}
-	</style>
+	<script src="/public/js/build.js"></script>
+	<title>Повреждения</title>
 </head>
-<body ng-app="ngApp">	
-	<h1>Hello my Lord!</h1><hr>
-	<button id="btnGetAll" >Get All</button>
+<body ng-app="ngApp">
+	<header class="top_header">
+		<div class="header-topline">
+			<div class="container">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-8 app-header">
+							Система учёта повреждений
+						</div>
+						<div class="col-md-4 logo hidden-xs">
+							ТГК-2						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main-menu">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<button class="main-menu-button hidden-sm hidden-md hidden-lg"><i class="fas fa-bars"></i></button>
+						<ul class="">
+							<li><a href="#">главная</a></li>
+							<li><a href="#">настройки</a></li>
+							<li><a href="#">карта</a></li>
+							<li><a href="#">сервис</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="main-content">
+		<ui-view>
+			<loading-indicator></loading-indicator>
+		</ui-view>
+	</section>
+	<footer class="footer">
+		
+	</footer>
+
+<!-- 	<button id="btnGetAll" >Get All</button>
 	<div id="divMain"></div>
-	<a ui-sref="happy">HAPPY</a>
-	<ui-view>
-		<loading-indicator></loading-indicator>
-	</ui-view>
+	<a ui-sref="happy">HAPPY</a> -->
+
 	<script type="text/javascript">
 		//alert('HELLO');
-		home.start();
+		build.start();
 	</script>
 </body>
 </html>

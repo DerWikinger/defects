@@ -1,21 +1,23 @@
+//import angular from 'angular';
+
 export class LoginService {
 
-	constructor($http, $q) {
-		this.$http = $http;
-		this.$q = $q;				
+	constructor($q, $http) {
+		this.q = $q;
+		this.http = $http;
 		localStorage.token = '';
 		localStorage.userId = '';
 	}
 
 	login(loginData) {
 
-		let deferred = this.$q.defer();
+		let deferred = this.q.defer();
 
 		let headers = {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		}
 
-		this.$http.post('/login', loginData, { headers }).then((response)=> {
+		this.http.post('/login', loginData, { headers }).then((response)=> {
 			//alert(JSON.stringify(response));
 			let data = response.data;
 			if(!data) {				
@@ -48,8 +50,8 @@ export class LoginService {
 
 }
 
-export default function factory($http, $q) {
+export default function factory($q, $http) {
 
-	return new LoginService($http, $q);
+	return new LoginService($q, $http);
 
 }
