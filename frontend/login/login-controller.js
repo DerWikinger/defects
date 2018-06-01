@@ -35,6 +35,7 @@ export default class LoginController {
 		
 			if(valid) {
 				loginService.login(loginData).then(()=> {
+					// console.log("GO");
 					$state.go('defect-list');//default view
 				}).catch((error) => {
 					console.log(error);
@@ -59,6 +60,8 @@ export default class LoginController {
 	
 		let minLength = $(elem).attr('min');
 		let val = $(elem).val() || '';
+
+		// console.log(val);
 			
 		if(val.length < minLength) {
 			error(elem);

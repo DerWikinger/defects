@@ -7,12 +7,15 @@ import vsrepeat from 'front-angular-vs-repeat';
 import LoginComponent from './login/login-component';
 import DefectListComponent from './defect-list/defect-list-component';
 import DefectItemComponent from './defect-item/defect-item-component';
+import DetailInfoComponent from './detail-info/detail-info-component';
+import DefectFormComponent from './shared/defect-form/defect-form-component';
 
 import LoginService from './login/login-service';
 import DefectService from './services/defect-service';
 
 import loginState from './login/login-state';
 import defectListState from './defect-list/defect-list-state';
+import detailInfoState from './detail-info/detail-info-state';
 
 const ngApp = angular.module('ngApp', [uirouter, vsrepeat]);
 
@@ -39,7 +42,15 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 	$httpProvider.interceptors.push('httpInterceptor');
 
 	$stateProvider
+	.state('defects', {
+		abstract: true,
+		// template: `<loading-indicator></loading-indicator>`,
+		template: `<ui-view>
+				       <loading-indicator></loading-indicator>
+				   </ui-view>`,
+	})
 	.state('defect-list', defectListState())
+	.state('detail-info', detailInfoState())
 	.state('login', loginState())
 	.state('happy', {
 		url: '/happy',
@@ -52,9 +63,11 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 	});
 	
 	$urlRouterProvider.otherwise('/login');
-	// $urlRouterProvider.when('/list', () => {
+	// $urlRouterProvider.when('/defect-list', ($stateParams) => {
 
-	// 	console.log('THIS IS MAIN PAGE');
+	// 	alert('HELLO');
+
+	// 	// console.log('THIS IS MAIN PAGE');
 
 	// });
 });
@@ -63,6 +76,7 @@ ngApp.run(($transitions, loginService) => {
 	$transitions.onStart({
 		to: (state) => {
 			console.log(`STATE: ${state.name}`);
+
 			if(state.name === 'login') {
 				return false;			
 			} else {
@@ -70,7 +84,8 @@ ngApp.run(($transitions, loginService) => {
 			}
 		} 
 	}, (trans) => {
-		console.dir(trans);
+		console.dir(trans.router);
+		// console.dir(state);
 		if (!loginService.checkUser()) {
 			alert('Необходимо авторизоваться!');
 			return trans.router.stateService.transitionTo('login');
@@ -80,7 +95,7 @@ ngApp.run(($transitions, loginService) => {
 
 ngApp.component('loadingIndicator', {
 	bindings: {},
-	template: `<h1>Plese wait</h1>`
+	template: `<div class="loader"></div>`
 });
 
 ngApp.component('loginUser', new LoginComponent());
@@ -89,12 +104,13 @@ ngApp.component('defectList', new DefectListComponent());
 
 ngApp.component('defectItem', new DefectItemComponent());
 
+ngApp.component('defectForm', new DefectFormComponent());
+
+ngApp.component('detailInfo', new DetailInfoComponent());
+
 let initializeComplete = false;
 
-// $(document).ready(()=>{
-	//console.log('JQUERY WORKS');
-
-
+$(document).ready(()=>{
 
 		// $('body').on('load', function() {
 		// 	//var url = $(this).attr('src');
@@ -140,9 +156,34 @@ let initializeComplete = false;
 		// }
 
 
-//});
+});
 
 export function start () {
+
+	//
+
+	//console.dir(jQueryScrollbar);
+
+	//$('.scrollbar-dynamic').scrollbar();
+
+	// var el = document.querySelector('.ss-container');
+	
+	// var div = document.createElement('div');
+	// div.insertAdjacentHTML('afterbegin', `
+	// 	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam quasi tempore distinctio velit expedita repellat. Saepe dolorum, amet molestiae sint cupiditate suscipit repellendus doloremque, eligendi tempore beatae odio accusantium accusamus!
+	// 	`);
+	// div.setAttribute('ss-container', true);
+	// document.body.appendChild(div);
+
+	// console.log(div);
+
+	// simpleScrollbar.initAll();
 
 	$('.main-menu-button').on('click', (event)=> {
 
@@ -152,6 +193,8 @@ export function start () {
 			elem.slideToggle();
 		}
 	});
+
+
 	// $("body").append('<div class="overlay" title="Please wait"></div><div class="container wrapper"></div>').css({"overflow-y":"hidden"});
 	// let overlay = $(".overlay");
 	// overlay.animate({"opacity":"0.6"}, 200, "linear");

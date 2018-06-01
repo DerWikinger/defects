@@ -1,6 +1,105 @@
-<div class="container" >
-	<div vs-repeat="10">
-		<defect-item defect="defect" ng-repeat="defect in defectListController.defects track by $index">				
-		</defect-item>
+<div class="list-header">
+	<div class="container" >
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="row hidden-lg">
+					<div class="col-xs-12" >
+						<div class="row">
+							<div class="col-xs-1 list-item-header xs-hidden sm-hidden">
+								№
+							</div>
+							<div class="col-xs-2 list-item-header xxs-hidden">
+								Дата
+								обнаружения						
+							</div>
+							<div class="col-xs-2 list-item-header xmd-hidden">
+								Начальная точка							
+							</div>
+							<div class="col-xs-2 list-item-header xmd-hidden">
+								Конечная точка
+							</div>
+							<div class="col-xs-9 list-item-header xmd-visible">
+								Адрес
+							</div>
+							<div class="col-xs-2 list-item-header xmd-hidden">
+								Адрес
+							</div>
+							<div class="col-xs-2 list-item-header xmd-hidden">
+								Характер
+							</div>
+							<div class="col-xs-1 list-item-header xmd-hidden">
+								D
+							</div>					
+						</div>
+					</div>
+				</div>
+				<div class="row hidden-xs hidden-sm hidden-md">
+					<div class="col-xs-7">
+						<div class="row">
+							<div class="col-xs-1 list-item-header">
+								№
+							</div>
+							<div class="col-xs-2 list-item-header">
+								Дата обнаружения							
+							</div>
+							<div class="col-xs-3 list-item-header">
+								Начальная точка
+							</div>
+							<div class="col-xs-3 list-item-header">
+								Конечная точка
+							</div>
+							<div class="col-xs-3 list-item-header">
+								Адрес
+							</div>					
+						</div>
+					</div>
+					<div class="col-xs-5">
+						<div class="row">
+							<div class="col-xs-4 list-item-header">
+								Мастер
+							</div>
+							<div class="col-xs-3 list-item-header">
+								Оборудование
+							</div>
+							<div class="col-xs-2 list-item-header">
+								Характер
+							</div>
+							<div class="col-xs-2 list-item-header">
+								Диаметр
+							</div>
+							<div class="col-xs-1 list-item-header">
+								V
+							</div>					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+<div class="list-data">
+	<div class="container">
+		<div class="row">
+			<div class="scroll-pane">
+				<div>
+					<div class="col-xs-12">
+						<a ui-sref="detail-info({defectId: $defect.defectId})" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="$defect in defectListController.defects track by $defect.defectId">
+							<defect-item defect="$defect" class="defect-item">							
+							</defect-item>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ui-view>	
+</ui-view>
+<script>
+	$('.scroll-pane').jScrollPane({
+		autoReinitialise: true,
+		showArrows: false,
+		horizontalGutter: 5,
+		mouseWheelSpeed: 50,
+	});
+</script>

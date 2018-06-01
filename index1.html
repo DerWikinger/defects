@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shotcut icon" href="favicon.png"/>
+	<link rel="stylesheet" href="./public/libs/fontawesome-free-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="./public/libs/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
+	<link rel="stylesheet" href="./public/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./public/css/fonts.css">
+	<link rel="stylesheet" href="./public/css/media.css">
+	<link rel="stylesheet" href="./public/css/main.css">
+	<link type="text/css" rel="stylesheet" href="./public/libs/jscrollpane/css/jquery.jscrollpane.css"/>
+
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  -->
+	<script src="./public/libs/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="./public/libs/jscrollpane/js/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="./public/libs/jscrollpane/js/jquery.jscrollpane.js"></script>
+	<script src="./public/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>	
+	<script src="./public/libs/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
+	<!-- <script src="./public/js/build.js"></script> -->
+	<title>Повреждения</title>
+</head>
+<body >
+	<header class="top_header">
+		<div class="header-topline">
+			<div class="container">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-8 app-header">
+							Система учёта повреждений
+						</div>
+						<div class="col-md-4 logo hidden-xs">
+							ТГК-2						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main-menu">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<button class="main-menu-button hidden-sm hidden-md hidden-lg"><i class="fas fa-bars"></i></button>
+						<ul class="">
+							<li><a href="#">главная</a></li>
+							<li><a href="#">настройки</a></li>
+							<li><a href="#">карта</a></li>
+							<li><a href="#">сервис</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- class="main-content" -->
+	<section>
+		<defect-form></defect-form>
+<!-- 		<ui-view>
+			<loading-indicator></loading-indicator>
+		</ui-view> -->
+	</section>
+	<footer class="footer">
+		
+	</footer>
+	<script type="text/javascript">
+		$(document).ready(()=>{
+
+			let element = $('.scroll-pane').jScrollPane({
+				showArrows: true,
+				animateScroll: true,
+				arrowScrollOnHover: true,
+				enableKeyboardNavigation: true,
+			});
+			// let api = element.data('jsp');
+			// api.reinitialise();
+
+			// $('#but-scroll').bind('click',	()=> {
+			// 		api.scrollTo(100, 100);
+			// 		return false;
+			// 	}
+			// );
+
+		});
+	</script>
+</body>
+</html>

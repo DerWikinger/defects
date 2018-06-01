@@ -11,7 +11,11 @@
 	<link rel="stylesheet" href="/public/css/fonts.css">
 	<link rel="stylesheet" href="/public/css/media.css">
 	<link rel="stylesheet" href="/public/css/main.css">
+	<link rel="stylesheet" href="/public/libs/jscrollpane/css/jquery.jscrollpane.css"/>
+
 	<script src="/public/libs/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="/public/libs/jscrollpane/js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="/public/libs/jscrollpane/js/jquery.jscrollpane.min.js"></script>
 	<script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>	
 	<script src="/public/libs/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
@@ -21,12 +25,15 @@
 <body ng-app="ngApp">
 	<header class="top_header">
 		<div class="header-topline">
-			<div class="container">
-				<div class="col-md-12">
-					<div class="row">
+			<div class="container">				
+				<div class="row">
+					<div class="col-md-12">
 						<div class="col-md-8 app-header">
 							Система учёта повреждений
 						</div>
+						<div class="col-md-8 app-short-header">
+							СУП
+						</div>	
 						<div class="col-md-4 logo hidden-xs">
 							ТГК-2						
 						</div>
@@ -40,10 +47,10 @@
 					<div class="col-md-12">
 						<button class="main-menu-button hidden-sm hidden-md hidden-lg"><i class="fas fa-bars"></i></button>
 						<ul class="">
-							<li><a href="#">главная</a></li>
-							<li><a href="#">настройки</a></li>
-							<li><a href="#">карта</a></li>
-							<li><a href="#">сервис</a></li>
+							<li><a href="#main">главная</a></li>
+							<li><a href="javascript:void(0)">настройки</a></li>
+							<li><a href="javascript:void(0)">карта</a></li>
+							<li><a href="javascript:void(0)">сервис</a></li>
 						</ul>
 					</div>
 				</div>
@@ -51,6 +58,7 @@
 		</div>
 	</header>
 	<section class="main-content">
+		<!-- <defect-form></defect-form> -->
 		<ui-view>
 			<loading-indicator></loading-indicator>
 		</ui-view>
@@ -58,13 +66,7 @@
 	<footer class="footer">
 		
 	</footer>
-
-<!-- 	<button id="btnGetAll" >Get All</button>
-	<div id="divMain"></div>
-	<a ui-sref="happy">HAPPY</a> -->
-
 	<script type="text/javascript">
-		//alert('HELLO');
 		build.start();
 	</script>
 </body>

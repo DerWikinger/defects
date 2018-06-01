@@ -1,12 +1,11 @@
-//import angular from 'angular';
+import jwt from 'jsonwebtoken';
 
 export class LoginService {
 
 	constructor($q, $http) {
 		this.q = $q;
 		this.http = $http;
-		localStorage.token = '';
-		localStorage.userId = '';
+		this.token = '';
 	}
 
 	login(loginData) {
@@ -18,22 +17,18 @@ export class LoginService {
 		}
 
 		this.http.post('/login', loginData, { headers }).then((response)=> {
-			//alert(JSON.stringify(response));
 			let data = response.data;
-			if(!data) {				
-				localStorage.token = '';
-				localStorage.userId = '';
+			
+			if(!data) {	
+				this.token = '';
 				alert('Что-то пошло не так! :-)');	
 				deferred.reject();			
 			} else {
-				localStorage.token = data.token;
-				localStorage.userId = data.userId;
+				this.token = data.token;
 				deferred.resolve();
 			}
 		}, (error)=> {
-			localStorage.token = '';
-			localStorage.userId = '';	
-			//console.log(error);		
+			this.token = '';	
 			alert('Неверные имя пользователя и/или пароль!');
 			deferred.reject(error);
 		});
@@ -41,11 +36,18 @@ export class LoginService {
 		return deferred.promise;
 	}
 
-	checkUser() {
+	checkUser(rights) {
+		let _rights = (arguments.length < 1 ? Infinity : arguments[0]);
 		console.log('CHECK USER');
-		let result = (localStorage.userId && localStorage.token ? true: false);
-		console.log(result);
+		if(!this.token) return false;
+		let user = this.getUser();
+		let result = ('' + user.userId) && (user.rights < _rights);		
 		return result;
+	}
+
+	getUser() {
+		let userData = jwt.decode(this.token);
+		return userData.user;
 	}
 
 }

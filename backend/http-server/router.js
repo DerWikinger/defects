@@ -1,19 +1,22 @@
-const bodyParser = require('body-parser');
-const request = require('sync-request');
-const config = require('../../config');
-const jwt = require('jsonwebtoken');
+import bodyParser from 'body-parser';
+import request from 'sync-request';
+import config from '../../config';
+import jwt from 'jsonwebtoken';
+import DataManager from './data-manager';
+
 const SECRET_KEY = 'tgc-2-secret';
 
 let USERS = [];
 
 class HTTPRouter {
 
-	constructor(app) {
+	constructor(app, callback) {
 		
+		this.dataManager = new DataManager(callback);
 		this.app = app;
 		this.app.use( bodyParser.urlencoded( { extended: true } ));
 		this.app.use( bodyParser.json() );
-		
+
 		USERS = getAllUsers();
 
 	    this.app.get('/', /*verifyToken, */( req, res ) => {
@@ -30,7 +33,7 @@ class HTTPRouter {
 					res.setHeader('Content-Type', 'text/html');
 					let path = __dirname.replace('\\backend\\http-server', '');
 					path += '\\index.html';
-					console.log(req.originalUrl);
+					//console.log(req.originalUrl);
 					res.sendFile(path);
 					// res.render('home', function(err, html) {
 					// 	console.log('GET');
@@ -44,11 +47,22 @@ class HTTPRouter {
 
 			//res.end();		
 
-		});
+		});		
+		
+		this.app.get(/\/[defects].*/, ( req, res )=> {
 
-		// this.app.get('/login', ( req, res )=> {
-		// 	res.render('auth');
-		// })
+			console.log ('This is a "GET" request');
+			if(req.query){
+				let tableName = req.query.tableName
+				if(tableName){
+					this.dataManager.getAll(tableName).then( (data)=> {
+						res.send(JSON.stringify(data));
+					}).catch((err)=> {
+						res.send(err);
+					});					
+				}
+			}			
+		});
 
 		this.app.post('/login', ( req, res, next ) => {
 
@@ -64,14 +78,18 @@ class HTTPRouter {
 			let user = findUser(checkedUser);
 
 			if(user) {
-				jwt.sign( { user }, SECRET_KEY, /*{ expiresIn: config.TOKEN_LIMIT },*/ ( err, token ) => {
+				jwt.sign( { user }, SECRET_KEY, { 
+					expiresIn: config.TOKEN_LIMIT,  
+				}, ( err, token ) => {
+
+					//console.log(jwt.decode(token));
 					
-					for(let i=0; i<USERS.length; i++) {
-						if(USERS[i].userId === user.userId) {
-							USERS[i].token = token;
-							break;
-						}
-					}
+					// for(let i=0; i<USERS.length; i++) {
+					// 	if(USERS[i].userId === user.userId) {
+					// 		USERS[i].token = token;
+					// 		break;
+					// 	}
+					// }
 
 					res.json({
 						userId: user.userId,
@@ -83,23 +101,44 @@ class HTTPRouter {
 			}
 		});
 
-		this.app.all(/\/[defects].*/, verifyToken, function( req, res) {
+		this.app.post( '/defects', ( req, res ) => {
 
-			let serviceCallResponse;
+			console.log ('This is a "POST" request');
 
-			jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
-				if(err) {
-					res.sendStatus(403);
-				} else {
-				
-	        		serviceCallResponse = request(req.method, config.PROXY_SERVER + ':' + config.PROXY_PORT + req.originalUrl, {
-	            		json:req.body
-	        		});
-	        
-	        		res.send(serviceCallResponse.getBody('utf8'));
-				}
-			})
+			res.send('Hello POST!');
 		});
+
+		this.app.put( '/defects', ( req, res ) => {
+
+			console.log ('This is a "PUT" request');
+
+			res.send('Hello PUT!');
+		});
+
+		this.app.delete( '/defects', ( req, res ) => {
+
+			console.log ('This is a "DELETE" request');
+
+			res.send('Hello DELETE!');
+		});
+
+		// this.app.all(/\/[defects].*/, verifyToken, function( req, res) {
+
+		// 	let serviceCallResponse;
+
+		// 	jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
+		// 		if(err) {
+		// 			res.sendStatus(403);
+		// 		} else {
+				
+	 //        		serviceCallResponse = request(req.method, config.PROXY_SERVER + ':' + config.PROXY_PORT + req.originalUrl, {
+	 //            		json:req.body
+	 //        		});
+	        
+	 //        		res.send(serviceCallResponse.getBody('utf8'));
+		// 		}
+		// 	})
+		// });
 
 	} 
 
@@ -119,7 +158,7 @@ function verifyToken( req, res, next ) {
 
 		if(path === '/defects' && method !== 'GET') {
 			for(let i = 0; i < USERS.length; i++){
-				if(USERS[i].userId === bearerId && USERS[i].rigths > 1) {
+				if(USERS[i].userId === bearerId && USERS[i].rights > 1) {
 					req.token = null;
 					next();
 				}
@@ -147,9 +186,9 @@ function findUser(user) {
 
 function getAllUsers() {
 	let users = [
-		{ userId: 0, username: 'admin', password: '123', rigths: 0, token: '' },
-		{ userId: 1, username: 'brad', password: '111', rigths: 1, token: '' },
-		{ userId: 2, username: 'guest', password: ' ', rigths: 2, token: '' }
+		{ userId: 0, username: 'admin', password: '123', rights: 0  },
+		{ userId: 1, username: 'brad', password: '111', rights: 1 },
+		{ userId: 2, username: 'guest', password: ' ', rights: 2 }
 	]
 		return users;
 }

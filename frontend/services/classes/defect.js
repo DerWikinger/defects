@@ -7,7 +7,15 @@ export default class Defect {
 		this.appearanceDate = defect.appearanceDate;
 		this.removeDate = defect.removeDate;
 		this.status = defect.status;
-		this.equipment = defect.equipment;
+		this.equipmentType = defect.equipmentType;
+		this.beginPoint = defect.beginPoint;
+		this.endPoint = defect.endPoint;
+		this.equipmentSys = defect.equipmentSys;
+		this.system = defect.system;
+		this.category = defect.category;
+		this.owner = defect.owner;
+		this.source = defect.source;
+		this.invNumber = defect.invNumber;
 		this.location = defect.location;
 		this.diameter = defect.diameter;
 		this.character = defect.character;
@@ -15,7 +23,7 @@ export default class Defect {
 		this.master = defect.master;
 		this.period = defect.period;
 		this.comment = defect.comment;
-		this.folowValue = defect.folowValue;
+		this.flowValue = defect.flowValue;
 		this.place = defect.place;
 		this.coordX = defect.coordX;
 		this.coordY = defect.coordY;

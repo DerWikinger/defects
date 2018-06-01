@@ -1,0 +1,100 @@
+<div class="defect-form">
+	<div class="container">
+		<div class="col-xs-12">	
+			<form class="form-horizontal">	
+				<div class="form-group">
+					<label for="defectId" class="col-xs-2 control-label">Номер дефекта</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="defectId" type="number" id="defectId" tabindex="1" readonly ng-model="defectFormController.defect.defectId" min="0"/>
+					</div>
+					<label for="defectSys" class="col-xs-2 control-label">Номер 'sys'</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="defectSys" type="number" id="defectSys" tabindex="2" ng-model="defectFormController.defect.defectSys" min="0"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="appearanceDate" class="col-xs-2 control-label">Дата обнаружения</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="appearanceDate" format="dd-mm-yy" type="date" id="appearanceDate" tabindex="3" ng-model="defectFormController.defect.appearanceDate"/>
+					</div>
+					<label for="removeDate" class="col-xs-2 control-label">Дата устанения</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="removeDate" format="dd-mm-yy" type="date" id="removeDate" tabindex="4" ng-model="defectFormController.defect.removeDate"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="stausName" class="col-xs-2 control-label">Состояние</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="stausName" id="stausName" tabindex="5" ng-model="defectFormController.defect.status" ng-options="status as status.statusName for status in defectFormController.statuses"></select>
+					</div>
+					<label for="equipmenTypeName" class="col-xs-2 control-label">Тип оборудования</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="equipmenTypeName" id="equipmenTypeName" tabindex="6" ng-model="defectFormController.defect.equipmentType"  ng-options="equipmentType as equipmentType.equipmentTypeName for equipmentType in defectFormController.equipmentTypes"></select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="beginPoint" class="col-xs-2 control-label">Начальная точка</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="beginPoint" type="text" id="beginPoint" tabindex="7" ng-model="defectFormController.defect.beginPoint"/>
+					</div>
+					<label for="endPoint" class="col-xs-2 control-label">Конечная точка</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="endPoint" type="text" id="endPoint" tabindex="8" ng-model="defectFormController.defect.endPoint"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="equipmentSys" class="col-xs-2 control-label">Sys оборудования</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="equipmentSys" type="number" id="equipmentSys" tabindex="9" ng-model="defectFormController.defect.equipmentSys" min="0"/>
+					</div>
+					<label for="systemName" class="col-xs-2 control-label">Система</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="systemName" type="text" id="systemName" tabindex="10" ng-model="defectFormController.defect.system" ng-options="system as system.systemName for system in defectFormController.systems"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="categoryName" class="col-xs-2 control-label">Категория</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="categoryName" id="categoryName" tabindex="11" ng-model="defectFormController.defect.category" ng-options="category as category.categoryName for category in defectFormController.categories"></select>
+					</div>
+					<label for="ownerShortName" class="col-xs-2 control-label">Владелец</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="ownerShortName" type="text" id="ownerShortName" tabindex="12" ng-model="defectFormController.defect.owner" ng-options="owner as owner.ownerShortName for owner in defectFormController.owners"></select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="sourceName" class="col-xs-2 control-label">Источник</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="sourceName" id="sourceName" tabindex="13" ng-model="defectFormController.defect.source" ng-options="source as source.sourceName for source in defectFormController.sources"></select>
+					</div>
+					<label for="invNumber" class="col-xs-2 control-label">Инвентарный №</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="invNumber" type="text" id="invNumber" length="12" tabindex="14" ng-model="defectFormController.defect.invNumber"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="location" class="col-xs-2 control-label">Расстояние</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="location" type="number" min="0" step="0.1" id="location" tabindex="15" ng-model="defectFormController.defect.location"/>
+					</div>
+					<label for="diameterValue" class="col-xs-2 control-label">Диаметр</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="diameterValue" id="diameterValue" tabindex="16" ng-model="defectFormController.defect.diameter" ng-options="diameter as diameter.diameterValue for diameter in defectFormController.diameters"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="characterName" class="col-xs-2 control-label">Характер</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="characterName" type="text" id="characterName" tabindex="17" ng-model="defectFormController.defect.character" ng-options="character as character.characterName for character in defectFormController.characters"></select>
+					</div>
+					<label for="addresse" class="col-xs-2 control-label">Адрес</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="addresse" type="text" id="addresse" tabindex="18" ng-model="defectFormController.defect.addresse"/>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

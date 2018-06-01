@@ -10,6 +10,11 @@ export default class Equipment {
 		this.owner = equipment.owner;
 		this.source = equipment.source;
 		this.invNumber = equipment.invNumber;
+		this.equipmentName = 'Не выбран';
+	}	
+
+	getName() {
+		return 'Не выбран';
 	}
 
 }

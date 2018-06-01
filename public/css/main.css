@@ -42,23 +42,22 @@ button:focus {
 	outline-style: none;
 }
 
+.top-header {
+	height: 20vh;
+	max-height: 20vh;
+}
+
 .header-topline {
 	background-color: #43484C;
 	padding: 15px 0;
 	color: #fff;
-	font-size: 36px;
-	/* display: inline-block; */
-	/* vertical-align: middle; */
-}
-
-.app-header	{
-	display: inline-block;
-	vertical-align: bottom;
+	font-size: 32px;
+	height: 72px;
 }
 
 .logo {
-	/* float: right; */
-	font-size: 36px;
+	float: right;
+	/* font-size: 36px; */
 	display: inline-block;
 	text-align: right;
 	vertical-align: bottom;
@@ -66,6 +65,8 @@ button:focus {
 
 .main-menu {
 	background-color: #4AAA77;
+	height: 58px;
+	max-height: 58px;
 }
 
 .main-menu ul {
@@ -103,12 +104,218 @@ button:focus {
 	padding: 15px;
 }
 
+loading-indicator {
+	height: 50%;
+	width: 50%;
+}
+
+@-webkit-keyframes loader {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+ 
+@-moz-keyframes loader {
+	100% {
+		-moz-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+ 
+@keyframes loader {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+ 
+.loader {
+	width: 35px;
+	position: absolute;
+	height: 35px;
+	border: 6px solid #43484c;
+	border-left-color: #677077;
+	border-bottom-color: #98a0a7;
+	border-right-color: transparent;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: loader 0.5s infinite linear;
+	-moz-animation: loader 0.5s infinite linear;
+	animation: loader 0.5s infinite linear;
+}
+
 .main-content {
-	background-color: #ded;
+	max-height: 70vh;
+	height: 70vh;
+	font-family: "RobotoCondensedRegular", times;
+}
+
+/*.defect-list .padding-top {
+	height: 5px;
+	min-height: 5px;
+}*/
+
+.list-header {
+	height: 10vh;
+	max-height: 10vh;
+	background-color: #ADA;
+	padding-top: 5px;
+}
+
+.list-item-header {
+	height: 57px;
+	font-family: "RobotoCondensedBold", times;
+	font-size: 14px;
+	text-align: center;
+	border-left: 1px groove #BFD;
+}
+
+.list-item-data {
+	font-family: "RobotoCondensedRegular", times;
+	font-size: 14px;
+	font-weight: normal;
+	/* border-left: 1px groove #EED; */
+	/* border-radius: 4px; */
+	text-align: center;
+}
+
+.even .row {
+	background-color: #badaba;
+	/* color: red; */
+}
+
+.list-data {
+	height: 60vh;
+}
+
+.list-data a {
+	color: #000;
+}
+
+.list-data a:hover {
+	color: #F03 !important;
+}
+
+.list-data a:visited {
+	color: #000;
+}
+
+.list-data .container {
+	height: 100% !important;
+}
+
+.list-data .row {
+	height: 100% !important;
+}
+
+.apd-item {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	border: 0 solid transparent;
+}
+
+.detail-info {
+	position:absolute;
+	top: 0;
+	left:0;
+	height:100%;
+	width:100%;
+	background:#43484C;
+	opacity: 0.9;
+	filter:alpha(opacity=0);
+	z-index:50;
+}
+
+.detail-info defect-form {
+	display: block;
+	padding-top: 10vh;
+}
+
+.detail-info .button-row {
+	display: block;
+}
+
+.defect-form {
+	/* position: relative; */
+	/* top: 10vh; */
+	/* display: inline-block; */
+}
+
+.defect-form .form-control {
+	font-family: "RobotoCondensedRegular", times !important;
+	color: #00f !important;
+	font-size: 14px;
+	-webkit-appearance: none; 
+	-moz-appearance: none;
+	appearance: none; 
+}
+
+.defect-form * {
+	font-family: "RobotoCondensedRegular", times !important;
+}
+
+.defect-form .form-control:disabled, 
+.defect-form .form-control:hover {
+	color: #00f !important;
+	font-size: 14px;
+	cursor: default;
+}
+
+.defect-form select::-ms-value {
+	color: #00f !important;
+	font-size: 14px;
+	cursor: default;
+}
+
+.defect-form select::-ms-expand {
+  display: none;
+}
+
+.defect-form label {
+	color: #fff;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+.button-row {
+	direction: rtl;
+	float: right;
+}
+
+.detail-info .btn {
+	align-items: right;
+	min-width: 100px;
+}
+
+/*.list-content::-webkit-scrollbar-button {
+	width: 0px;
+}
+
+.list-content::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+.list-content::-webkit-scrollbar {
+	width: 0px;
+}*/
+
+.cell {
+	display: inline-block;
 }
 
 .footer {
+	height: 10vh;
+}
 
+.login * {
+	font-weight: normal !important;
+	text-transform: uppercase;
+}
+
+.login input {
+	text-transform: none;
 }
 
 .vs-repeat td {
@@ -138,7 +345,93 @@ button:focus {
 	cursor: wait;
 }
 		
-/*.container {
-	position:absolute;
-	opacity:1;
-}*/
+/*************** SCROLLBAR BASE CSS ***************/
+
+/* Styles specific to this particular page */
+.scroll-pane,
+.scroll-pane-arrows {
+	width: inherit !important;
+	height: inherit !important;
+	overflow: auto;
+	outline: 0;	
+/* 	direction: rtl; */
+}
+
+.horizontal-only {
+	height: auto;
+	max-height: 200px;
+}
+
+.jspCap {
+	display: block;
+	background: #eeeef4;
+}
+/* вертикальная полоса прокрутки */
+.jspVerticalBar {
+	position: absolute;
+	top: 0;
+	right: 0;   /* можно прижать к правому или левому краю */
+	width: 10px !important;   /* ширина полосы прокрутки */
+	height: 100%;
+	background-color: transparent;
+}
+
+.jspPane {
+	width: 100% !important;
+}
+
+/* полоска, по которой бегает ползунок */
+.jspTrack {
+	background: #eee;  /* цвет полосы, или фоновый рисунок  */
+	position: relative;
+}
+
+.jspTrack:hover {
+	background: #eee;  /* цвет полосы, или фоновый рисунок  */
+}
+/* сам ползунок */
+.jspDrag {
+	background: #888;  /* цвет ползунка, или фоновый рисунок  */
+	opacity: 0.5;
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	min-height: 20px !important;
+	width: 10px;
+	border-radius: 4px;
+}
+
+.jspDrag:hover {
+	opacity: 1;
+}
+/* стрелки для прокрутки */
+.jspArrow {
+	background: #50506d;  /* фон стрелки */
+	text-indent: -20000px;
+	display: block;
+	cursor: pointer;
+}
+/* стили для неактивной стрелки */
+.jspArrow.jspDisabled {
+	cursor: default;
+	background: #80808d;
+}
+/* этими правилами можно задать различные стили для вертикальных и горизонтальных стрелок */
+.jspVerticalBar .jspArrow {
+	height: 0px;
+}
+
+/* стили для уголка - квадратной зоны где сходятся полосы прокрутки */
+.jspCorner {
+	background: #eeeef4;
+	float: left;
+	height: 100%;
+}
+
+/* кроме того можно задать стили для каждой стрелки отдельно (этих правил изначально в jquery.jscrollpane.css нет!) */
+
+.jspArrowUp {}
+.jspArrowDown {}
+.jspArrowLeft {}
+.jspArrowRight {}
