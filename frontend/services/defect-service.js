@@ -20,39 +20,9 @@ import Region from './classes/region';
 import Master from './classes/master';
 import $http from 'angular';
 
-// export const NEW_DEFECT = {
-// 	defectId: 0,
-// 	defectSys: 0,
-// 	appearanceDate: new Date(),
-// 	removeDate: null,
-// 	status: init.STATUSES[0],
-// 	equipment: new Tube({
-// 		equipmentId: 0,
-// 		beginPoint: '',
-// 		endPoint: '',
-// 		equipmentSys: 0,
-// 		system : init.SYSTEMS[0],
-// 		category: init.CATEGORIES[0],
-// 		owner: init.OWNERS[0],
-// 		source: init.SOURCES[0],
-// 		invNumber: '0'
-// 	}),
-// 	location: 0,
-// 	diameter: init.DIAMETERS[0],
-// 	character: init.CHARACTERS[0],
-// 	addresse: '',
-// 	master: init.MASTERS[0],
-// 	period: init.PERIODS[0],
-// 	comment: '',
-// 	flowValue: 1,
-// 	place: init.PLACES[0],
-// 	coordX: NaN,
-// 	coordY: NaN
-// };
-
 export class DefectService {
 
-	constructor($q, $http) {
+	constructor($q, $http, loginService) {
 		this.DEFECTS = [];
 		this.q = $q;
 		this.http = $http;
@@ -98,6 +68,7 @@ export class DefectService {
 					equipmentSys: +obj.equipmentSys,
 					system : this.init.SYSTEMS[+obj.systemId],
 					category: this.init.CATEGORIES[+obj.categoryId],
+					tubeType: this.init.TUBE_TYPES[+obj.tubeTypeId],
 					owner: this.init.OWNERS[+obj.ownerId],
 					source: this.init.SOURCES[+obj.sourceId],
 					invNumber: obj.invNumber,
@@ -122,41 +93,6 @@ export class DefectService {
 		});
 
 		return deferer.promise;
-
-		//let deferer = this.q.defer();
-
-		// return new Promise((resolve, reject) => {
-		// 	this.getAll('dbo.viewCurrentDefects').then((_defects) => {
-		// 		//console.log('GET_ALL');
-		// 		for(let i = 0; i < _defects.length; i++){
-		// 			let obj = _defects[i];
-		// 			let defect = {
-		// 				defectId: obj.defectId,
-		// 				defectSys: obj.defectSys || 0,
-		// 				appearanceDate: obj.appearanceDate,
-		// 				removeDate: obj.removeDate || null,
-		// 				status: init.STATUSES[obj.statusId || 0],
-		// 				equipment: EQUIPMENTS[obj.equipmentId],
-		// 				location: obj.location || 0,
-		// 				diameter: init.DIAMETERS[obj.diameterId || 0],
-		// 				character: init.CHARACTERS[obj.characterId || 0],
-		// 				addresse: obj.addresse || '',
-		// 				master: init.MASTERS[obj.masterId || 0],
-		// 				period: init.PERIODS[obj.periodId || 0],
-		// 				comment: obj.comment || '',
-		// 				folowValue: obj.folowValue || 0,
-		// 				place: init.PLACES[obj.placeId || 0],
-		// 				coordX: obj.coordX || null,
-		// 				coordY: obj.coordY || null
-		// 			};
-		// 			DEFECTS.push(defect);
-		// 		}
-		// 		resolve(DEFECTS);
-		// 	})
-		// 	.catch((err)=> {
-		// 		reject(err);
-		// 	});
-		// });
 	}
 
 	getArray(arrayName) {
@@ -172,6 +108,64 @@ export class DefectService {
 			}			
 		}
 		return (i<this.DEFECTS.length ? this.DEFECTS[i] : null);
+	}
+
+	getNewDefect() {
+		let defect = new Defect({
+			defectId: 0,
+			defectSys: 0,
+			appearanceDate: new Date(),
+			removeDate: null,
+			status: this.init.STATUSES[2],
+			equipmentType: this.init.EQUIPMENT_TYPES[1],
+			beginPoint: '',
+			endPoint: '',
+			equipmentSys: 0,
+			system : this.init.SYSTEMS[1],
+			category: this.init.CATEGORIES[1],
+			tubeType: this.init.TUBE_TYPES[0],
+			owner: this.init.OWNERS[1],
+			source: this.init.SOURCES[1],
+			invNumber: '',
+			location: 0,
+			diameter: this.init.DIAMETERS[0],
+			character: this.init.CHARACTERS[0],
+			addresse: '',
+			master: this.init.MASTERS[0],
+			period: this.init.PERIODS[0],
+			comment: '',
+			flowValue: 1,
+			place: this.init.PLACES[0],
+			coordX: 0,
+			coordY: 0
+		});
+				
+		return defect;
+	}
+
+	addDefect(defect, authorizationData) {
+
+		let deferer = this.q.defer();
+
+		this.http({
+			method: 'PUT',
+			url: `/defects`,
+			headers: {
+				'Authorization': authorizationData
+			},
+			data: { defect: defect }
+		})
+		.then( (response)=> {
+			let defectId = response.data[0].defectId;
+			defect.defectId = defectId;
+			this.DEFECTS.push(defect);
+			deferer.resolve(defectId);			
+		}, (error)=> {
+			console.log(error);
+			deferer.reject(error);
+		});
+
+		return deferer.promise;
 	}
 }
 

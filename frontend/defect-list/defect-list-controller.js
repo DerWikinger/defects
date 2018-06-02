@@ -1,6 +1,6 @@
 export default class DefectListController {
 	 
-	 constructor(defectService) {
+	constructor(defectService, loginService) {
 	 	// console.log(defectsData);
 	 	// defectService.getAllDefects().then((defects)=>{
 		 // if($rootScope.defects) {
@@ -8,8 +8,13 @@ export default class DefectListController {
 		 // }
 		 // console.log('THIS IS CONTROLLER');
 		 // console.log()
-		 this.defects = defectService.DEFECTS;
+		this.defects = defectService.DEFECTS;
+		this.user = loginService.getUser();
 	 	// });
-	 }
+	}
+
+	getUserRights() {
+		return this.user.rights;
+	}
 
 } 

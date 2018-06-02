@@ -8,6 +8,7 @@ export const SYSTEMS = [];
 export const OWNERS = [];
 export const SOURCES = [];
 export const CHARACTERS = [];
+export const DIRECTIONS = [];
 export const DIAMETERS = [];
 export const PERIODS = [];
 export const PLACES = [];
@@ -296,4 +297,18 @@ export default class DataManager {
 		});//PROMISE
 
 	};//FUNCTION INITIALIZE
+
+	addDefect(defect) {
+		return new Promise((resolve, reject)=> {
+			this.dbManager.addDefect(defect)
+			.then((data)=> {
+				console.log(data);
+				resolve(data);
+			})
+			.catch((err)=> {
+				console.log(err);
+				reject(err);
+			})
+		});
+	}
 }

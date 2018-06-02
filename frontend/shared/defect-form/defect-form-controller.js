@@ -4,13 +4,18 @@ export default class DefectFormController {
 
 		this.$onInit = this.onInit;
 		this.categories = defectService.getArray('CATEGORIES');
-		this.statuses = defectService.getArray('STATUSES');
-		this.owners = defectService.getArray('OWNERS');
 		this.systems = defectService.getArray('SYSTEMS');
+		this.owners = defectService.getArray('OWNERS');
 		this.sources = defectService.getArray('SOURCES');
-		this.diameters = defectService.getArray('DIAMETERS');
 		this.characters = defectService.getArray('CHARACTERS');
+		this.diameters = defectService.getArray('DIAMETERS');
+		this.periods = defectService.getArray('PERIODS');
+		this.places = defectService.getArray('PLACES');
+		this.statuses = defectService.getArray('STATUSES');
+		this.tubeTypes = defectService.getArray('TUBE_TYPES');		
 		this.equipmentTypes = defectService.getArray('EQUIPMENT_TYPES');
+		this.masters = defectService.getArray('MASTERS');
+		
 	}
 
 	onInit() {

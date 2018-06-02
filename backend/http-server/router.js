@@ -81,16 +81,6 @@ class HTTPRouter {
 				jwt.sign( { user }, SECRET_KEY, { 
 					expiresIn: config.TOKEN_LIMIT,  
 				}, ( err, token ) => {
-
-					//console.log(jwt.decode(token));
-					
-					// for(let i=0; i<USERS.length; i++) {
-					// 	if(USERS[i].userId === user.userId) {
-					// 		USERS[i].token = token;
-					// 		break;
-					// 	}
-					// }
-
 					res.json({
 						userId: user.userId,
 						token: token
@@ -101,21 +91,33 @@ class HTTPRouter {
 			}
 		});
 
-		this.app.post( '/defects', ( req, res ) => {
+		this.app.post( '/defects', verifyToken, ( req, res ) => {
 
 			console.log ('This is a "POST" request');
 
 			res.send('Hello POST!');
 		});
 
-		this.app.put( '/defects', ( req, res ) => {
+		this.app.put( '/defects', verifyToken, ( req, res ) => {
 
 			console.log ('This is a "PUT" request');
 
-			res.send('Hello PUT!');
+			// console.log(req);
+			// console.log(req.body);
+			// console.log(req.data);
+			let defect = req.body.defect;
+			this.dataManager.addDefect(defect).then((data)=> {
+				console.log(data);
+				res.send(data);
+			})
+			.catch((err)=> {
+				res.sendStatus(500);
+			})
+
+			// res.send('Hello PUT!');
 		});
 
-		this.app.delete( '/defects', ( req, res ) => {
+		this.app.delete( '/defects', verifyToken, ( req, res ) => {
 
 			console.log ('This is a "DELETE" request');
 

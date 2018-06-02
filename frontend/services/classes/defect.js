@@ -15,6 +15,7 @@ export default class Defect {
 		this.category = defect.category;
 		this.owner = defect.owner;
 		this.source = defect.source;
+		this.tubeType = defect.tubeType;
 		this.invNumber = defect.invNumber;
 		this.location = defect.location;
 		this.diameter = defect.diameter;

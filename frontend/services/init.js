@@ -18,19 +18,6 @@ import TubeType from './classes/tube-type';
 import Region from './classes/region';
 import Master from './classes/master';
 
-// export const CATEGORIES = [new Category(0, 'Не выбран')];
-// export const SYSTEMS = [new System(0, 'Не выбран')];
-// export const OWNERS = [new Owner(0, 'Не выбран', 'Не выбран')];
-// export const SOURCES = [new Source(0, 'Не выбран')];
-// export const CHARACTERS = [new Character(0, 'Не выбран')];
-// export const DIAMETERS = [new Diameter(0, 'Не выбран')];
-// export const PERIODS = [new Period(0, 'Не выбран')];
-// export const PLACES = [new Place(0, 'Не выбран')];
-// export const STATUSES = [new Status(0, 'Не выбран')];
-// export const TUBE_TYPES = [new TubeType(0, 'Не выбран')];
-// export const REGIONS = [new Region(0, 'Не выбран')];
-// export const MASTERS = [new Master(0, 'Не выбран', REGIONS[0], 0)];
-
 export default class Initialization {
 
 	constructor() {

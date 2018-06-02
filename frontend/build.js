@@ -8,6 +8,7 @@ import LoginComponent from './login/login-component';
 import DefectListComponent from './defect-list/defect-list-component';
 import DefectItemComponent from './defect-item/defect-item-component';
 import DetailInfoComponent from './detail-info/detail-info-component';
+import DefectAddComponent from './defect-add/defect-add-component';
 import DefectFormComponent from './shared/defect-form/defect-form-component';
 
 import LoginService from './login/login-service';
@@ -16,6 +17,7 @@ import DefectService from './services/defect-service';
 import loginState from './login/login-state';
 import defectListState from './defect-list/defect-list-state';
 import detailInfoState from './detail-info/detail-info-state';
+import defectAddState from './defect-add/defect-add-state';
 
 const ngApp = angular.module('ngApp', [uirouter, vsrepeat]);
 
@@ -52,6 +54,7 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 	.state('defect-list', defectListState())
 	.state('detail-info', detailInfoState())
 	.state('login', loginState())
+	.state('defect-add', defectAddState())
 	.state('happy', {
 		url: '/happy',
 		template: `<h1>HAPPY</h1>`,
@@ -107,6 +110,8 @@ ngApp.component('defectItem', new DefectItemComponent());
 ngApp.component('defectForm', new DefectFormComponent());
 
 ngApp.component('detailInfo', new DetailInfoComponent());
+
+ngApp.component('defectAdd', new DefectAddComponent());
 
 let initializeComplete = false;
 

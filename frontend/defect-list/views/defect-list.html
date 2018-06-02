@@ -91,6 +91,16 @@
 				</div>
 			</div>
 		</div>
+		<div class="list-data-buttons">
+			<div class="row">
+				<a class="anchor-add" ui-sref="defect-add" ng-if="defectListController.getUserRights()<2">
+					<input type="button" value="Add" class="btn btn-default btn-add">
+				</a>
+				<a class="anchor-filter" ui-sref="list-filter">
+					<input type="button" value="Фильтр" class="btn btn-default btn-filter">
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
 <ui-view>	

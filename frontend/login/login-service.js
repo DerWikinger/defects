@@ -50,6 +50,11 @@ export class LoginService {
 		return userData.user;
 	}
 
+	getAuthorizationData() {
+		let authData = this.getUser().userId + ' ' + this.token;
+		return authData;
+	}
+
 }
 
 export default function factory($q, $http) {
