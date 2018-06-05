@@ -5,7 +5,8 @@ export default class DefectFormComponent {
 	constructor() {
 		this.bindings = {
 			defect: '=',
-			disabled: '='
+			disabled: '=',
+			statusChange: '&'
 		};
 		this.require = {
 			ngModelCtrl: 'ngModel'

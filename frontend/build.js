@@ -2,13 +2,14 @@
 
 import angular from 'angular';
 import uirouter from '@uirouter/angularjs';
-import vsrepeat from 'front-angular-vs-repeat';
+// import vsrepeat from 'front-angular-vs-repeat';
 
 import LoginComponent from './login/login-component';
 import DefectListComponent from './defect-list/defect-list-component';
 import DefectItemComponent from './defect-item/defect-item-component';
 import DetailInfoComponent from './detail-info/detail-info-component';
 import DefectAddComponent from './defect-add/defect-add-component';
+import DefectEditComponent from './defect-edit/defect-edit-component';
 import DefectFormComponent from './shared/defect-form/defect-form-component';
 
 import LoginService from './login/login-service';
@@ -18,8 +19,9 @@ import loginState from './login/login-state';
 import defectListState from './defect-list/defect-list-state';
 import detailInfoState from './detail-info/detail-info-state';
 import defectAddState from './defect-add/defect-add-state';
+import defectEditState from './defect-edit/defect-edit-state';
 
-const ngApp = angular.module('ngApp', [uirouter, vsrepeat]);
+const ngApp = angular.module('ngApp', [uirouter]);
 
 ngApp.factory('loginService', LoginService);
 ngApp.factory('defectService', DefectService);//Creates service 'DefectService'
@@ -55,6 +57,7 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 	.state('detail-info', detailInfoState())
 	.state('login', loginState())
 	.state('defect-add', defectAddState())
+	.state('defect-edit', defectEditState())
 	.state('happy', {
 		url: '/happy',
 		template: `<h1>HAPPY</h1>`,
@@ -96,10 +99,12 @@ ngApp.run(($transitions, loginService) => {
 	});
 });
 
-ngApp.component('loadingIndicator', {
-	bindings: {},
-	template: `<div class="loader"></div>`
-});
+// ngApp.component('loadingIndicator', {
+// 	bindings: {},
+// 	template: `<div class="loading-indicator>
+// 				<div class="loader"></div>
+// 			   </div>`
+// });
 
 ngApp.component('loginUser', new LoginComponent());
 
@@ -113,9 +118,26 @@ ngApp.component('detailInfo', new DetailInfoComponent());
 
 ngApp.component('defectAdd', new DefectAddComponent());
 
+ngApp.component('defectEdit', new DefectEditComponent());
+
 let initializeComplete = false;
 
+
 $(document).ready(()=>{
+
+	$('button').on('click', ()=> {
+		let container = angular.element('.main-content');
+		// let injector = angular.injector(['ng']);
+		// let compile = injector.get('$compile');
+		// let rootScope = injector.get('$rootScope');
+		// let indicator = document.createElement('loading-indicator');
+		// container.prepend(compile('<loading-indicator class="loader"></loading-indicator>')(rootScope));
+		container.prepend(`<loading-indicator class="loader"></loading-indicator>`);
+		setTimeout(()=> {
+			angular.element('loading-indicator').remove();
+			// container.remove(loader);
+		}, 5000);
+	});
 
 		// $('body').on('load', function() {
 		// 	//var url = $(this).attr('src');

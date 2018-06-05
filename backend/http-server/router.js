@@ -19,33 +19,14 @@ class HTTPRouter {
 
 		USERS = getAllUsers();
 
-	    this.app.get('/', /*verifyToken, */( req, res ) => {
-/*
-			jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
-				if(err) {
-					console.log(err);
-					res.sendStatus(403);
-				} else {*/
+		this.app.get('/', ( req, res ) => {
 
-					//console.log('GET');
-					res.setHeader('Access-Control-Allow-Orogin', '*');
-					res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-					res.setHeader('Content-Type', 'text/html');
-					let path = __dirname.replace('\\backend\\http-server', '');
-					path += '\\index.html';
-					//console.log(req.originalUrl);
-					res.sendFile(path);
-					// res.render('home', function(err, html) {
-					// 	console.log('GET');
-					// 	res.setHeader('Access-Control-Allow-Orogin', '*');
-					// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-					// 	res.setHeader('Content-Type', 'text/plain');
-					// 	res.send(html);
-					// });
-/*				}
-			})*/
-
-			//res.end();		
+			res.setHeader('Access-Control-Allow-Orogin', '*');
+			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+			res.setHeader('Content-Type', 'text/html');
+			let path = __dirname.replace('\\backend\\http-server', '');
+			path += '\\index.html';
+			res.sendFile(path);
 
 		});		
 		
@@ -66,14 +47,10 @@ class HTTPRouter {
 
 		this.app.post('/login', ( req, res, next ) => {
 
-			//console.log(req.body);
-			
 			let checkedUser = {
 				username: req.body.username,
 				password: req.body.password
 			}
-
-			//console.log(checkedUser);
 
 			let user = findUser(checkedUser);
 
@@ -95,16 +72,20 @@ class HTTPRouter {
 
 			console.log ('This is a "POST" request');
 
-			res.send('Hello POST!');
+			let defect = req.body.defect;
+			this.dataManager.editDefect(defect).then((data)=> {
+				console.log(data);
+				res.send(data);
+			})
+			.catch((err)=> {
+				res.sendStatus(500);
+			})
 		});
 
 		this.app.put( '/defects', verifyToken, ( req, res ) => {
 
 			console.log ('This is a "PUT" request');
 
-			// console.log(req);
-			// console.log(req.body);
-			// console.log(req.data);
 			let defect = req.body.defect;
 			this.dataManager.addDefect(defect).then((data)=> {
 				console.log(data);
@@ -113,34 +94,21 @@ class HTTPRouter {
 			.catch((err)=> {
 				res.sendStatus(500);
 			})
-
-			// res.send('Hello PUT!');
 		});
 
 		this.app.delete( '/defects', verifyToken, ( req, res ) => {
 
 			console.log ('This is a "DELETE" request');
 
-			res.send('Hello DELETE!');
+			let defectId = req.query.defectId;
+			this.dataManager.deleteDefect(defectId).then((data)=> {
+				console.log(data);
+				res.send(data);
+			})
+			.catch((err)=> {
+				res.sendStatus(500);
+			})
 		});
-
-		// this.app.all(/\/[defects].*/, verifyToken, function( req, res) {
-
-		// 	let serviceCallResponse;
-
-		// 	jwt.verify( req.token, SECRET_KEY, ( err, authData )=> {
-		// 		if(err) {
-		// 			res.sendStatus(403);
-		// 		} else {
-				
-	 //        		serviceCallResponse = request(req.method, config.PROXY_SERVER + ':' + config.PROXY_PORT + req.originalUrl, {
-	 //            		json:req.body
-	 //        		});
-	        
-	 //        		res.send(serviceCallResponse.getBody('utf8'));
-		// 		}
-		// 	})
-		// });
 
 	} 
 
@@ -161,8 +129,7 @@ function verifyToken( req, res, next ) {
 		if(path === '/defects' && method !== 'GET') {
 			for(let i = 0; i < USERS.length; i++){
 				if(USERS[i].userId === bearerId && USERS[i].rights > 1) {
-					req.token = null;
-					next();
+					res.sendStatus(403);
 				}
 			}
 		}

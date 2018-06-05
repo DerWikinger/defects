@@ -55,12 +55,12 @@ export default class Initialization {
 		let i = 0;
 		for(; i < tables.length; i++) {
 			let table = tables[i];
-			this._getData(table);
+			this._createTable(table);
 			console.log(`${table.tableName} COMPLETE`);
 		}		
 	}
 
-	_getAll(tableName) {
+	_getRecordset(tableName) {
 
 		let result;
 
@@ -80,9 +80,9 @@ export default class Initialization {
 		return result;
 	}
 
-	_getData(table) {
+	_createTable(table) {
 
-		let data = this._getAll(table.tableName);
+		let data = this._getRecordset(table.tableName);
 
 		data.forEach((elem) => {
 			let item;
@@ -110,29 +110,3 @@ export default class Initialization {
 		});			
 	}
 }
-
-// export function initialize() {
-
-// 	let tables = [
-// 	{ tableName: 'dbo.tblCategories', module: Category, array: CATEGORIES },
-// 	{ tableName: 'dbo.tblSystems', module: System, array: SYSTEMS },
-// 	{ tableName: 'dbo.tblOwners', module: Owner, array: OWNERS },
-// 	{ tableName: 'dbo.tblSources', module: Source, array: SOURCES },
-// 	{ tableName: 'dbo.tblCharacters', module: Character, array: CHARACTERS },
-// 	{ tableName: 'dbo.tblDiameters', module: Diameter, array: DIAMETERS },
-// 	{ tableName: 'dbo.tblPeriods', module: Period, array: PERIODS },
-// 	{ tableName: 'dbo.tblPlaces', module: Place, array: PLACES },
-// 	{ tableName: 'dbo.tblStatuses', module: Status, array: STATUSES },
-// 	{ tableName: 'dbo.tblTubeTypes', module: TubeType, array: TUBE_TYPES },
-// 	{ tableName: 'dbo.tblRegions', module: Region, array: REGIONS },
-// 	{ tableName: 'dbo.tblMasters', module: Master, array: MASTERS },
-// 	];
-
-// 	let i = 0;
-// 	for(; i < tables.length; i++) {
-// 		let table = tables[i];
-// 		_getData(table);
-// 		console.log(`${table.tableName} COMPLETE`);
-// 	}
-// };
-

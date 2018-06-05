@@ -26,8 +26,10 @@ export default class DataManager {
 
 		this._initialize().then(()=> {
 			console.log('INITIALIZE COMPLETE');
-			for(let el in TABLES) {
-				console.log(TABLES[el]);
+			for(let table in TABLES) {
+				if(table !== 'dbo.tblOwners') {
+					console.log(TABLES[table]);
+				}
 			}
 			if(callback) {
 				callback();
@@ -302,7 +304,32 @@ export default class DataManager {
 		return new Promise((resolve, reject)=> {
 			this.dbManager.addDefect(defect)
 			.then((data)=> {
-				console.log(data);
+				resolve(data);
+			})
+			.catch((err)=> {
+				console.log(err);
+				reject(err);
+			})
+		});
+	}
+
+	editDefect(defect) {
+		return new Promise((resolve, reject)=> {
+			this.dbManager.editDefect(defect)
+			.then((data)=> {
+				resolve(data);
+			})
+			.catch((err)=> {
+				console.log(err);
+				reject(err);
+			})
+		});
+	}
+
+	deleteDefect(defectId) {
+		return new Promise((resolve, reject)=> {
+			this.dbManager.deleteDefect(defectId)
+			.then((data)=> {
 				resolve(data);
 			})
 			.catch((err)=> {

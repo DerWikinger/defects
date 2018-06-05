@@ -6,4 +6,9 @@ export default class Status {
 		this.statusName = statusName;
 
 	}
+
+	equal (other) {
+		if(!other) return false;
+		return this.statusId === other.statusId;
+	}
 } 

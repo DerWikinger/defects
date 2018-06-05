@@ -83,27 +83,39 @@
 			<div class="scroll-pane">
 				<div>
 					<div class="col-xs-12">
-						<a ui-sref="detail-info({defectId: $defect.defectId})" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="$defect in defectListController.defects track by $defect.defectId">
-							<defect-item defect="$defect" class="defect-item">							
-							</defect-item>
-						</a>
+						<div class="list-data-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="$defect in defectListController.defects track by $defect.defectId">
+							<a ui-sref="detail-info({defectId: $defect.defectId})">
+								<defect-item defect="$defect" class="defect-item">
+								</defect-item>
+							</a>
+							<div class="edit-delete-buttons" ng-if="defectListController.getUserRights()<2">
+								<a ui-sref="defect-edit({defectId: $defect.defectId})" class="edit-btn">
+									<i class="fas fa-edit"></i>
+								</a>
+								<a ng-click="defectListController.onDelete($defect.defectId)" class="delete-btn">
+									<i class="fas fa-times"></i>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="list-data-buttons">
 			<div class="row">
-				<a class="anchor-add" ui-sref="defect-add" ng-if="defectListController.getUserRights()<2">
-					<input type="button" value="Add" class="btn btn-default btn-add">
+				<a class="add-btn" ui-sref="defect-add" ng-if="defectListController.getUserRights()<2">
+					<i class="fas fa-plus"></i>
+					<!-- <i class="fas fa-plus-square"></i> -->
 				</a>
-				<a class="anchor-filter" ui-sref="list-filter">
-					<input type="button" value="Фильтр" class="btn btn-default btn-filter">
+				<a class="filter-btn" ui-sref="list-filter">
+					<i class="fas fa-filter"></i>
 				</a>
 			</div>
 		</div>
 	</div>
 </div>
-<ui-view>	
+<ui-view>
+	<!-- <loading-indicator class="loader"></loading-indicator>	 -->
 </ui-view>
 <script>
 	$('.scroll-pane').jScrollPane({

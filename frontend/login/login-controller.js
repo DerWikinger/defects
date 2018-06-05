@@ -25,6 +25,10 @@ export default class LoginController {
 		$("#loginForm").on('submit', (event)=>{
 
 			event.preventDefault();
+			let container = angular.element('.main-content');
+			container.prepend(`<div class="loading-indicator">
+								<div class="main-loader loader"></div>
+							   </div>`);		
 			let valid = false;
 			let login = $("#login");
 			let pwd = $("#pwd");
@@ -35,9 +39,10 @@ export default class LoginController {
 		
 			if(valid) {
 				loginService.login(loginData).then(()=> {
-					// console.log("GO");
+					// console.log("GO");					
 					$state.go('defect-list');//default view
 				}).catch((error) => {
+					angular.element('.loading-indicator').remove();
 					console.log(error);
 					$("#login").val('');
 					$("#pwd").val('');

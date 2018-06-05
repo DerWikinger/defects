@@ -2,10 +2,10 @@ import { isDate } from 'angular';
 
 export default class DefectItemController {
 	
-	constructor () {
+	constructor (defectService) {
 
 		this.$onInit = this.onInit;
-
+		defectService.pushObserver(this);
 	}
 
 	onInit() {
@@ -18,8 +18,14 @@ export default class DefectItemController {
 			let yy = '' + date.getFullYear();
 			let mm = date.getMonth() + 1;
 			let dd = date.getDate();
-			dateString = (dd < 10 ? '0' + dd : dd) + '/' + (mm < 10 ? '0' + mm : mm) + '/' + yy.slice(2);
+			dateString = (dd < 10 ? '0' + dd : dd) + '.' + (mm < 10 ? '0' + mm : mm) + '.' + yy;
 		}
 		return dateString;
-	}	
+	}
+
+	onUpdate() {
+		this.appearanceDateString = this.defect ? this.getDateString(this.defect.appearanceDate) : '???';
+		console.log(this.appearanceDateString);
+		angular.element('.appearanceDateString').text(this.appearanceDateString);		
+	}
 }

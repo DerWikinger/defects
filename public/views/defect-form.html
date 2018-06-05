@@ -43,7 +43,7 @@
 					</div>
 					<label for="stausName" class="col-xs-2 control-label">Состояние</label>
 					<div class="col-xs-4">
-						<select class="form-control" name="stausName" id="stausName" tabindex="8" ng-model="defectFormController.defect.status" ng-options="status as status.statusName for status in defectFormController.statuses"></select>
+						<select class="form-control" name="stausName" id="stausName" tabindex="8" ng-model="defectFormController.defect.status" ng-options="status as status.statusName for status in defectFormController.statuses" ng-select="defectFormController.statusChange(defectFormController.status)"></select>
 					</div>
 				</div>
 

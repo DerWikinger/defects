@@ -4,7 +4,7 @@ export default class DefectItemComponent {
 
 	constructor() {
 		this.bindings = {
-			defect: '='
+			defect: '=',
 		};
 		this.templateUrl = 'public/views/defect-item.html';
 		this.controller = DefectItemController;

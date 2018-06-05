@@ -1,0 +1,18 @@
+<div class="defect-edit">
+	<h2>Изменение сведений о дефекте</h2>	
+	<defect-form defect="defectEditController.defect" ng-model="defectEditController.defect" status-change="defectEditController.onStatusChange"></defect-form>
+	<div class="container">
+		<div class="col-xs-12">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<div class="col-xs-offset-8 col-xs-4">
+						<div class="button-row">
+							<input type="button" class="col-xs-2 btn btn-default" ng-click="defectEditController.onOkClick()" id="ok-button" tabindex="1" value="Ok"></input>
+							<input type="button" class="col-xs-2 btn btn-default" ng-click="defectEditController.onCancelClick()" id="cancel-button" tabindex="2" value="Cancel"></input>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -36,23 +36,14 @@ export default class DBManager {
 			    .query(sqlString)
 			}).then((response) => {
 				mssql.close();
-
 			    resolve(response.recordset);
-			    // // Stored procedure
-			    
-			    // return pool.request()
-			    // .input('input_parameter', sql.Int, value)
-			    // .output('output_parameter', sql.VarChar(50))
-			    // .execute('procedure_name')
 			})
 			.catch((err) => {
 				mssql.close();
 				reject(err);
-			    // ... error checks
 			});
 
 			mssql.on('error', err => {
-			    // ... error handler
 			})
 
 		});
@@ -96,8 +87,8 @@ export default class DBManager {
 					coordX,
 					coordY ) OUTPUT inserted.defectId VALUES (
 					${defect.defectSys}, 
-					'${appearanceDate}',
-					'${removeDate}',
+					${appearanceDate},
+					${removeDate},
 					${defect.status.statusId},
 					${defect.equipmentType.equipmentTypeId},
 					'${defect.beginPoint}',
@@ -122,19 +113,67 @@ export default class DBManager {
 					${defect.coordY}
 					)`;
 			    return pool.request()
-			    // .input('input_parameter', sql.Int, value)
 			    .output('defectId', mssql.Int)
 			    .query(sqlString);
 			}).then((response) => {
 				mssql.close();
-				console.log(response);
 			    resolve(response.recordset);
-			    // // Stored procedure
-			    
-			    // return pool.request()
-			    // .input('input_parameter', sql.Int, value)
-			    // .output('output_parameter', sql.VarChar(50))
-			    // .execute('procedure_name')
+			})
+			.catch((err) => {
+				mssql.close();
+				console.log('DB ERROR');
+				console.log(err);
+				reject(err);
+			});
+		});
+	}
+
+	editDefect(defect) {
+
+		return new Promise((resolve, reject)=> {
+
+			mssql.connect(this.config).then((pool) => {
+
+
+
+				let appearanceDate = this.dateToSQL(defect.appearanceDate);
+				let removeDate = this.dateToSQL(defect.removeDate);
+				let location = defect.location.toFixed(2).replace(',', '.');
+				let flowValue = defect.flowValue.toFixed(2).replace(',', '.');
+    			let sqlString = `UPDATE dbo.tblDefects SET
+					defectSys = ${defect.defectSys},
+					appearanceDate = ${appearanceDate},
+					removeDate = ${removeDate},
+					statusId = ${defect.status.statusId},
+					equipmentTypeId = ${defect.equipmentType.equipmentTypeId},
+					beginPoint = '${defect.beginPoint}',
+					endPoint = '${defect.endPoint}',
+					equipmentSys = ${defect.equipmentSys},
+					systemId = ${defect.system.systemId},
+					categoryId = ${defect.category.categoryId},
+					ownerId = ${defect.owner.ownerId},
+					sourceId = ${defect.source.sourceId},
+					tubeTypeId = ${defect.tubeType.tubeTypeId},
+					invNumber = '${defect.invNumber}',
+					location = ${location},
+					diameterId = ${defect.diameter.diameterId},
+					characterId = ${defect.character.characterId},
+					addresse = '${defect.addresse}',
+					masterId = ${defect.master.masterId},
+					periodId = ${defect.period.periodId},
+					comment = '${defect.comment}',
+					flowValue = ${flowValue},
+					placeId = ${defect.place.placeId},
+					coordX = ${defect.coordX},
+					coordY = ${defect.coordY} 
+					WHERE dbo.tblDefects.defectId = ${defect.defectId}`;
+				console.log(sqlString);
+			    return pool.request()
+			    // .input('appearanceDate', mssql.date, defect.appearanceDate)
+			    .query(sqlString);
+			}).then((response) => {
+				mssql.close();
+			    resolve(response.recordset);
 			})
 			.catch((err) => {
 				mssql.close();
@@ -146,18 +185,47 @@ export default class DBManager {
 		});
 	}
 
+	deleteDefect(defectId) {
+
+		return new Promise((resolve, reject)=> {
+
+			mssql.connect(this.config).then((pool) => {
+
+    			let sqlString = `DELETE FROM dbo.tblDefects WHERE dbo.tblDefects.defectId = ${defectId}`;
+			    return pool.request()
+			    .query(sqlString);
+			}).then((response) => {
+				mssql.close();
+			    resolve(response.recordset);
+			})
+			.catch((err) => {
+				mssql.close();
+				console.log('DB ERROR');
+				console.log(err);
+				reject(err);
+			});
+		});
+	}
+
 	dateToSQL (date) {
+
+		if(!date) return 'null';
+
 		let _date = null;
+
 		try {
 			_date = new Date(date);
 		} catch(err) {
+			return 'null';
+		}		
 
-		}
-		if(!_date) return 'null';
 		let yy = _date.getFullYear();
 		let mm = (_date.getMonth() + 1);
 		let dd = _date.getDate();
-		let dateString = (dd < 10 ? '0' + dd : dd) + '-' + (mm < 10 ? '0' + mm : mm) + '-' + yy;
+		// let dateString = (dd < 10 ? '0' + dd : dd) + '-' + (mm < 10 ? '0' + mm : mm) + '-' + yy;
+		// let dateString = "'" + (dd < 10 ? '0' + dd : dd) + '-' + (mm < 10 ? '0' + mm : mm) + '-' + yy + "'";
+		let dateString = "'" + yy + '-' + (mm < 10 ? '0' + mm : mm) + '-' + (dd < 10 ? '0' + dd : dd) + "'";
+
 		return dateString;
 	}
 	

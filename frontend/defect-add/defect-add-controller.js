@@ -5,7 +5,7 @@ export default class DefectAddController {
 		this.state = $state;
 		this.defect = defectService.getNewDefect();
 		this.defectService = defectService;
-		this.loginService = loginService;
+		this.authorizationData = loginService.getAuthorizationData();
 	}
 
 	onInit() {
@@ -13,14 +13,12 @@ export default class DefectAddController {
 	}
 
 	onOkClick() {
-		let authorizationData = this.loginService.getAuthorizationData();
-		this.defectService.addDefect(this.defect, authorizationData)
+		this.defectService.addDefect(this.defect, this.authorizationData)
 		.then((defectId)=> {		
 			alert('Данные успешно добавлены');
 			this.state.go('^');		
 		})
 		.catch((err)=> {
-			$('.defect-form').css('cursor', 'default');
 			alert('Что-то пошло не так');
 		})
 	}

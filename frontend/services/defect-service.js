@@ -5,32 +5,60 @@ import Defect from './classes/defect';
 // import Tube from './classes/tube';
 // import Compensator from './classes/compensator';
 // import Armature from './classes/armature';
-import EquipmentType from './classes/equipment-type';
-import Category from './classes/category';
-import System from './classes/system';
-import Owner from './classes/owner';
-import Source from './classes/source';
-import Character from './classes/character';
-import Diameter from './classes/diameter';
-import Period from './classes/period';
-import Place from './classes/place';
-import Status from './classes/status';
-import TubeType from './classes/tube-type';
-import Region from './classes/region';
-import Master from './classes/master';
+// import EquipmentType from './classes/equipment-type';
+// import Category from './classes/category';
+// import System from './classes/system';
+// import Owner from './classes/owner';
+// import Source from './classes/source';
+// import Character from './classes/character';
+// import Diameter from './classes/diameter';
+// import Period from './classes/period';
+// import Place from './classes/place';
+// import Status from './classes/status';
+// import TubeType from './classes/tube-type';
+// import Region from './classes/region';
+// import Master from './classes/master';
 import $http from 'angular';
 
 export class DefectService {
 
 	constructor($q, $http, loginService) {
+		
 		this.DEFECTS = [];
 		this.q = $q;
 		this.http = $http;
 		this.init = new Initialization();
+		this.filter = { 
+			status: { 
+				value: this.init.STATUSES[1], equal: false 
+			} 
+		};
+		this.VIEW_DEFECTS = [];
+		this.observers = [];
+
 		console.log('INITIALIZE IS COMPLETE');
 	}
 
-	getAll(tableName) {
+	getAllDefects() {
+		let deferer = this.q.defer();
+
+		this.getAllRecords('dbo.viewAllDefects').then((_defects)=> {
+			
+			for(let i = 0; i < _defects.length; i++){
+				let db_obj = _defects[i];
+				let defect = this.createDefectFromDBObject(db_obj);
+				this.DEFECTS.push(defect);				
+			}
+
+			deferer.resolve(this.DEFECTS);
+		}).catch((err)=> {
+			deferer.reject(err);
+		});
+
+		return deferer.promise;
+	}
+
+	getAllRecords(tableName) {
 
 		let deferer = this.q.defer();
 
@@ -50,49 +78,20 @@ export class DefectService {
 
 	getCurrentDefects () {
 
-		let deferer = this.q.defer();
+		this.VIEW_DEFECTS = [];
 
-		this.getAll('dbo.viewCurrentDefects').then((_defects)=> {
-			
-			for(let i = 0; i < _defects.length; i++){
-				let obj = _defects[i];
-				let defect = new Defect({
-					defectId: +obj.defectId,
-					defectSys: +obj.defectSys,
-					appearanceDate: (obj.appearanceDate ? new Date(obj.appearanceDate) : null),
-					removeDate: (obj.removeDate ? new Date(obj.removeDate) : null),
-					status: this.init.STATUSES[+obj.statusId],
-					equipmentType: this.init.EQUIPMENT_TYPES[+obj.equipmentTypeId],
-					beginPoint: obj.beginPoint,
-					endPoint: obj.endPoint,
-					equipmentSys: +obj.equipmentSys,
-					system : this.init.SYSTEMS[+obj.systemId],
-					category: this.init.CATEGORIES[+obj.categoryId],
-					tubeType: this.init.TUBE_TYPES[+obj.tubeTypeId],
-					owner: this.init.OWNERS[+obj.ownerId],
-					source: this.init.SOURCES[+obj.sourceId],
-					invNumber: obj.invNumber,
-					location: +obj.location,
-					diameter: this.init.DIAMETERS[+obj.diameterId],
-					character: this.init.CHARACTERS[+obj.characterId],
-					addresse: obj.addresse,
-					master: this.init.MASTERS[+obj.masterId],
-					period: this.init.PERIODS[+obj.periodId],
-					comment: obj.comment,
-					flowValue: +obj.flowValue,
-					place: this.init.PLACES[+obj.placeId],
-					coordX: +obj.coordX,
-					coordY: +obj.coordY
-				});
-				this.DEFECTS.push(defect);				
+		for(let i = 0; i < this.DEFECTS.length; i++) {
+			let defect = this.DEFECTS[i];
+			for(let prop in this.filter) {
+				let property = this.filter[prop];
+				if(defect[prop].equal(property.value) === property.equal) {
+					this.VIEW_DEFECTS.push(defect);
+				}
 			}
+		}
 
-			deferer.resolve(this.DEFECTS);
-		}).catch((err)=> {
-			deferer.reject(err);
-		});
+		return this.VIEW_DEFECTS;
 
-		return deferer.promise;
 	}
 
 	getArray(arrayName) {
@@ -108,6 +107,37 @@ export class DefectService {
 			}			
 		}
 		return (i<this.DEFECTS.length ? this.DEFECTS[i] : null);
+	}
+
+	createDefectFromDBObject(obj) {
+		return new Defect({
+			defectId: +obj.defectId,
+			defectSys: +obj.defectSys,
+			appearanceDate: (obj.appearanceDate ? new Date(obj.appearanceDate) : null),
+			removeDate: (obj.removeDate ? new Date(obj.removeDate) : null),
+			status: this.init.STATUSES[+obj.statusId || 0],
+			equipmentType: this.init.EQUIPMENT_TYPES[+obj.equipmentTypeId || 0],
+			beginPoint: obj.beginPoint,
+			endPoint: obj.endPoint,
+			equipmentSys: +obj.equipmentSys,
+			system : this.init.SYSTEMS[+obj.systemId || 0],
+			category: this.init.CATEGORIES[+obj.categoryId || 0],
+			tubeType: this.init.TUBE_TYPES[+obj.tubeTypeId || 0],
+			owner: this.init.OWNERS[+obj.ownerId || 0],
+			source: this.init.SOURCES[+obj.sourceId || 0],
+			invNumber: obj.invNumber,
+			location: +obj.location,
+			diameter: this.init.DIAMETERS[+obj.diameterId || 0],
+			character: this.init.CHARACTERS[+obj.characterId || 0],
+			addresse: obj.addresse,
+			master: this.init.MASTERS[+obj.masterId || 0],
+			period: this.init.PERIODS[+obj.periodId || 0],
+			comment: obj.comment,
+			flowValue: +obj.flowValue,
+			place: this.init.PLACES[+obj.placeId || 0],
+			coordX: +obj.coordX,
+			coordY: +obj.coordY			
+		})
 	}
 
 	getNewDefect() {
@@ -143,6 +173,10 @@ export class DefectService {
 		return defect;
 	}
 
+	clone(defect) {
+		return new Defect(defect);
+	} 
+
 	addDefect(defect, authorizationData) {
 
 		let deferer = this.q.defer();
@@ -155,7 +189,7 @@ export class DefectService {
 			},
 			data: { defect: defect }
 		})
-		.then( (response)=> {
+		.then((response)=> {
 			let defectId = response.data[0].defectId;
 			defect.defectId = defectId;
 			this.DEFECTS.push(defect);
@@ -167,6 +201,71 @@ export class DefectService {
 
 		return deferer.promise;
 	}
+
+	editDefect(defect, authorizationData) {
+		console.log(defect);
+		let deferer = this.q.defer();
+		this.http({
+			method: 'POST',
+			url: '/defects',
+			headers: {
+				'Authorization': authorizationData
+			},
+			data: { defect: defect }
+		})
+		.then((response)=> {
+			this.onDataChange(defect);
+			deferer.resolve();
+		}, (error)=> {
+			console.log(error);
+			deferer.reject(error);
+		});
+
+		return deferer.promise;
+	}
+
+	deleteDefect(defectId, authorizationData) {
+
+		let deferer = this.q.defer();
+		this.http({
+			method: 'DELETE',
+			url: `/defects?defectId=${defectId}`,
+			headers: {
+				'Authorization': authorizationData
+			},
+			// data: { defectId: defectId }
+		})
+		.then((response)=> {
+
+			for(let i = 0; i < this.DEFECTS.length; i++) {
+				if(this.DEFECTS[i].defectId === defectId){
+					this.DEFECTS.splice(i, 1);
+					break;
+				}				
+			}
+			deferer.resolve();
+		}, (error)=> {
+			console.log(error);
+			deferer.reject(error);
+		});
+
+		return deferer.promise;
+	}
+
+	pushObserver(observer) {
+		this.observers.push(observer);
+	}
+
+	onDataChange(defect) {
+		for(let i = 0; i < this.observers.length; i++) {
+			let observer = this.observers[i];
+			if(observer.defect.defectId === defect.defectId) {
+				observer.onUpdate();
+				break;
+			}
+		}
+	} 
+
 }
 
 export default function factory($q, $http) {

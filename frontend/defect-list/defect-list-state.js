@@ -1,5 +1,5 @@
 let state = {
-	reloadOnSearch: false,
+	// reloadOnSearch: false,
 	parent: 'defects',
 	data: {
 		title: 'Defect list'
@@ -11,7 +11,7 @@ let state = {
 		// },
 		isLoaded: ($q, defectService)=> {
 			let deferer = $q.defer(); 
-			defectService.getCurrentDefects()
+			defectService.getAllDefects()
 			.then(()=>{
 				// return true;
 				deferer.resolve(true);
@@ -25,8 +25,13 @@ let state = {
 	},
 	url: '/defect-list',
 	template: `<defect-list></defect-list>`,
-	controller: (isLoaded)=> {
+	controller: (isLoaded, defectService)=> {
 		console.log('DATA ARE LOADED');
+		console.log(defectService.DEFECTS.length);
+		angular.element('.loading-indicator').remove();
+		// defectService.getAllDefects().then(()=> {
+		// 	alert('ALL DEFECTS ARE LOADED!');
+		// })
 		// $rootScope.defects = defects;
 	},
 }
