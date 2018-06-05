@@ -2,22 +2,6 @@
 
 import Initialization from './init';
 import Defect from './classes/defect';
-// import Tube from './classes/tube';
-// import Compensator from './classes/compensator';
-// import Armature from './classes/armature';
-// import EquipmentType from './classes/equipment-type';
-// import Category from './classes/category';
-// import System from './classes/system';
-// import Owner from './classes/owner';
-// import Source from './classes/source';
-// import Character from './classes/character';
-// import Diameter from './classes/diameter';
-// import Period from './classes/period';
-// import Place from './classes/place';
-// import Status from './classes/status';
-// import TubeType from './classes/tube-type';
-// import Region from './classes/region';
-// import Master from './classes/master';
 import $http from 'angular';
 
 export class DefectService {
