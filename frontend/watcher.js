@@ -10,9 +10,3 @@ var test = /\.html$/
 let cfp = new CopyFilesPlugin(from , to , test);
 	//console.log(cfp);
 cfp.apply(null);
-
-// var timerId = setInterval(()=> {
-// 	let cfp = new CopyFilesPlugin(from , to , test);
-// 	//console.log(cfp);
-// 	cfp.apply(null);
-// }, 5000); 
