@@ -12,7 +12,6 @@ export default class DefectEditController {
 	}
 
 	onOkClick() {
-		console.log(this.defect.appearanceDate)
 		this.defectService.editDefect(this.defect, this.authorizationData)
 		.then(()=> {		
 			alert('Данные успешно сохранены');	

@@ -1,29 +1,36 @@
 import mssql from 'mssql';
 
-// const DB_SERVER = '192.168.1.34';
-const DB_SERVER = 'localhost';
-const DB_PORT = '62905';
-const DB_NAME = 'dbDefects';
-const DB_USER = 'sa';
-const DB_PASSWORD = '123';
-const DB_CONNECTION_IDLE_TIMEOUT = 60000;
-
 
 export default class DBManager {
 
-	constructor(callback) {
+	constructor(config) {
 		this.config = {
-			user: DB_USER,
-    		password: DB_PASSWORD,
-    		server: DB_SERVER,
-    		port: DB_PORT,
-		    database: DB_NAME,
+			user: config.dbAdminLogin,
+    		password: config.dbAdminPassword,
+    		server: config.dbServerAddresse,
+    		port: config.dbServerPort,
+		    database: config.dbName,
 		    pool: {
 		        max: 20,
 		        min: 0,
-		        idleTimeoutMillis: DB_CONNECTION_IDLE_TIMEOUT		    
+		        idleTimeoutMillis: config.dbIdleTimeout		    
 			}
 		}
+	}
+
+	updateConfig(newConfig) {
+		this.config = {
+			user: newConfig.dbAdminLogin,
+    		password: newConfig.dbAdminPassword,
+    		server: newConfig.dbServerAddresse,
+    		port: newConfig.dbServerPort,
+		    database: newConfig.dbName,
+		    pool: {
+		        max: 20,
+		        min: 0,
+		        idleTimeoutMillis: newConfig.dbIdleTimeout		    
+			}
+		}		
 	}
 
 	getDataBySQL(sqlString) {
@@ -134,9 +141,6 @@ export default class DBManager {
 		return new Promise((resolve, reject)=> {
 
 			mssql.connect(this.config).then((pool) => {
-
-
-
 				let appearanceDate = this.dateToSQL(defect.appearanceDate);
 				let removeDate = this.dateToSQL(defect.removeDate);
 				let location = defect.location.toFixed(2).replace(',', '.');

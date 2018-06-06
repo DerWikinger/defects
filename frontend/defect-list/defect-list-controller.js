@@ -15,11 +15,11 @@ export default class DefectListController {
 		return this.user.rights;
 	}
 
-	onDelete(defectId) {
+	onDelete(defect) {
 
 		let result = confirm('Сведения о данном дефекте будут безвозвратно удалены!\nВы действительно хотите удалить данные?');
 		if(result) {
-			this.defectService.deleteDefect(defectId, this.authorizationData)
+			this.defectService.deleteDefect(defect, this.authorizationData)
 			.then(()=> {
 				console.log('DEFECT IS REMOVED');
 			})

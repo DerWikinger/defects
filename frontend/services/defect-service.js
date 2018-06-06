@@ -1,6 +1,7 @@
 "use strict"
 
 import Initialization from './init';
+import Filter from './filter';
 import Defect from './classes/defect';
 import $http from 'angular';
 
@@ -12,11 +13,7 @@ export class DefectService {
 		this.q = $q;
 		this.http = $http;
 		this.init = new Initialization();
-		this.filter = { 
-			status: { 
-				value: this.init.STATUSES[1], equal: false 
-			} 
-		};
+		this.filter = new Filter();
 		this.VIEW_DEFECTS = [];
 		this.observers = [];
 
@@ -66,11 +63,8 @@ export class DefectService {
 
 		for(let i = 0; i < this.DEFECTS.length; i++) {
 			let defect = this.DEFECTS[i];
-			for(let prop in this.filter) {
-				let property = this.filter[prop];
-				if(defect[prop].equal(property.value) === property.equal) {
-					this.VIEW_DEFECTS.push(defect);
-				}
+			if(this.filter.match(defect)) {
+				this.VIEW_DEFECTS.push(defect);
 			}
 		}
 
@@ -177,6 +171,9 @@ export class DefectService {
 			let defectId = response.data[0].defectId;
 			defect.defectId = defectId;
 			this.DEFECTS.push(defect);
+			if(this.filter.match(defect)) {
+				this.VIEW_DEFECTS.push(defect);
+			}
 			deferer.resolve(defectId);			
 		}, (error)=> {
 			console.log(error);
@@ -187,7 +184,6 @@ export class DefectService {
 	}
 
 	editDefect(defect, authorizationData) {
-		console.log(defect);
 		let deferer = this.q.defer();
 		this.http({
 			method: 'POST',
@@ -208,12 +204,12 @@ export class DefectService {
 		return deferer.promise;
 	}
 
-	deleteDefect(defectId, authorizationData) {
+	deleteDefect(defect, authorizationData) {
 
 		let deferer = this.q.defer();
 		this.http({
 			method: 'DELETE',
-			url: `/defects?defectId=${defectId}`,
+			url: `/defects?defectId=${defect.defectId}`,
 			headers: {
 				'Authorization': authorizationData
 			},
@@ -222,10 +218,18 @@ export class DefectService {
 		.then((response)=> {
 
 			for(let i = 0; i < this.DEFECTS.length; i++) {
-				if(this.DEFECTS[i].defectId === defectId){
+				if(this.DEFECTS[i].defectId === defect.defectId){
 					this.DEFECTS.splice(i, 1);
 					break;
 				}				
+			}
+			if(this.filter.match(defect)) {
+				for(let i = 0; i < this.VIEW_DEFECTS.length; i++) {
+					if(this.VIEW_DEFECTS[i].defectId === defect.defectId){
+						this.VIEW_DEFECTS.splice(i, 1);
+						break;
+					}					
+				}
 			}
 			deferer.resolve();
 		}, (error)=> {

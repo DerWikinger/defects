@@ -1,21 +1,21 @@
 import bodyParser from 'body-parser';
 import request from 'sync-request';
-import config from '../../config';
+// import config from '../../config';
 import jwt from 'jsonwebtoken';
 import DataManager from './data-manager';
-
-const SECRET_KEY = 'tgc-2-secret';
 
 let USERS = [];
 
 class HTTPRouter {
 
-	constructor(app, callback) {
+	constructor(app, config, callback) {
 		
-		this.dataManager = new DataManager(callback);
+		this.dataManager = new DataManager(config, callback);
 		this.app = app;
 		this.app.use( bodyParser.urlencoded( { extended: true } ));
 		this.app.use( bodyParser.json() );
+		this.codeWord = config.codeWord;
+		this.tokenTimeLimit = config.tokenTimeLimit;
 
 		USERS = getAllUsers();
 
@@ -55,8 +55,8 @@ class HTTPRouter {
 			let user = findUser(checkedUser);
 
 			if(user) {
-				jwt.sign( { user }, SECRET_KEY, { 
-					expiresIn: config.TOKEN_LIMIT,  
+				jwt.sign( { user }, this.codeWord, { 
+					expiresIn: this.tokenTimeLimit,  
 				}, ( err, token ) => {
 					res.json({
 						userId: user.userId,

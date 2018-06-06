@@ -3,7 +3,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const config = require('./config');
 const CopyFilesPlugin = require('./frontend/services/copy-files-plugin');
 const path = require('path');
 

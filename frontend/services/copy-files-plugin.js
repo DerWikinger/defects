@@ -32,7 +32,7 @@ function copyFiles(from, to, test) {
 		var arr = file.split('\\');
 		var fileName = arr.length>0 ? arr[arr.length-1] : '';
 		if(!fileName) continue;
-		//console.log(file);
+		console.log(file);
 		copyFileSync(file, to + '\\' + fileName, copyFileSync.constants.COPYFILE_FICLONE);
 	}/**/
 }

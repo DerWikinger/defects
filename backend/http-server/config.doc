@@ -1,0 +1,1 @@
+{"dbServerAddresse":"localhost","dbServerPort":62905,"dbAdminLogin":"sa","dbAdminPassword":"123","dbName":"dbDefects","dbIdleTimeout":30000,"tokenTimeLimit":"120m","codeWord":"tgc-2-secret"}

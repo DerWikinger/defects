@@ -20,9 +20,9 @@ export const MASTERS = [];
 
 export default class DataManager {
 
-	constructor (callback) {
+	constructor (config, callback) {
 
-		this.dbManager = new DBManager();
+		this.dbManager = new DBManager(config);
 
 		this._initialize().then(()=> {
 			console.log('INITIALIZE COMPLETE');
