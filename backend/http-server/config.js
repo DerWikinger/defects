@@ -6,6 +6,7 @@ export class Config {
 	constructor() {
 		// this.writeFileConfig();
 		this.readFileConfig();
+		this.observers = [];
 	}
 
 	readFileConfig() {
@@ -19,44 +20,83 @@ export class Config {
 
 		// console.log(content);
     	let obj = JSON.parse(content);
-    	this.dbServerAddresse = obj.dbServerAddresse;
-		this.dbServerPort = obj.dbServerPort;
-		this.dbAdminLogin = obj.dbAdminLogin;
-		this.dbAdminPassword = obj.dbAdminPassword;
-		this.dbName = obj.dbName;
-		this.dbIdleTimeout = obj.dbIdleTimeout;
-		this.tokenTimeLimit = obj.tokenTimeLimit;
-		this.codeWord = obj.codeWord;
+    	this.dbServerAddresse = obj.dbServerAddresse || 'localhost';
+		this.dbServerPort = +obj.dbServerPort || 62905;
+		this.dbAdminLogin = obj.dbAdminLogin || 'sa';
+		this.dbAdminPassword = obj.dbAdminPassword || '123';
+		this.dbName = obj.dbName || 'dbDefects';
+		this.dbIdleTimeout = +obj.dbIdleTimeout || 30000;
+		this.tokenTimeLimit = obj.tokenTimeLimit || '120m';
+		this.codeWord = obj.codeWord || 'secret_key';
 		// console.log(this);
 	}
 
-	writeFileConfig() {
+	writeFileConfig(config) {
 
-		let obj = {
-			dbServerAddresse: 'localhost',
-			dbServerPort: 62905,
-			dbAdminLogin: 'sa',
-			dbAdminPassword: '123',
-			dbName: 'dbDefects',
-			dbIdleTimeout: 60000,
-			tokenTimeLimit: '120m',
-			codeWord: 'tgc-2-secret'
-		}
+		return new Promise((resolve, reject)=> {
+			let obj = {
+				dbServerAddresse: config.dbServerAddresse,
+				dbServerPort: config.dbServerPort,
+				dbAdminLogin: config.dbAdminLogin,
+				dbAdminPassword: config.dbAdminPassword,
+				dbName: config.dbName,
+				dbIdleTimeout: config.dbIdleTimeout,
+				tokenTimeLimit: config.tokenTimeLimit,
+				codeWord: config.codeWord
+			}
 
-		let filePath = path.resolve(__dirname, 'config.doc');
-		let content = JSON.stringify(obj);
-		fs.writeFile(filePath, content, { encoding: 'utf8'}, (err)=> {
-			console.log(err);
-		});
+			let filePath = path.resolve(__dirname, 'config.doc');
+			let content = JSON.stringify(obj);
+			fs.writeFile(filePath, content, { encoding: 'utf8'}, (err)=> {
+				if(err) {
+					reject(err);
+				} else {
+					resolve();
+				}				
+			});
+		})	
+
+	}
+
+	update(config) {
+
+		return new Promise((resolve, reject)=> {
+			this.writeFileConfig(config)
+			.then(()=>{
+				this.dbServerAddresse = config.dbServerAddresse;
+				this.dbServerPort = +config.dbServerPort;
+				this.dbAdminLogin = config.dbAdminLogin;
+				this.dbAdminPassword = config.dbAdminPassword;
+				this.dbName = config.dbName;
+				this.dbIdleTimeout = +config.dbIdleTimeout;
+				this.tokenTimeLimit = config.tokenTimeLimit;
+				this.codeWord = config.codeWord;
+				this.onChange();
+				resolve();			
+			})
+			.catch((err)=> {
+				console.log(err);
+				reject(err);
+			})
+		})
 		
-
 	}
 
-	getPropertyValue(name) {
-
+	pushObserver(observer) {
+		this.observers.push(observer);
 	}
 
-	setPropertyValue(name, value) {
+	popObserver(observer) {
+		for(let i = 0; i < this.observers.length; i++) {
+			if(this.observers[i] === observer) {
+				this.observers.splice(i, 1);
+			}
+		}
+	}
 
+	onChange() {
+		for(let i = 0; i < this.observers.length; i++) {
+			this.observers[i].update(this);
+		}
 	}
 }

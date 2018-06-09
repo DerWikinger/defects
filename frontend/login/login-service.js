@@ -10,7 +10,7 @@ export class LoginService {
 
 	login(loginData) {
 
-		let deferred = this.q.defer();
+		let defered = this.q.defer();
 
 		let headers = {
 			'Content-Type': 'application/x-www-form-urlencoded'
@@ -22,18 +22,18 @@ export class LoginService {
 			if(!data) {	
 				this.token = '';
 				alert('Что-то пошло не так! :-)');	
-				deferred.reject();			
+				defered.reject();			
 			} else {
 				this.token = data.token;
-				deferred.resolve();
+				defered.resolve();
 			}
 		}, (error)=> {
 			this.token = '';	
 			alert('Неверные имя пользователя и/или пароль!');
-			deferred.reject(error);
+			defered.reject(error);
 		});
 
-		return deferred.promise;
+		return defered.promise;
 	}
 
 	checkUser(rights) {

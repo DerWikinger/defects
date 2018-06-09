@@ -5,6 +5,7 @@ import uirouter from '@uirouter/angularjs';
 // import vsrepeat from 'front-angular-vs-repeat';
 
 import LoginComponent from './login/login-component';
+import ConfigFormComponent from './config-form/config-form-component';
 import DefectListComponent from './defect-list/defect-list-component';
 import DefectItemComponent from './defect-item/defect-item-component';
 import DetailInfoComponent from './detail-info/detail-info-component';
@@ -14,8 +15,10 @@ import DefectFormComponent from './shared/defect-form/defect-form-component';
 
 import LoginService from './login/login-service';
 import DefectService from './services/defect-service';
+import ConfigService from './config-form/config-service';
 
 import loginState from './login/login-state';
+import configFormState from './config-form/config-form-state'
 import defectListState from './defect-list/defect-list-state';
 import detailInfoState from './detail-info/detail-info-state';
 import defectAddState from './defect-add/defect-add-state';
@@ -24,7 +27,8 @@ import defectEditState from './defect-edit/defect-edit-state';
 const ngApp = angular.module('ngApp', [uirouter]);
 
 ngApp.factory('loginService', LoginService);
-ngApp.factory('defectService', DefectService);//Creates service 'DefectService'
+ngApp.factory('defectService', DefectService);
+ngApp.factory('configService', ConfigService);
 ngApp.factory('httpInterceptor', ($q)=> {
 	return {
 		// request: (request)=> {
@@ -58,15 +62,7 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 	.state('login', loginState())
 	.state('defect-add', defectAddState())
 	.state('defect-edit', defectEditState())
-	.state('happy', {
-		url: '/happy',
-		template: `<h1>HAPPY</h1>`,
-		controller: ($state)=> {
-			setTimeout(function() {
-				$state.go('login');
-			}, 3000);
-		},
-	});
+	.state('config-form', configFormState())
 	
 	$urlRouterProvider.otherwise('/login');
 	// $urlRouterProvider.when('/defect-list', ($stateParams) => {
@@ -99,25 +95,13 @@ ngApp.run(($transitions, loginService) => {
 	});
 });
 
-// ngApp.component('loadingIndicator', {
-// 	bindings: {},
-// 	template: `<div class="loading-indicator>
-// 				<div class="loader"></div>
-// 			   </div>`
-// });
-
 ngApp.component('loginUser', new LoginComponent());
-
+ngApp.component('configForm', new ConfigFormComponent());
 ngApp.component('defectList', new DefectListComponent());
-
 ngApp.component('defectItem', new DefectItemComponent());
-
 ngApp.component('defectForm', new DefectFormComponent());
-
 ngApp.component('detailInfo', new DetailInfoComponent());
-
 ngApp.component('defectAdd', new DefectAddComponent());
-
 ngApp.component('defectEdit', new DefectEditComponent());
 
 let initializeComplete = false;

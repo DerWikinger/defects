@@ -24,7 +24,8 @@ export default class DataManager {
 
 		this.dbManager = new DBManager(config);
 
-		this._initialize().then(()=> {
+		this._initialize()
+		.then(()=> {
 			console.log('INITIALIZE COMPLETE');
 			for(let table in TABLES) {
 				if(table !== 'dbo.tblOwners') {
@@ -34,7 +35,14 @@ export default class DataManager {
 			if(callback) {
 				callback();
 			}
-		});
+		})
+		.catch((err)=> {
+			console.log('ERROR');
+			if(callback) {
+				callback(err);
+			}
+			// console.log(err);
+		})
 		
 	}
 

@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import DataManager from './data-manager';
 
 let USERS = [];
+let codeWord = '';
 
 class HTTPRouter {
 
@@ -14,12 +15,11 @@ class HTTPRouter {
 		this.app = app;
 		this.app.use( bodyParser.urlencoded( { extended: true } ));
 		this.app.use( bodyParser.json() );
-		this.codeWord = config.codeWord;
-		this.tokenTimeLimit = config.tokenTimeLimit;
-
+		this.config = config;
+		codeWord = config.codeWord;
 		USERS = getAllUsers();
 
-		this.app.get('/', ( req, res ) => {
+		this.app.get('/', (req, res)=> {
 
 			res.setHeader('Access-Control-Allow-Orogin', '*');
 			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -30,9 +30,10 @@ class HTTPRouter {
 
 		});		
 		
-		this.app.get(/\/[defects].*/, ( req, res )=> {
+		this.app.get(/[defects].*/, verifyToken, (req, res, next)=> {
 
-			console.log ('This is a "GET" request');
+			// console.log ('This is a "GET" request');
+
 			if(req.query){
 				let tableName = req.query.tableName
 				if(tableName){
@@ -42,10 +43,11 @@ class HTTPRouter {
 						res.send(err);
 					});					
 				}
-			}			
+			}
+	
 		});
 
-		this.app.post('/login', ( req, res, next ) => {
+		this.app.post('/login', (req, res, next)=> {
 
 			let checkedUser = {
 				username: req.body.username,
@@ -55,8 +57,8 @@ class HTTPRouter {
 			let user = findUser(checkedUser);
 
 			if(user) {
-				jwt.sign( { user }, this.codeWord, { 
-					expiresIn: this.tokenTimeLimit,  
+				jwt.sign( { user }, codeWord, { 
+					expiresIn: this.config.tokenTimeLimit,  
 				}, ( err, token ) => {
 					res.json({
 						userId: user.userId,
@@ -68,7 +70,7 @@ class HTTPRouter {
 			}
 		});
 
-		this.app.post( '/defects', verifyToken, ( req, res ) => {
+		this.app.post( '/defects', verifyToken, (req, res)=> {
 
 			console.log ('This is a "POST" request');
 
@@ -82,7 +84,7 @@ class HTTPRouter {
 			})
 		});
 
-		this.app.put( '/defects', verifyToken, ( req, res ) => {
+		this.app.put( '/defects', verifyToken, (req, res) => {
 
 			console.log ('This is a "PUT" request');
 
@@ -96,7 +98,7 @@ class HTTPRouter {
 			})
 		});
 
-		this.app.delete( '/defects', verifyToken, ( req, res ) => {
+		this.app.delete( '/defects', verifyToken, (req, res) => {
 
 			console.log ('This is a "DELETE" request');
 
@@ -110,35 +112,95 @@ class HTTPRouter {
 			})
 		});
 
-	} 
+		this.app.post('/config/get', verifyToken, (req, res)=> {
+			
+			console.log ('This is a "CONFIG GET" request');
+
+			res.send(this.config);
+
+		})
+
+		this.app.post('/config/update', verifyToken, (req, res)=> {
+
+			console.log ('This is a "CONFIG POST" request');
+
+			let config = req.body.config;
+
+			this.config.update(config)
+			.then(()=> {
+				codeWord = config.codeWord;
+				res.sendStatus(200);
+			})
+			.catch(()=> {
+				res.sendStatus(500);
+			})
+		})
+	}
+
 
 }
 
-function verifyToken( req, res, next ) {
+function verifyToken(req, res, next) {
+
 	let bearerHeader = req.headers['authorization'];
 
 	if( typeof bearerHeader !== 'undefined' ) {
-			
+
 		let bearer = bearerHeader.split(' ');
 		let bearerId = +bearer[0];
 		let bearerToken = bearer[1];
 
+		let decoded;
+
+		try {
+			decoded = jwt.verify(bearerToken, codeWord);
+		} catch(err) {
+			console.log(err);
+			res.sendStatus(403);
+			return;		
+		}
+
+
 		let method = req.method;
 		let path = req.path;
 
-		if(path === '/defects' && method !== 'GET') {
-			for(let i = 0; i < USERS.length; i++){
-				if(USERS[i].userId === bearerId && USERS[i].rights > 1) {
-					res.sendStatus(403);
-				}
-			}
-		}
+		let user = decoded.user;
 
-		req.token = bearerToken;
-		next();
+		if(path.match(/defects/) && method === 'GET') {
+			console.log('SIMPLE GET ', path);
+			next();
+		} else	if(path === '/config/get' || path === '/config/update') {
+			if(user.rights === 0) {
+				next();
+			}				
+		} else if (user.rights < 2) {
+				next();
+		} else {
+			res.sendStatus(403);
+		}
+		
 	} else {
 		res.redirect('/login');
 	}
+
+}
+
+// function getUserById(userId) {
+// 	for(let i = 0; i < USERS.length; i++){
+// 		if(USERS[i].userId === userId) {
+// 			return USERS[i];
+// 		}
+// 	}
+// }
+
+
+function getAllUsers() {
+	let users = [
+	{ userId: 0, username: 'admin', password: '123', rights: 0  },
+	{ userId: 1, username: 'brad', password: '111', rights: 1 },
+	{ userId: 2, username: 'guest', password: ' ', rights: 2 }
+	]
+	return users;
 }
 
 function findUser(user) {
@@ -153,13 +215,5 @@ function findUser(user) {
 	return result;
 }
 
-function getAllUsers() {
-	let users = [
-		{ userId: 0, username: 'admin', password: '123', rights: 0  },
-		{ userId: 1, username: 'brad', password: '111', rights: 1 },
-		{ userId: 2, username: 'guest', password: ' ', rights: 2 }
-	]
-		return users;
-}
 
 export { HTTPRouter };

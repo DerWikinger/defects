@@ -1,10 +1,9 @@
 export default class DefectEditController {
 	
-	constructor ($state, defectService, loginService) {
+	constructor ($state, defectService) {
 		this.$onInit = this.onInit;
 		this.state = $state;
 		this.defectService = defectService;
-		this.authorizationData = loginService.getAuthorizationData();
 	}
 
 	onInit() {

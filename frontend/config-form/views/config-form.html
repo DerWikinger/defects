@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	
-</body>
-</html>
+<div class="config-form">
+	<div class="container">
+		<div class="col-xs-12">	
+			<ceneter> 
+				<h2>Конфигурация системы</h2>
+			</ceneter>
+			<form class="form-horizontal">
+
+				<div class="form-group">
+					<label for="dbServerAddresse" class="col-xs-4 control-label">DB server addresse</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbServerAddresse" type="text" id="dbServerAddresse" tabindex="1" ng-model="configFormController.config.dbServerAddresse" value="configFormController.config.dbServerAddresse" min="0"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="dbServerPort" class="col-xs-4 control-label">DB server port</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbServerPort" type="number" id="dbServerPort" tabindex="2" ng-model="configFormController.config.dbServerPort" value="configFormController.config.dbServerPort"/>
+					</div>
+				</div>
+
+				
+				<div class="form-group">
+					<label for="dbAdminLogin" class="col-xs-4 control-label">DB admin login</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbAdminLogin" type="text" id="dbAdminLogin" tabindex="3" ng-model="configFormController.config.dbAdminLogin" value="configFormController.config.dbAdminLogin"/>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="dbAdminPassword" class="col-xs-4 control-label">DB admin password</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbAdminPassword" type="password" id="dbAdminPassword" tabindex="4" ng-model="configFormController.config.dbAdminPassword" value="configFormController.config.dbAdminPassword"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="dbName" class="col-xs-4 control-label">DB name</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbName" type="text" id="dbName" tabindex="5" ng-model="configFormController.config.dbName" value="configFormController.config.dbName"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="dbIdleTimeout" class="col-xs-4 control-label">DB connection idle timeout</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="dbIdleTimeout" type="number" id="dbIdleTimeout" tabindex="6" ng-model="configFormController.config.dbIdleTimeout" value="configFormController.config.dbIdleTimeout"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="tokenTimeLimit" class="col-xs-4 control-label">Token time limit</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="tokenTimeLimit" type="text" id="tokenTimeLimit" tabindex="7" ng-model="configFormController.config.tokenTimeLimit" value="configFormController.config.tokenTimeLimit"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="codeWord" class="col-xs-4 control-label">Code word</label>
+					<div class="col-xs-8">
+						<input class="form-control" name="codeWord" type="password" id="codeWord" tabindex="8" ng-model="configFormController.config.codeWord" value="configFormController.config.codeWord"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="btnUsers" class="col-xs-4 control-label">Users</label>
+					<div class="col-xs-8">
+						<a class="users-link" ui-sref="/users"><i class="fas fa-users"></i></a>
+					</div>
+				</div>		
+
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-xs-12">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<div class="col-xs-offset-8 col-xs-4">
+						<div class="button-row">
+							<input class="btn btn-default" name="btnOk" type="button" id="btnOk" tabindex="10" value="Ok" ng-click="configFormController.onOkClick()"/>
+							<input class="btn btn-default" name="btnCancel" type="button" id="btnCancel" tabindex="11" value="Cancel" ng-click="configFormController.onCancelClick()"/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<ui-view>
+		
+	</ui-view>
+</div>

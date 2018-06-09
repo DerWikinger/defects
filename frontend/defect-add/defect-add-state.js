@@ -1,7 +1,7 @@
 let state = {
 	data: {
 		title: 'Defect add',
-		rights: 1,
+		rights: 2,
 	},
 	parent: 'defect-list',
 	url: '/defect-add',

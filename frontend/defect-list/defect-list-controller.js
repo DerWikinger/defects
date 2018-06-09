@@ -7,7 +7,6 @@ export default class DefectListController {
 		this.defectService = defectService;
 		this.defects = defectService.getCurrentDefects();
 		this.user = loginService.getUser();
-		this.authorizationData = loginService.getAuthorizationData();
 
 	}
 
@@ -19,7 +18,7 @@ export default class DefectListController {
 
 		let result = confirm('Сведения о данном дефекте будут безвозвратно удалены!\nВы действительно хотите удалить данные?');
 		if(result) {
-			this.defectService.deleteDefect(defect, this.authorizationData)
+			this.defectService.deleteDefect(defect)
 			.then(()=> {
 				console.log('DEFECT IS REMOVED');
 			})

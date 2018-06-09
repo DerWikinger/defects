@@ -12,10 +12,11 @@ export class DefectService {
 		this.DEFECTS = [];
 		this.q = $q;
 		this.http = $http;
-		this.init = new Initialization();
+		this.authorizationData = loginService.getAuthorizationData();
+		this.init = new Initialization(this.authorizationData);
 		this.filter = new Filter();
 		this.VIEW_DEFECTS = [];
-		this.observers = [];
+		this.observers = [];		
 
 		console.log('INITIALIZE IS COMPLETE');
 	}
@@ -41,13 +42,18 @@ export class DefectService {
 
 	getAllRecords(tableName) {
 
+		console.log(tableName);
+
 		let deferer = this.q.defer();
 
 		this.http({
 			method: 'GET',
-			url: `/defects?tableName=${tableName}`
-		}).then( (response)=> {
-			//console.log(response);
+			url: `/defects?tableName=${tableName}`,
+			headers: {
+				'Authorization': this.authorizationData
+			},
+		})
+		.then( (response)=> {
 			deferer.resolve(response.data);			
 		}, (error)=> {
 			console.log(error);
@@ -155,7 +161,7 @@ export class DefectService {
 		return new Defect(defect);
 	} 
 
-	addDefect(defect, authorizationData) {
+	addDefect(defect) {
 
 		let deferer = this.q.defer();
 
@@ -163,7 +169,7 @@ export class DefectService {
 			method: 'PUT',
 			url: `/defects`,
 			headers: {
-				'Authorization': authorizationData
+				'Authorization': this.authorizationData
 			},
 			data: { defect: defect }
 		})
@@ -183,13 +189,13 @@ export class DefectService {
 		return deferer.promise;
 	}
 
-	editDefect(defect, authorizationData) {
+	editDefect(defect) {
 		let deferer = this.q.defer();
 		this.http({
 			method: 'POST',
 			url: '/defects',
 			headers: {
-				'Authorization': authorizationData
+				'Authorization': this.authorizationData
 			},
 			data: { defect: defect }
 		})
@@ -204,14 +210,14 @@ export class DefectService {
 		return deferer.promise;
 	}
 
-	deleteDefect(defect, authorizationData) {
+	deleteDefect(defect) {
 
 		let deferer = this.q.defer();
 		this.http({
 			method: 'DELETE',
 			url: `/defects?defectId=${defect.defectId}`,
 			headers: {
-				'Authorization': authorizationData
+				'Authorization': this.authorizationData
 			},
 			// data: { defectId: defectId }
 		})
@@ -256,9 +262,9 @@ export class DefectService {
 
 }
 
-export default function factory($q, $http) {
+export default function factory($q, $http, loginService) {
 	// let defectServer = new DefectService($q, $http).then((ds)=> {
 	// 	return ds;
 	// });
-	return new DefectService($q, $http);
+	return new DefectService($q, $http, loginService);
 }

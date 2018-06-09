@@ -1,11 +1,10 @@
 export default class DefectAddController {
 	
-	constructor ($state, defectService, loginService) {
+	constructor ($state, defectService) {
 		this.$onInit = this.onInit;
 		this.state = $state;
 		this.defect = defectService.getNewDefect();
 		this.defectService = defectService;
-		this.authorizationData = loginService.getAuthorizationData();
 	}
 
 	onInit() {
@@ -13,7 +12,7 @@ export default class DefectAddController {
 	}
 
 	onOkClick() {
-		this.defectService.addDefect(this.defect, this.authorizationData)
+		this.defectService.addDefect(this.defect)
 		.then((defectId)=> {		
 			alert('Данные успешно добавлены');
 			this.state.go('^');		

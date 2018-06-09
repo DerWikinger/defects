@@ -20,7 +20,7 @@ import Master from './classes/master';
 
 export default class Initialization {
 
-	constructor() {
+	constructor(authorizationData) {
 
 		this.CATEGORIES = [new Category(0, 'Не выбран')];
 		this.SYSTEMS = [new System(0, 'Не выбран')];
@@ -35,6 +35,7 @@ export default class Initialization {
 		this.EQUIPMENT_TYPES = [new EquipmentType(0, 'Не выбран')];
 		this.REGIONS = [new Region(0, 'Не выбран')];
 		this.MASTERS = [new Master(0, 'Не выбран', this.REGIONS[0], 0)];
+		this.authorizationData = authorizationData;
 
 		let tables = [
 		{ tableName: 'dbo.tblCategories', module: Category, array: this.CATEGORIES },
@@ -69,6 +70,7 @@ export default class Initialization {
 			data: {
 				'tableName': tableName
 			},
+			headers: { 'Authorization': this.authorizationData },
 			async: false,	
 			success: (response)=> {
 				//console.log('RESPONSE');

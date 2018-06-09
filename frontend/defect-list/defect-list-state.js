@@ -1,23 +1,32 @@
 let state = {
-	// reloadOnSearch: false,
+	reloadOnSearch: false,
 	parent: 'defects',
 	data: {
 		title: 'Defect list'
 	},
 	resolve: {
-		// defects: (defectService)=> { 
-		// 	console.log("RESOLVE IS STARTED");	
-		// 	return defectService.getAllDefects(); 
-		// },
+
 		isLoaded: ($q, defectService)=> {
-			let deferer = $q.defer(); 
+
+
+			if(angular.element('.loading-indicator').length == 0) {
+				let container = angular.element('.main-content');
+				container.prepend(`<div class="loading-indicator">
+					<div class="main-loader loader"></div>
+					</div>`);				
+			}
+			
+			if(defectService.DEFECTS.length > 0) return true;
+			
+			let deferer = $q.defer();
+
 			defectService.getAllDefects()
 			.then(()=>{
 				// return true;
 				deferer.resolve(true);
 			})
 			.catch((err)=> {
-				// return false;
+				angular.element('.loading-indicator').remove();
 				deferer.reject(err);
 			})
 			return deferer.promise;

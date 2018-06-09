@@ -16,9 +16,10 @@ export default class DBManager {
 		        idleTimeoutMillis: config.dbIdleTimeout		    
 			}
 		}
+		config.pushObserver(this);
 	}
 
-	updateConfig(newConfig) {
+	update(newConfig) {
 		this.config = {
 			user: newConfig.dbAdminLogin,
     		password: newConfig.dbAdminPassword,
