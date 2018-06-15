@@ -173,7 +173,7 @@ export default class DBManager {
 					coordX = ${defect.coordX},
 					coordY = ${defect.coordY} 
 					WHERE dbo.tblDefects.defectId = ${defect.defectId}`;
-				console.log(sqlString);
+				// console.log(sqlString);
 			    return pool.request()
 			    // .input('appearanceDate', mssql.date, defect.appearanceDate)
 			    .query(sqlString);
@@ -228,8 +228,6 @@ export default class DBManager {
 		let yy = _date.getFullYear();
 		let mm = (_date.getMonth() + 1);
 		let dd = _date.getDate();
-		// let dateString = (dd < 10 ? '0' + dd : dd) + '-' + (mm < 10 ? '0' + mm : mm) + '-' + yy;
-		// let dateString = "'" + (dd < 10 ? '0' + dd : dd) + '-' + (mm < 10 ? '0' + mm : mm) + '-' + yy + "'";
 		let dateString = "'" + yy + '-' + (mm < 10 ? '0' + mm : mm) + '-' + (dd < 10 ? '0' + dd : dd) + "'";
 
 		return dateString;

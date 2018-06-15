@@ -23,7 +23,7 @@ export default class DefectItemController {
 		return dateString;
 	}
 
-	onUpdate() {
+	update() {
 		this.appearanceDateString = this.defect ? this.getDateString(this.defect.appearanceDate) : '???';
 		// console.log(this.appearanceDateString);
 		angular.element('.appearanceDateString').text(this.appearanceDateString);		

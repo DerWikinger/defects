@@ -53,6 +53,22 @@ class ConfigService {
 
 		return deferer.promise;		
 	}
+
+	getUsers() {
+
+	}
+
+	addUser(user) {
+
+	}
+
+	editUser(user) {
+
+	}
+
+	deleteUser(userId) {
+		
+	}
 }
 
 export default function factory($q, $http, loginService) {

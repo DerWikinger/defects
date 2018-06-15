@@ -1,10 +1,7 @@
 "use strict"
 
 import Defect from './classes/defect';
-import Tube from './classes/tube';
 import EquipmentType from './classes/equipment-type';
-import Compensator from './classes/compensator';
-import Armature from './classes/armature';
 import Category from './classes/category';
 import System from './classes/system';
 import Owner from './classes/owner';

@@ -2,11 +2,16 @@ import angular from 'angular'
 
 export default class DefectListController {
 	 
-	constructor(defectService, loginService) {
+	constructor($filter, defectService, loginService) {
 
-		this.defectService = defectService;
-		this.defects = defectService.getCurrentDefects();
+		this.defectService = defectService;	
+		this.defectService.listChangeObserver = this;	
 		this.user = loginService.getUser();
+		this.orderBy = $filter('orderBy');
+		this.sorter = 'defectId';
+		this.reverse = false;
+		this.defects = this.orderBy(defectService.getCurrentDefects(), this.sorter, this.reverse);
+
 
 	}
 
@@ -28,4 +33,13 @@ export default class DefectListController {
 		}
 	}
 
+	sortBy(propertyName) {
+		this.reverse = (propertyName !== null && this.sorter === propertyName) ? !this.reverse : false;
+		this.sorter = propertyName;
+    	this.defects = this.orderBy(this.defectService.getCurrentDefects(), this.sorter, this.reverse);
+	}
+
+	onUpdate() {
+		this.defects = this.orderBy(this.defectService.getCurrentDefects(), this.sorter, this.reverse);	
+	}
 } 

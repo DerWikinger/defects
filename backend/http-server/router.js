@@ -1,10 +1,8 @@
 import bodyParser from 'body-parser';
 import request from 'sync-request';
-// import config from '../../config';
 import jwt from 'jsonwebtoken';
 import DataManager from './data-manager';
 
-let USERS = [];
 let codeWord = '';
 
 class HTTPRouter {
@@ -17,7 +15,6 @@ class HTTPRouter {
 		this.app.use( bodyParser.json() );
 		this.config = config;
 		codeWord = config.codeWord;
-		USERS = getAllUsers();
 
 		this.app.get('/', (req, res)=> {
 
@@ -30,9 +27,7 @@ class HTTPRouter {
 
 		});		
 		
-		this.app.get(/[defects].*/, verifyToken, (req, res, next)=> {
-
-			// console.log ('This is a "GET" request');
+		this.app.get(/[defects].*/, this.verifyToken, (req, res, next)=> {
 
 			if(req.query){
 				let tableName = req.query.tableName
@@ -54,7 +49,7 @@ class HTTPRouter {
 				password: req.body.password
 			}
 
-			let user = findUser(checkedUser);
+			let user = this.config.findUser(checkedUser);
 
 			if(user) {
 				jwt.sign( { user }, codeWord, { 
@@ -70,7 +65,7 @@ class HTTPRouter {
 			}
 		});
 
-		this.app.post( '/defects', verifyToken, (req, res)=> {
+		this.app.post( '/defects', this.verifyToken, (req, res)=> {
 
 			console.log ('This is a "POST" request');
 
@@ -84,7 +79,7 @@ class HTTPRouter {
 			})
 		});
 
-		this.app.put( '/defects', verifyToken, (req, res) => {
+		this.app.put( '/defects', this.verifyToken, (req, res) => {
 
 			console.log ('This is a "PUT" request');
 
@@ -98,7 +93,7 @@ class HTTPRouter {
 			})
 		});
 
-		this.app.delete( '/defects', verifyToken, (req, res) => {
+		this.app.delete( '/defects', this.verifyToken, (req, res)=> {
 
 			console.log ('This is a "DELETE" request');
 
@@ -112,7 +107,7 @@ class HTTPRouter {
 			})
 		});
 
-		this.app.post('/config/get', verifyToken, (req, res)=> {
+		this.app.post('/config/get', this.verifyToken, (req, res)=> {
 			
 			console.log ('This is a "CONFIG GET" request');
 
@@ -120,7 +115,7 @@ class HTTPRouter {
 
 		})
 
-		this.app.post('/config/update', verifyToken, (req, res)=> {
+		this.app.post('/config/update', this.verifyToken, (req, res)=> {
 
 			console.log ('This is a "CONFIG POST" request');
 
@@ -137,83 +132,93 @@ class HTTPRouter {
 		})
 	}
 
+	verifyToken(req, res, next) {
 
-}
+		let bearerHeader = req.headers['authorization'];
 
-function verifyToken(req, res, next) {
+		if( typeof bearerHeader !== 'undefined' ) {
 
-	let bearerHeader = req.headers['authorization'];
+			let bearer = bearerHeader.split(' ');
+			let bearerId = +bearer[0];
+			let bearerToken = bearer[1];
 
-	if( typeof bearerHeader !== 'undefined' ) {
+			let decoded;
 
-		let bearer = bearerHeader.split(' ');
-		let bearerId = +bearer[0];
-		let bearerToken = bearer[1];
+			try {
+				decoded = jwt.verify(bearerToken, codeWord);
+			} catch(err) {
+				console.log(err);
+				res.sendStatus(403);
+				return;		
+			}
 
-		let decoded;
+			let method = req.method;
+			let path = req.path;
+			let user = decoded.user;
 
-		try {
-			decoded = jwt.verify(bearerToken, codeWord);
-		} catch(err) {
-			console.log(err);
-			res.sendStatus(403);
-			return;		
-		}
-
-
-		let method = req.method;
-		let path = req.path;
-
-		let user = decoded.user;
-
-		if(path.match(/defects/) && method === 'GET') {
-			console.log('SIMPLE GET ', path);
-			next();
-		} else	if(path === '/config/get' || path === '/config/update') {
-			if(user.rights === 0) {
+			if(path.match(/defects/) && method === 'GET') {
+				console.log('SIMPLE GET ', path);
 				next();
-			}				
-		} else if (user.rights < 2) {
-				next();
+			} else	if(path.match(/config/)) {
+				if(user.rights === 0) {
+					next();
+				}				
+			} else if (user.rights < 2) {
+					next();
+			} else {
+				res.sendStatus(403);
+			}
+			
 		} else {
-			res.sendStatus(403);
+			res.redirect('/login');
 		}
-		
-	} else {
-		res.redirect('/login');
-	}
 
+	}
 }
 
-// function getUserById(userId) {
-// 	for(let i = 0; i < USERS.length; i++){
-// 		if(USERS[i].userId === userId) {
-// 			return USERS[i];
+// function verifyToken(req, res, next) {
+
+// 	let bearerHeader = req.headers['authorization'];
+
+// 	if( typeof bearerHeader !== 'undefined' ) {
+
+// 		let bearer = bearerHeader.split(' ');
+// 		let bearerId = +bearer[0];
+// 		let bearerToken = bearer[1];
+
+// 		let decoded;
+
+// 		try {
+// 			decoded = jwt.verify(bearerToken, codeWord);
+// 		} catch(err) {
+// 			console.log(err);
+// 			res.sendStatus(403);
+// 			return;		
 // 		}
+
+
+// 		let method = req.method;
+// 		let path = req.path;
+
+// 		let user = decoded.user;
+
+// 		if(path.match(/defects/) && method === 'GET') {
+// 			console.log('SIMPLE GET ', path);
+// 			next();
+// 		} else	if(path === '/config/get' || path === '/config/update') {
+// 			if(user.rights === 0) {
+// 				next();
+// 			}				
+// 		} else if (user.rights < 2) {
+// 				next();
+// 		} else {
+// 			res.sendStatus(403);
+// 		}
+		
+// 	} else {
+// 		res.redirect('/login');
 // 	}
+
 // }
-
-
-function getAllUsers() {
-	let users = [
-	{ userId: 0, username: 'admin', password: '123', rights: 0  },
-	{ userId: 1, username: 'brad', password: '111', rights: 1 },
-	{ userId: 2, username: 'guest', password: ' ', rights: 2 }
-	]
-	return users;
-}
-
-function findUser(user) {
-	let result;
-	if(!user) return result;
-	for(let i = 0; i < USERS.length; i++){
-		if(user.username === USERS[i].username && user.password === USERS[i].password) {
-			result = USERS[i];
-			break;
-		}
-	}
-	return result;
-}
-
 
 export { HTTPRouter };

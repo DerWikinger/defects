@@ -8,7 +8,6 @@ export const SYSTEMS = [];
 export const OWNERS = [];
 export const SOURCES = [];
 export const CHARACTERS = [];
-export const DIRECTIONS = [];
 export const DIAMETERS = [];
 export const PERIODS = [];
 export const PLACES = [];

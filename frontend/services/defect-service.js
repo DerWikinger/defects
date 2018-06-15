@@ -16,7 +16,8 @@ export class DefectService {
 		this.init = new Initialization(this.authorizationData);
 		this.filter = new Filter();
 		this.VIEW_DEFECTS = [];
-		this.observers = [];		
+		this.OBSERVERS = [];
+		this.listChangeObserver;	
 
 		console.log('INITIALIZE IS COMPLETE');
 	}
@@ -66,6 +67,7 @@ export class DefectService {
 	getCurrentDefects () {
 
 		this.VIEW_DEFECTS = [];
+		this.OBSERVERS = [];
 
 		for(let i = 0; i < this.DEFECTS.length; i++) {
 			let defect = this.DEFECTS[i];
@@ -179,6 +181,7 @@ export class DefectService {
 			this.DEFECTS.push(defect);
 			if(this.filter.match(defect)) {
 				this.VIEW_DEFECTS.push(defect);
+				if(this.listChangeObserver) this.listChangeObserver.onUpdate();
 			}
 			deferer.resolve(defectId);			
 		}, (error)=> {
@@ -233,6 +236,7 @@ export class DefectService {
 				for(let i = 0; i < this.VIEW_DEFECTS.length; i++) {
 					if(this.VIEW_DEFECTS[i].defectId === defect.defectId){
 						this.VIEW_DEFECTS.splice(i, 1);
+						if(this.listChangeObserver) this.listChangeObserver.onUpdate();
 						break;
 					}					
 				}
@@ -247,14 +251,14 @@ export class DefectService {
 	}
 
 	pushObserver(observer) {
-		this.observers.push(observer);
+		this.OBSERVERS.push(observer);
 	}
 
 	onDataChange(defect) {
-		for(let i = 0; i < this.observers.length; i++) {
-			let observer = this.observers[i];
+		for(let i = 0; i < this.OBSERVERS.length; i++) {
+			let observer = this.OBSERVERS[i];
 			if(observer.defect.defectId === defect.defectId) {
-				observer.onUpdate();
+				observer.update();
 				break;
 			}
 		}

@@ -569,3 +569,16 @@ h2 {
 .jspArrowDown {}
 .jspArrowLeft {}
 .jspArrowRight {}
+
+.sortable:hover {
+	cursor: pointer;
+}
+
+.sortorder:after {
+  content: '\25b2';   // BLACK UP-POINTING TRIANGLE;
+  font-size: 12px;
+}
+.sortorder.reverse:after {
+  content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE;
+  font-size: 12px;
+}

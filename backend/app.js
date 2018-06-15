@@ -11,8 +11,6 @@ var app = express();
 
 const config = new configModule.Config();
 
-// console.log(config);
-
 var path = __dirname.replace('backend', '');
 app.use('/public', express.static(path + '\\public'));
 

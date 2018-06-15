@@ -5,30 +5,36 @@
 				<div class="row hidden-lg">
 					<div class="col-xs-12" >
 						<div class="row">
-							<div class="col-xs-1 list-item-header xs-hidden sm-hidden">
-								№
+							<div class="col-xs-1 list-item-header xs-hidden sm-hidden sortable" ng-click="defectListController.sortBy('defectId')">
+								№ <span class="sortorder" ng-show="defectListController.sorter === 'defectId'" ng-class="{reverse: defectListController.reverse}"></span>
 							</div>
-							<div class="col-xs-2 list-item-header xxs-hidden">
+							<div class="col-xs-2 list-item-header xxs-hidden sortable" ng-click="defectListController.sortBy('appearanceDate')">
 								Дата
-								обнаружения						
+								обнаружения	<span class="sortorder" ng-show="defectListController.sorter === 'appearanceDate'" ng-class="{reverse: defectListController.reverse}"></span>					
 							</div>
-							<div class="col-xs-2 list-item-header xmd-hidden">
-								Начальная точка							
+							<div class="col-xs-2 list-item-header xmd-hidden sortable" ng-click="defectListController.sortBy('beginPoint')">
+								Начальная точка	
+								<span class="sortorder" ng-show="defectListController.sorter === 'beginPoint'" ng-class="{reverse: defectListController.reverse}"></span>							
 							</div>
-							<div class="col-xs-2 list-item-header xmd-hidden">
+							<div class="col-xs-2 list-item-header xmd-hidden sortable" ng-click="defectListController.sortBy('endPoint')">
 								Конечная точка
+								<span class="sortorder" ng-show="defectListController.sorter === 'endPoint'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-9 list-item-header xmd-visible">
+							<div class="col-xs-9 list-item-header xmd-visible sortable" ng-click="defectListController.sortBy('addresse')">
 								Адрес
+								<span class="sortorder" ng-show="defectListController.sorter === 'addresse'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-2 list-item-header xmd-hidden">
+							<div class="col-xs-2 list-item-header xmd-hidden sortable" ng-click="defectListController.sortBy('addresse')">
 								Адрес
+								<span class="sortorder" ng-show="defectListController.sorter === 'addresse'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-2 list-item-header xmd-hidden">
+							<div class="col-xs-2 list-item-header xmd-hidden sortable" ng-click="defectListController.sortBy('character.characterId')">
 								Характер
+								<span class="sortorder" ng-show="defectListController.sorter === 'character.characterId'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-1 list-item-header xmd-hidden">
+							<div class="col-xs-1 list-item-header xmd-hidden sortable" ng-click="defectListController.sortBy('diameter.diameterValue')">
 								D
+								<span class="sortorder" ng-show="defectListController.sorter === 'diameter.diameterValue'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>					
 						</div>
 					</div>
@@ -36,39 +42,47 @@
 				<div class="row hidden-xs hidden-sm hidden-md">
 					<div class="col-xs-7">
 						<div class="row">
-							<div class="col-xs-1 list-item-header">
-								№
+							<div class="col-xs-1 list-item-header sortable" ng-click="defectListController.sortBy('defectId')">
+								№ <span class="sortorder" ng-show="defectListController.sorter === 'defectId'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-2 list-item-header">
-								Дата обнаружения							
+							<div class="col-xs-2 list-item-header sortable" ng-click="defectListController.sortBy('appearanceDate')">
+								Дата обнаружения <span class="sortorder" ng-show="defectListController.sorter === 'appearanceDate'" ng-class="{reverse: defectListController.reverse}"></span>								
 							</div>
-							<div class="col-xs-3 list-item-header">
+							<div class="col-xs-3 list-item-header sortable" ng-click="defectListController.sortBy('beginPoint')">
 								Начальная точка
+								<span class="sortorder" ng-show="defectListController.sorter === 'beginPoint'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-3 list-item-header">
+							<div class="col-xs-3 list-item-header sortable" ng-click="defectListController.sortBy('endPoint')">
 								Конечная точка
+								<span class="sortorder" ng-show="defectListController.sorter === 'endPoint'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-3 list-item-header">
+							<div class="col-xs-3 list-item-header sortable" ng-click="defectListController.sortBy('addresse')">
 								Адрес
+								<span class="sortorder" ng-show="defectListController.sorter === 'addresse'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>					
 						</div>
 					</div>
 					<div class="col-xs-5">
 						<div class="row">
-							<div class="col-xs-4 list-item-header">
+							<div class="col-xs-4 list-item-header sortable" ng-click="defectListController.sortBy('master.masterName')">
 								Мастер
+								<span class="sortorder" ng-show="defectListController.sorter === 'master.masterName'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-3 list-item-header">
+							<div class="col-xs-3 list-item-header sortable" ng-click="defectListController.sortBy('equipmentType.equipmentTypeId')">
 								Оборудование
+								<span class="sortorder" ng-show="defectListController.sorter === 'equipmentType.equipmentTypeId'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-2 list-item-header">
+							<div class="col-xs-2 list-item-header sortable" ng-click="defectListController.sortBy('character.characterId')">
 								Характер
+								<span class="sortorder" ng-show="defectListController.sorter === 'character.characterId'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-2 list-item-header">
+							<div class="col-xs-2 list-item-header sortable" ng-click="defectListController.sortBy('diameter.diameterValue')">
 								Диаметр
+								<span class="sortorder" ng-show="defectListController.sorter === 'diameter.diameterValue'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>
-							<div class="col-xs-1 list-item-header">
+							<div class="col-xs-1 list-item-header sortable" ng-click="defectListController.sortBy('flowValue')">
 								V
+								<span class="sortorder" ng-show="defectListController.sorter === 'flowValue'" ng-class="{reverse: defectListController.reverse}"></span>	
 							</div>					
 						</div>
 					</div>
@@ -83,7 +97,7 @@
 			<div class="scroll-pane">
 				<div>
 					<div class="col-xs-12">
-						<div class="list-data-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="$defect in defectListController.defects track by $defect.defectId">
+						<div class="list-data-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="$defect in defectListController.defects track by $index">
 							<a ui-sref="detail-info({defectId: $defect.defectId})">
 								<defect-item defect="$defect" class="defect-item">
 								</defect-item>

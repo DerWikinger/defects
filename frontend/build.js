@@ -77,7 +77,7 @@ ngApp.config(($httpProvider, $stateProvider, $urlRouterProvider)=> {
 ngApp.run(($transitions, loginService) => {
 	$transitions.onStart({
 		to: (state) => {
-			console.log(`STATE: ${state.name}`);
+			// console.log(`STATE: ${state.name}`);
 
 			if(state.name === 'login') {
 				return false;			
@@ -86,7 +86,7 @@ ngApp.run(($transitions, loginService) => {
 			}
 		} 
 	}, (trans) => {
-		console.dir(trans.router);
+		// console.dir(trans.router);
 		// console.dir(state);
 		if (!loginService.checkUser()) {
 			alert('Необходимо авторизоваться!');

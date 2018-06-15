@@ -7,6 +7,7 @@ export class Config {
 		// this.writeFileConfig();
 		this.readFileConfig();
 		this.observers = [];
+		this.USERS = this.getAllUsers();
 	}
 
 	readFileConfig() {
@@ -98,5 +99,39 @@ export class Config {
 		for(let i = 0; i < this.observers.length; i++) {
 			this.observers[i].update(this);
 		}
+	}
+
+
+	getAllUsers() {
+		let users = [
+		{ userId: 0, username: 'admin', password: '123', rights: 0  },
+		{ userId: 1, username: 'brad', password: '111', rights: 1 },
+		{ userId: 2, username: 'guest', password: ' ', rights: 2 }
+		]
+		return users;
+	}
+
+	findUser(user) {
+		let result;
+		if(!user) return result;
+		for(let i = 0; i < this.USERS.length; i++){
+			if(user.username === this.USERS[i].username && user.password === this.USERS[i].password) {
+				result = this.USERS[i];
+				break;
+			}
+		}
+		return result;
+	}
+
+	addUser(user) {
+
+	}
+
+	deleteUser(user) {
+
+	}
+
+	updateUser(user) {
+
 	}
 }
