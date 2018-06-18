@@ -1,3 +1,5 @@
+//router.js
+
 import bodyParser from 'body-parser';
 import request from 'sync-request';
 import jwt from 'jsonwebtoken';
@@ -55,10 +57,15 @@ class HTTPRouter {
 				jwt.sign( { user }, codeWord, { 
 					expiresIn: this.config.tokenTimeLimit,  
 				}, ( err, token ) => {
-					res.json({
-						userId: user.userId,
-						token: token
-					})
+					if(err) {
+						console.log(err);
+						res.sendStatus(500);
+					} else {
+						res.json({
+							userId: user.userId,
+							token: token
+						})
+					}
 				});
 			} else {
 				res.sendStatus(403);
@@ -75,6 +82,7 @@ class HTTPRouter {
 				res.send(data);
 			})
 			.catch((err)=> {
+				console.log(err);
 				res.sendStatus(500);
 			})
 		});
@@ -89,6 +97,7 @@ class HTTPRouter {
 				res.send(data);
 			})
 			.catch((err)=> {
+				console.log(err);
 				res.sendStatus(500);
 			})
 		});
@@ -103,6 +112,7 @@ class HTTPRouter {
 				res.send(data);
 			})
 			.catch((err)=> {
+				console.log(err);
 				res.sendStatus(500);
 			})
 		});
@@ -127,12 +137,68 @@ class HTTPRouter {
 				res.sendStatus(200);
 			})
 			.catch(()=> {
+				console.log(err);
 				res.sendStatus(500);
 			})
 		})
+
+		this.app.post('/users/all', this.verifyToken, (req, res)=> {
+			
+			console.log ('This is a "USERS ALL" request');
+
+			res.send(this.config.USERS);			
+		})
+
+		this.app.put('/users', this.verifyToken, (req, res)=> {
+			
+			console.log ('This is a "USERS ADD" request');
+
+			let user = req.body.user;
+			console.log(user);
+			this.config.addUser(user).then((newUserId)=> {
+				res.send({newUserId: newUserId});
+			})
+			.catch((err)=> {
+				console.log(err);
+				res.sendStatus(500);
+			})				
+		})
+
+		this.app.post('/users/update', this.verifyToken, (req, res)=> {
+			
+			console.log ('This is a "USERS UPDATE" request');
+
+			let user = req.body.user;
+			this.config.updateUser(user).then(()=> {
+				res.sendStatus(200);
+			})
+			.catch((err)=> {
+				console.log(err);
+				res.sendStatus(500);
+			})			
+		})
+
+		this.app.delete( '/users', this.verifyToken, (req, res)=> {
+
+			console.log ('This is a "USERS DELETE" request');
+
+			let userId = req.query.userId;
+			
+			this.config.deleteUser(+userId)
+			.then(()=> {
+				console.log('USER IS DELETED');
+				res.sendStatus(200);
+			})
+			.catch((err)=> {
+				console.log(err);
+				res.sendStatus(500);
+			})
+		});
 	}
 
 	verifyToken(req, res, next) {
+
+		console.log('VERIFY TOKEN');
 
 		let bearerHeader = req.headers['authorization'];
 
@@ -159,11 +225,11 @@ class HTTPRouter {
 			if(path.match(/defects/) && method === 'GET') {
 				console.log('SIMPLE GET ', path);
 				next();
-			} else	if(path.match(/config/)) {
-				if(user.rights === 0) {
+			} else	if(path.match(/config/) || path.match(/users/)) {
+				if(user.userRights === 0) {
 					next();
 				}				
-			} else if (user.rights < 2) {
+			} else if (user.userRights < 2) {
 					next();
 			} else {
 				res.sendStatus(403);
@@ -175,50 +241,5 @@ class HTTPRouter {
 
 	}
 }
-
-// function verifyToken(req, res, next) {
-
-// 	let bearerHeader = req.headers['authorization'];
-
-// 	if( typeof bearerHeader !== 'undefined' ) {
-
-// 		let bearer = bearerHeader.split(' ');
-// 		let bearerId = +bearer[0];
-// 		let bearerToken = bearer[1];
-
-// 		let decoded;
-
-// 		try {
-// 			decoded = jwt.verify(bearerToken, codeWord);
-// 		} catch(err) {
-// 			console.log(err);
-// 			res.sendStatus(403);
-// 			return;		
-// 		}
-
-
-// 		let method = req.method;
-// 		let path = req.path;
-
-// 		let user = decoded.user;
-
-// 		if(path.match(/defects/) && method === 'GET') {
-// 			console.log('SIMPLE GET ', path);
-// 			next();
-// 		} else	if(path === '/config/get' || path === '/config/update') {
-// 			if(user.rights === 0) {
-// 				next();
-// 			}				
-// 		} else if (user.rights < 2) {
-// 				next();
-// 		} else {
-// 			res.sendStatus(403);
-// 		}
-		
-// 	} else {
-// 		res.redirect('/login');
-// 	}
-
-// }
 
 export { HTTPRouter };

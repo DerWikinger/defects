@@ -1,3 +1,5 @@
+//login-service.js
+
 import jwt from 'jsonwebtoken';
 
 export class LoginService {
@@ -41,7 +43,7 @@ export class LoginService {
 		console.log('CHECK USER');
 		if(!this.token) return false;
 		let user = this.getUser();
-		let result = ('' + user.userId) && (user.rights < _rights);		
+		let result = ('' + user.userId) && (user.userRights < _rights);		
 		return result;
 	}
 

@@ -1,3 +1,5 @@
+//place.js
+
 export default class Place {
 
 	constructor (placeId, placeName) {

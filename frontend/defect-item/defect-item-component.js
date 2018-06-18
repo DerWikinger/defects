@@ -1,3 +1,5 @@
+//defect-item-component.js
+
 import DefectItemController from './defect-item-controller';
 
 export default class DefectItemComponent {

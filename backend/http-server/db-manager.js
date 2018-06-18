@@ -1,5 +1,6 @@
-import mssql from 'mssql';
+//db-manager.js
 
+import mssql from 'mssql';
 
 export default class DBManager {
 

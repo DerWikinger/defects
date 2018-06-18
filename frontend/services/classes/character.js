@@ -1,3 +1,5 @@
+//character.js
+
 export default class Character {
 
 	constructor (characterId, characterName) {

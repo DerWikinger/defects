@@ -1,3 +1,5 @@
+//diameter.js
+
 export default class Diameter {
 
 	constructor (diameterId, diameterValue) {

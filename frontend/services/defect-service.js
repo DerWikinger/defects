@@ -1,3 +1,5 @@
+//defect-service.js
+
 "use strict"
 
 import Initialization from './init';
@@ -222,7 +224,6 @@ export class DefectService {
 			headers: {
 				'Authorization': this.authorizationData
 			},
-			// data: { defectId: defectId }
 		})
 		.then((response)=> {
 
@@ -267,8 +268,6 @@ export class DefectService {
 }
 
 export default function factory($q, $http, loginService) {
-	// let defectServer = new DefectService($q, $http).then((ds)=> {
-	// 	return ds;
-	// });
+
 	return new DefectService($q, $http, loginService);
 }

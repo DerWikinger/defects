@@ -1,3 +1,5 @@
+//defect-add-component.js
+
 import DefectAddController from './defect-add-controller';
 
 export default class DefectAddComponent {

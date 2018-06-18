@@ -1,3 +1,5 @@
+//defect-add-state.js
+
 let state = {
 	data: {
 		title: 'Defect add',

@@ -1,3 +1,5 @@
+//defect-form-component.js
+
 import DefectFormController from './defect-form-controller';
 
 export default class DefectFormComponent {

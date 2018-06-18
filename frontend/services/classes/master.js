@@ -1,3 +1,5 @@
+//master.js
+
 export default class Master {
 
 	constructor (masterId, masterName, region, number) {

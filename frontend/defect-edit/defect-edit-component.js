@@ -1,3 +1,5 @@
+//defect-edit-component.js
+
 import DefectEditController from './defect-edit-controller';
 
 export default class DefectEditComponent {

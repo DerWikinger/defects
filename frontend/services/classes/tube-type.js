@@ -1,3 +1,5 @@
+//tube-type.js
+
 export default class TubeType {
 
 	constructor (tubeTypeId, tubeTypeName) {

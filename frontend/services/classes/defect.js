@@ -1,3 +1,5 @@
+//defect.js
+
 export default class Defect {
 
 	constructor(defect) {

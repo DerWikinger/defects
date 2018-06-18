@@ -1,0 +1,1 @@
+[{"userId":1,"userName":"admin","userPassword":"123","userRights":0},{"userName":"brad","userPassword":"111","userRights":1,"userId":2},{"userId":3,"userName":"alex","userPassword":"222","userRights":2}]

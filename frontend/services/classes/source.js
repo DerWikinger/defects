@@ -1,3 +1,5 @@
+//source.js
+
 export default class Source {
 
 	constructor (sourceId, sourceName) {

@@ -1,3 +1,5 @@
+//detail-info-component.js
+
 import DetailInfoController from './detail-info-controller';
 
 export default class DetailInfoComponent {

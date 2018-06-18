@@ -1,14 +1,11 @@
+//defect-add-controller.js
+
 export default class DefectAddController {
 	
 	constructor ($state, defectService) {
-		this.$onInit = this.onInit;
 		this.state = $state;
 		this.defect = defectService.getNewDefect();
 		this.defectService = defectService;
-	}
-
-	onInit() {
-		// $('.btn').focus();
 	}
 
 	onOkClick() {

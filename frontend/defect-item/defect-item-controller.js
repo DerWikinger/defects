@@ -1,3 +1,5 @@
+//defect-item-controller.js
+
 import { isDate } from 'angular';
 
 export default class DefectItemController {
@@ -25,7 +27,6 @@ export default class DefectItemController {
 
 	update() {
 		this.appearanceDateString = this.defect ? this.getDateString(this.defect.appearanceDate) : '???';
-		// console.log(this.appearanceDateString);
 		angular.element('.appearanceDateString').text(this.appearanceDateString);		
 	}
 }

@@ -1,3 +1,5 @@
+//data-manager.js
+
 'use strict'
 
 import DBManager from './db-manager';
@@ -220,7 +222,6 @@ export default class DataManager {
 																}
 																TABLES['dbo.tblMasters'] = MASTERS;
 																//LATEST ACTION - RESOLVE()
-																//console.log('LATEST ACTION');
 																resolve();
 															})//MASTERS
 															.then(()=> {

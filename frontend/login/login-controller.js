@@ -1,3 +1,5 @@
+//login-controller.js
+
 export default class LoginController {
 
 	constructor( $http, $state, loginService ) {
@@ -41,9 +43,8 @@ export default class LoginController {
 		
 			if(valid) {
 				loginService.login(loginData).then(()=> {
-					// console.log("GO");		
 					let user = loginService.getUser();
-					if(user.rights === 0) {
+					if(user.userRights === 0) {
 						$('#config-menu').css({ 'display': 'inline-block'});
 						$state.go('config-form');
 					} else {

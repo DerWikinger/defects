@@ -1,3 +1,5 @@
+//defect-controller.js
+
 export default class DefectFormController {
 	
 	constructor (defectService) {

@@ -1,3 +1,5 @@
+//login-component.js
+
 import LoginController from './login-controller';
 
 export default class LoginComponent {

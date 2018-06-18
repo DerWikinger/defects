@@ -1,3 +1,5 @@
+//defect-list-controller.js
+
 import angular from 'angular'
 
 export default class DefectListController {
@@ -16,7 +18,7 @@ export default class DefectListController {
 	}
 
 	getUserRights() {
-		return this.user.rights;
+		return this.user.userRights;
 	}
 
 	onDelete(defect) {

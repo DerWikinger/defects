@@ -1,3 +1,5 @@
+//init.js
+
 "use strict"
 
 import Defect from './classes/defect';
@@ -70,8 +72,6 @@ export default class Initialization {
 			headers: { 'Authorization': this.authorizationData },
 			async: false,	
 			success: (response)=> {
-				//console.log('RESPONSE');
-				//console.log(response);
 				result = JSON.parse(response);//Array of elemects
 			}
 		});

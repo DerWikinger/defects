@@ -1,3 +1,5 @@
+//config-form-component.js
+
 import ConfigFormController from './config-form-controller';
 
 export default class ConfigFormComponent {

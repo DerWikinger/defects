@@ -1,3 +1,5 @@
+//defectt-edit-controller.js
+
 export default class DefectEditController {
 	
 	constructor ($state, defectService) {

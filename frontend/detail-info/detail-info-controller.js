@@ -1,3 +1,5 @@
+//detail-info-controller.js
+
 export default class DetailInfoController {
 	
 	constructor ($state) {

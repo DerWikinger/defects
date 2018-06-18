@@ -1,9 +1,10 @@
+//config-form-state.js
+
 let state = {
 	data: {
 		title: 'Config',
 		rights: 1,
 	},
-	// parent: '/defect-list'
 	url: '/config-form',
 	template: `<config-form config="config"></config-form>`,
 	resolve: {

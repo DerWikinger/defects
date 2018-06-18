@@ -1,3 +1,5 @@
+//status.js
+
 export default class Status {
 
 	constructor (statusId, statusName) {

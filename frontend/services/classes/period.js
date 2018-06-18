@@ -1,3 +1,5 @@
+//period.js
+
 export default class Period {
 	
 	constructor (periodId, periodName) {

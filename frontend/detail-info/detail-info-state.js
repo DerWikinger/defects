@@ -1,3 +1,5 @@
+//deteail-info-state.js
+
 let state = {
 	data: {
 		title: 'Detail info'

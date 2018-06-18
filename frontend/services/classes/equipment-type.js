@@ -1,3 +1,5 @@
+//equipment-type.js
+
 export default class EquipmentType {
 
 	constructor (equipmentTypeId, equipmentTypeName) {

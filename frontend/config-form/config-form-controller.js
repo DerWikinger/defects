@@ -1,3 +1,5 @@
+//config-form-controller.js
+
 export default class ConfigFormController {
 	
 	constructor ($state, configService) {
@@ -25,9 +27,5 @@ export default class ConfigFormController {
 		for(let property in this.config) {
 			this.config[property] = this.oldConfig[property];
 		}
-	}
-
-	onUsersClick() {
-		alert('Users');
 	}
 }

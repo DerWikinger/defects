@@ -1,13 +1,15 @@
+//config.js
+
 import path from 'path';
 import fs from 'fs';
 
 export class Config {
 
 	constructor() {
-		// this.writeFileConfig();
 		this.readFileConfig();
 		this.observers = [];
-		this.USERS = this.getAllUsers();
+		this._getAllUsers();
+		console.log(this.USERS);
 	}
 
 	readFileConfig() {
@@ -19,7 +21,6 @@ export class Config {
 			flags: 'r'
 		});
 
-		// console.log(content);
     	let obj = JSON.parse(content);
     	this.dbServerAddresse = obj.dbServerAddresse || 'localhost';
 		this.dbServerPort = +obj.dbServerPort || 62905;
@@ -29,7 +30,6 @@ export class Config {
 		this.dbIdleTimeout = +obj.dbIdleTimeout || 30000;
 		this.tokenTimeLimit = obj.tokenTimeLimit || '120m';
 		this.codeWord = obj.codeWord || 'secret_key';
-		// console.log(this);
 	}
 
 	writeFileConfig(config) {
@@ -102,20 +102,23 @@ export class Config {
 	}
 
 
-	getAllUsers() {
-		let users = [
-		{ userId: 0, username: 'admin', password: '123', rights: 0  },
-		{ userId: 1, username: 'brad', password: '111', rights: 1 },
-		{ userId: 2, username: 'guest', password: ' ', rights: 2 }
-		]
-		return users;
+	_getAllUsers() {
+
+		let filePath = path.resolve(__dirname, 'users.doc');
+
+		let content = fs.readFileSync(filePath, {
+			encoding: 'utf8',
+			flags: 'r'
+		});
+
+    	this.USERS = JSON.parse(content);
 	}
 
 	findUser(user) {
 		let result;
 		if(!user) return result;
 		for(let i = 0; i < this.USERS.length; i++){
-			if(user.username === this.USERS[i].username && user.password === this.USERS[i].password) {
+			if(user.username === this.USERS[i].userName && user.password === this.USERS[i].userPassword) {
 				result = this.USERS[i];
 				break;
 			}
@@ -125,13 +128,92 @@ export class Config {
 
 	addUser(user) {
 
+		return new Promise((resolve, reject)=> {
+			let newUserId = this._getMaxUserId() + 1;
+			user.userId = newUserId;			
+			this.USERS.push(user);
+			this.writeFileUsers()
+			.then(()=> {
+				resolve(newUserId);
+			})
+			.catch((err)=> {
+				reject(err);
+			})
+		})	
+
 	}
 
-	deleteUser(user) {
+	_getMaxUserId() {
 
+		let result = 1;
+		for(let i=0; i<this.USERS.length; i++) {
+			let user = this.USERS[i];
+			if(result<user.userId) {
+				result = user.userId;
+			}
+		}
+		return result;
+	}
+
+	deleteUser(userId) {
+
+		return new Promise((resolve, reject)=> {
+
+			let deletedUserId = +userId;
+
+			if(deletedUserId === 1) reject("Don't allow to delete the user with userId == 1!");
+			
+			for(let i=0; i<this.USERS.length; i++) {
+				let _user = this.USERS[i];
+				if(_user.userId === deletedUserId) {
+					this.USERS.splice(i, 1);
+					this.writeFileUsers()
+					.then(()=> {
+						resolve();
+					})
+					.catch((err)=> {
+						reject(err);
+					})
+					break;
+				}
+			}			
+		})
 	}
 
 	updateUser(user) {
 
+		return new Promise((resolve, reject)=> {
+			
+			for(let i=0; i<this.USERS.length; i++) {
+				let _user = this.USERS[i];
+				if(_user.userId === user.userId) {
+					this.USERS.splice(i, 1, user);
+					this.writeFileUsers()
+					.then(()=> {
+						resolve();
+					})
+					.catch((err)=> {
+						reject(err);
+					})
+					break;
+				}				
+			}			
+		})
+	}
+
+	writeFileUsers() {
+
+		return new Promise((resolve, reject)=> {
+
+			let filePath = path.resolve(__dirname, 'users.doc');
+			let content = JSON.stringify(this.USERS);
+			fs.writeFile(filePath, content, { encoding: 'utf8'}, (err)=> {
+				if(err) {
+					reject(err);
+				} else {
+					resolve();
+				}				
+			});
+		})
 	}
 }

@@ -1,3 +1,5 @@
+//config-class.js
+
 export default class Config {
 
 	constructor(config) {

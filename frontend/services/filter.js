@@ -1,3 +1,5 @@
+//filter.js
+
 export default class Filter {
 
 	constructor() {

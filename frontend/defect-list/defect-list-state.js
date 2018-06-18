@@ -1,3 +1,5 @@
+//defect-list-state.js
+
 let state = {
 	reloadOnSearch: false,
 	parent: 'defects',
@@ -22,7 +24,6 @@ let state = {
 
 			defectService.getAllDefects()
 			.then(()=>{
-				// return true;
 				deferer.resolve(true);
 			})
 			.catch((err)=> {
@@ -38,10 +39,6 @@ let state = {
 		console.log('DATA ARE LOADED');
 		console.log(defectService.DEFECTS.length);
 		angular.element('.loading-indicator').remove();
-		// defectService.getAllDefects().then(()=> {
-		// 	alert('ALL DEFECTS ARE LOADED!');
-		// })
-		// $rootScope.defects = defects;
 	},
 }
 

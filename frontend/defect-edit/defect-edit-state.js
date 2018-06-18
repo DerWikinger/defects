@@ -1,3 +1,5 @@
+//defect-edit-state.js
+
 let state = {
 	data: {
 		title: 'Defect edit',

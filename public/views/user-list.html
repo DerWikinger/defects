@@ -1,0 +1,93 @@
+<div class="user-list">
+	<div class="user-list-headers">
+		<h2>
+			Список пользователей системы
+		</h2>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="col-xs-1">
+						ID
+					</div>
+					<div class="col-xs-3">
+						Имя пользователя
+					</div>
+					<div class="col-xs-3">
+						Пароль
+					</div>
+					<div class="col-xs-3">
+						Права
+					</div>
+					<div class="col-xs-2">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="user-list-content">
+		<div class="scroll-pane">
+			<div>
+				<div class="user-list-item" ng-repeat="$user in userListController.users track by $index">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="user-list-item">
+									<div class="col-xs-1">
+										<div class="form-control">
+											{{$user.userId}}
+										</div>
+									</div>
+									<div class="col-xs-3">
+										<input class="form-control" name="userName" type="text" id="userName" ng-model="$user.userName"/>
+									</div>
+									<div class="col-xs-3">
+										<input class="form-control" name="userPassword" type="password" id="userPassword" ng-model="$user.userPassword"/>
+									</div>
+									<div class="col-xs-3">
+										<select class="form-control" name="userRights" id="{{$user.userId}}" ng-model="$user.userRights" ng-options="right.rightId as right.rightName for right in userListController.userRights" ng-class="{ 'disabled': $user.userId==1 }" ng-disabled="{{ $user.userId==1 }}"></select>
+									</div>
+									<div class="col-xs-2">
+										<a ng-click="userListController.onSave($user)" class="save-btn">
+											<i class="fas fa-save"></i>
+										</a>
+										<a ng-click="userListController.onDelete($user)" ng-if="$user.userId!=1" class="delete-btn">
+											<i class="fas fa-trash-alt"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="add-btn-row">
+								<div class="col-xs-1">
+									<a ng-click="userListController.onAdd()" class="add-btn">
+										<i class="fas fa-plus"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="user-list-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="row button-exit">
+						<div class="col-xs-offset-10 col-xs-2">
+							<div class="button-row">
+								<input type="button" class="btn btn-default" ng-click="userListController.onExit()" id="exit-button" tabindex="1" value="Exit"></input>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

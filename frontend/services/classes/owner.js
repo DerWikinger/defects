@@ -1,3 +1,5 @@
+//owner.js
+
 export default class Owner {
 
 	constructor (ownerId, ownerName, ownerShortName) {

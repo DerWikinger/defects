@@ -1,3 +1,5 @@
+//defect-list-component.js
+
 import DefectListController from './defect-list-controller';
 
 export default class DefectListComponent {
