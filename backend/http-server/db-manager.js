@@ -35,6 +35,19 @@ export default class DBManager {
 		}		
 	}
 
+	getTableData(tableName) {
+
+		return new Promise((resolve, reject)=> {
+			var sqlString = 'SELECT * FROM ' + tableName;
+			this.getDataBySQL(sqlString).then((data) => {
+				resolve(data);
+			})
+			.catch((err) => {
+				reject(err);
+			})
+		});
+	}
+
 	getDataBySQL(sqlString) {
 
 		return new Promise((resolve, reject)=> {

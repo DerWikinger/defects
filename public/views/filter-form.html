@@ -1,0 +1,35 @@
+<div class="filter-form">
+	<h2>Параметры поиска дефектов</h2>
+	<div class="container">
+		<div class="col-xs-12">	
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="defectId" class="col-xs-2 control-label">Номер дефекта</label>
+					<div class="col-xs-4">
+						<input class="form-control" name="defectId" type="number" id="defectId" ng-model="filterFormController.defectId" min="0"/>
+					</div>
+					<label for="stausName" class="col-xs-2 control-label">Состояние</label>
+					<div class="col-xs-4">
+						<select class="form-control" name="staus" id="status" ng-model="filterFormController.status" ng-options="status.statusName for status in filterFormController.statuses" ng-change="filterFormController.onStatusChange(filterFormController.status)">
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-xs-12">
+			<form class="form-horizontal">
+				<div class="form-group">					
+					<div class="button-row">
+						<div class="col-xs-12">
+							<input type="button" class="col-xs-2 btn btn-default" ng-click="filterFormController.onResetClick()" id="reset-button" value="Сбросить"></input>
+							<input type="button" class="col-xs-2 btn btn-default" ng-click="filterFormController.onOkClick()" id="ok-button" value="Ok"></input>
+							<input type="button" class="col-xs-2 btn btn-default" ng-click="filterFormController.onCancelClick()" id="cancel-button" value="Cancel"></input>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

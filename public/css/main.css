@@ -301,11 +301,11 @@ h2 {
 	color: #43484C;
 }
 
-.detail-info h2 {
+.detail-info h2, .filter-form h2 {
 	color: #fff;
 }
 
-.detail-info {
+.detail-info, .filter-form {
 	position:absolute;
 	top: 0;
 	left:0;
@@ -349,7 +349,8 @@ h2 {
 	border-color: #4AAA77;
 }
 
-.detail-info .defect-form .form-control {
+.detail-info .defect-form .form-control,
+.filter-form .form-control {
 	font-family: "RobotoCondensedRegular", times !important;
 	color: #00f !important;
 	font-size: 14px;
@@ -394,15 +395,17 @@ h2 {
 	font-size: 14px;
 }
 
-.detail-info .defect-form label {
+.detail-info .defect-form label,
+.filter-form label {
 	color: #fff;
 	font-weight: normal;
 	font-size: 14px;
 }
 
 .button-row {
-	/* direction: rtl; */
+	direction: rtl;
 	float: right;
+	text-align: center;
 }
 
 .button-row input{
@@ -412,10 +415,12 @@ h2 {
 
 .detail-info .btn,
 .defect-add .btn,
-.defect-edit .btn {
+.defect-edit .btn,
+.filter-form .btn {
 	align-items: right;
-	min-width: 100px;
+	min-width: 80px;
 	margin-left: 5px;
+	display: inline-block;
 }
 
 .cell {

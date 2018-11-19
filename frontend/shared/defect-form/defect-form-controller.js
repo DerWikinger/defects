@@ -1,22 +1,24 @@
 //defect-controller.js
 
+import * as init from '../../services/init';
+
 export default class DefectFormController {
 	
-	constructor (defectService) {
+	constructor () {
 
 		this.$onInit = this.onInit;
-		this.categories = defectService.getArray('CATEGORIES');
-		this.systems = defectService.getArray('SYSTEMS');
-		this.owners = defectService.getArray('OWNERS');
-		this.sources = defectService.getArray('SOURCES');
-		this.characters = defectService.getArray('CHARACTERS');
-		this.diameters = defectService.getArray('DIAMETERS');
-		this.periods = defectService.getArray('PERIODS');
-		this.places = defectService.getArray('PLACES');
-		this.statuses = defectService.getArray('STATUSES');
-		this.tubeTypes = defectService.getArray('TUBE_TYPES');		
-		this.equipmentTypes = defectService.getArray('EQUIPMENT_TYPES');
-		this.masters = defectService.getArray('MASTERS');
+		this.categories = init.CATEGORIES;
+		this.systems = init.SYSTEMS;
+		this.owners = init.OWNERS;
+		this.sources = init.SOURCES;
+		this.characters = init.CHARACTERS;
+		this.diameters = init.DIAMETERS;
+		this.periods = init.PERIODS;
+		this.places = init.PLACES;
+		this.statuses =init.STATUSES;
+		this.tubeTypes = init.TUBE_TYPES;		
+		this.equipmentTypes = init.EQUIPMENT_TYPES;
+		this.masters = init.MASTERS;
 		
 	}
 

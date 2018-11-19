@@ -1,5 +1,7 @@
 //defectt-edit-controller.js
 
+import { isDate } from 'angular';
+
 export default class DefectEditController {
 	
 	constructor ($state, defectService) {
@@ -9,13 +11,14 @@ export default class DefectEditController {
 	}
 
 	onInit() {
-		this.oldDefect = this.defectService.clone(this.defect);
+		this.oldDefect = this.defect.clone();
 	}
 
 	onOkClick() {
 		this.defectService.editDefect(this.defect, this.authorizationData)
 		.then(()=> {		
-			alert('Данные успешно сохранены');	
+			alert('Данные успешно сохранены');
+			this.update();
 			this.state.go('^');
 		})
 		.catch((err)=> {
@@ -34,5 +37,22 @@ export default class DefectEditController {
 		console.log('STATUS');
 		console.log(status);
 		alert('STATUS');
+	}
+
+	getDateString(date) {
+		let dateString = '';
+		if(isDate(date)) {
+			let yy = '' + date.getFullYear();
+			let mm = date.getMonth() + 1;
+			let dd = date.getDate();
+			dateString = (dd < 10 ? '0' + dd : dd) + '.' + (mm < 10 ? '0' + mm : mm) + '.' + yy;
+		}
+		return dateString;
+	}
+
+	update() {
+		let appearanceDateString = this.defect ? this.getDateString(this.defect.appearanceDate) : '???';
+		let elem = angular.element('defect-item#' + this.defect.defectId);
+		elem.find('[name="appearanceDateString"]').text(appearanceDateString);		
 	}
 }

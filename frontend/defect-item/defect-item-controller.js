@@ -7,7 +7,7 @@ export default class DefectItemController {
 	constructor (defectService) {
 
 		this.$onInit = this.onInit;
-		defectService.pushObserver(this);
+		// defectService.pushObserver(this);
 	}
 
 	onInit() {

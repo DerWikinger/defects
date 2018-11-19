@@ -4,14 +4,15 @@ import bodyParser from 'body-parser';
 import request from 'sync-request';
 import jwt from 'jsonwebtoken';
 import DataManager from './data-manager';
+import DBManager from './db-manager';
 
 let codeWord = '';
 
 class HTTPRouter {
 
-	constructor(app, config, callback) {
+	constructor(app, config) {
 		
-		this.dataManager = new DataManager(config, callback);
+		this.dataManager = new DataManager(new DBManager(config));
 		this.app = app;
 		this.app.use( bodyParser.urlencoded( { extended: true } ));
 		this.app.use( bodyParser.json() );
@@ -23,8 +24,14 @@ class HTTPRouter {
 			res.setHeader('Access-Control-Allow-Orogin', '*');
 			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 			res.setHeader('Content-Type', 'text/html');
+			//Windows
 			let path = __dirname.replace('\\backend\\http-server', '');
 			path += '\\index.html';
+			
+			//Linux
+			// let path = __dirname.replace('/backend/http-server', '');
+			// path += '/index.html';
+
 			res.sendFile(path);
 
 		});		

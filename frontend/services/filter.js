@@ -2,7 +2,7 @@
 
 export default class Filter {
 
-	constructor() {
+	constructor(defectService) {
 		this.filterFunctions = [];
 		this.functionId = 0;
 		let id = this.pushFilterFunction((defect)=> {

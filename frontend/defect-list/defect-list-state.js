@@ -10,7 +10,6 @@ let state = {
 
 		isLoaded: ($q, defectService)=> {
 
-
 			if(angular.element('.loading-indicator').length == 0) {
 				let container = angular.element('.main-content');
 				container.prepend(`<div class="loading-indicator">
@@ -18,11 +17,11 @@ let state = {
 					</div>`);				
 			}
 			
-			if(defectService.DEFECTS.length > 0) return true;
+			if(defectService.getDefectList().length > 0) return true;
 			
 			let deferer = $q.defer();
 
-			defectService.getAllDefects()
+			defectService.getCurrentDefects()
 			.then(()=>{
 				deferer.resolve(true);
 			})
@@ -35,9 +34,10 @@ let state = {
 	},
 	url: '/defect-list',
 	template: `<defect-list></defect-list>`,
-	controller: (isLoaded, defectService)=> {
+	controller: ($timeout, isLoaded, defectService)=> {
 		console.log('DATA ARE LOADED');
-		console.log(defectService.DEFECTS.length);
+		let count = defectService.getDefectList().length;
+		console.log(count);
 		angular.element('.loading-indicator').remove();
 	},
 }

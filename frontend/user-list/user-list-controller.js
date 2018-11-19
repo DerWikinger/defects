@@ -7,7 +7,7 @@ export default class UserListController {
 		this.userRights = [
 			{ rightId: 0, rightName: 'Администратор' },
 			{ rightId: 1, rightName: 'Диспетчер' },
-			{ rightId: 2, rightName: 'Обозреватель' }
+			{ rightId: 2, rightName: 'Пользователь' }
 		];
 		this.state = $state;
 	}
