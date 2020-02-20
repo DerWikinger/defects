@@ -20,7 +20,7 @@
   "homepage": "https://github.com/DerWikinger/defects#readme",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.17",
-    "angular": "^1.6.9",
+    "angular": "^1.7.9",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
