@@ -223,14 +223,14 @@ button:focus {
 .list-data .edit-delete-buttons {
 	display: inline-block;
 	position: absolute;
-	right: 0;
+	right: -12px;
 	top: 0;
 	z-index: 10;
 }
 
 .list-data .edit-delete-buttons a {
 	background-color: transparent;
-	opacity: 0.05;
+	opacity: 0.1;
 	color: #43484c;
 }
 
@@ -316,6 +316,20 @@ h2 {
 	z-index:20;
 }
 
+.filter-form .main {
+	height: 78%;
+}
+
+.filter-form .footer {
+	height: 10%;
+	text-align: right;
+	margin-top: 10px;
+}
+
+ .filter-form .filter>div {
+	margin-top: 10px;
+} 
+
 .defect-add, .defect-edit {
 	position:absolute;
 	top: 0;
@@ -356,6 +370,7 @@ h2 {
 	font-size: 14px;
 	background-color: #fff;
 	border-color: #43484C;
+	/* text-align: right; */
 }
 
 .detail-info .defect-form .form-control {
@@ -364,8 +379,8 @@ h2 {
 	appearance: none; 
 }
 
-.config-form .form-control {
-	/*max-width: 300px;*/
+.config-form .form-horizontal label {
+	padding-top: 7px;
 }
 
 .defect-form * {
@@ -400,6 +415,7 @@ h2 {
 	color: #fff;
 	font-weight: normal;
 	font-size: 14px;
+	padding-top: 7px;
 }
 
 .button-row {

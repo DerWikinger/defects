@@ -8,10 +8,10 @@ class HTTPServer {
 
 		this.app = app;
 		//windows
-		let path = __dirname.replace('backend\\http-server', '');
+		//let path = __dirname.replace('backend\\http-server', '');
 		
 		//linux
-		// let path = __dirname.replace('backend/http-server', '');
+		//let path = __dirname.replace('backend/http-server', '');
 
 		this.listener = new HTTPListener(this.app, port);
 		this.router = router;

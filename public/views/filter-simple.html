@@ -1,0 +1,10 @@
+<div class="col-xs-12">
+	<label for="defectId" class="col-xs-3 control-label">{{filterSimpleController.label}}</label>
+	<div class="col-xs-3">
+		<select class="form-control" name="operator" id="operator" ng-model="filterSimpleController.filter.operator" ng-options="operator.name for operator in filterSimpleController.operators">
+		</select>
+	</div>
+	<div class="col-xs-6">
+		<input class="form-control" name="value" type="number" id="value" ng-model="filterSimpleController.filter.value" min="0"/>
+	</div>
+</div>

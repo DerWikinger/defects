@@ -36,7 +36,7 @@ export default class DefectEditController {
 	onStatusChange(status) {
 		console.log('STATUS');
 		console.log(status);
-		alert('STATUS');
+		// alert('STATUS');
 	}
 
 	getDateString(date) {

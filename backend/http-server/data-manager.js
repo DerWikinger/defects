@@ -49,7 +49,7 @@ export default class DataManager {
 	_getTableData(tableName) {
 		return new Promise((resolve, reject)=> {
 			this.dbManager.getTableData(tableName)
-			.then((data) => {
+			.then((data)=> {
 				resolve(data);
 			})
 			.catch((err)=> {

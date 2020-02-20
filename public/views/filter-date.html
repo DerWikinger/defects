@@ -1,0 +1,19 @@
+<div class="col-xs-12">
+	<label for="status" class="col-xs-3 control-label">{{filterDateController.label}}</label>
+	<div class="col-xs-3">
+		<select class="form-control" name="operator" id="operator" ng-model="filterDateController.filter.operator" ng-options="operator.name for operator in filterDateController.operators">
+		</select>
+	</div>
+	<div class="col-xs-6">
+		<div class="row">
+		<label class="col-xs-1 control-label">С:</label>
+		<div class="col-xs-5 control-label">
+			<input class="form-control" name="value" type="date" id="value" ng-model="filterDateController.filter.value"/>
+		</div>
+		<label class="col-xs-1">По:</label>
+		<div class="col-xs-5">
+			<input class="form-control" name="value2" type="date" id="value2" ng-model="filterDateController.filter.value2"/>
+		</div>
+		</div>
+	</div>
+</div>

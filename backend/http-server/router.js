@@ -24,13 +24,15 @@ class HTTPRouter {
 			res.setHeader('Access-Control-Allow-Orogin', '*');
 			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 			res.setHeader('Content-Type', 'text/html');
+
+			
 			//Windows
 			let path = __dirname.replace('\\backend\\http-server', '');
 			path += '\\index.html';
-			
-			//Linux
-			// let path = __dirname.replace('/backend/http-server', '');
-			// path += '/index.html';
+
+			//Linux			
+			//let	path = __dirname.replace('/backend/http-server', '');
+			//path += '/index.html';
 
 			res.sendFile(path);
 

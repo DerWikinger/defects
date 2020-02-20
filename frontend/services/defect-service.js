@@ -3,7 +3,6 @@
 "use strict"
 
 import * as init from './init';
-import Filter from './filter';
 import Defect from './classes/defect';
 import $http from 'angular';
 
@@ -241,16 +240,6 @@ export class DefectService {
 			this._observers[i].update();
 		}		
 	}
-
-	// onDataChange(defect) {
-	// 	for(let i = 0; i < this.OBSERVERS.length; i++) {
-	// 		let observer = this.OBSERVERS[i];
-	// 		if(observer.defect.defectId === defect.defectId) {
-	// 			observer.update();
-	// 			break;
-	// 		}
-	// 	}
-	// } 
 
 }
 

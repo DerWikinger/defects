@@ -1,6 +1,6 @@
 //db-manager.js
 
-import mssql from 'mssql';
+// import mssql from 'mssql';
 
 export default class DBManager {
 
@@ -38,213 +38,223 @@ export default class DBManager {
 	getTableData(tableName) {
 
 		return new Promise((resolve, reject)=> {
-			var sqlString = 'SELECT * FROM ' + tableName;
-			this.getDataBySQL(sqlString).then((data) => {
-				resolve(data);
-			})
-			.catch((err) => {
-				reject(err);
-			})
+			var data = this._getData(tableName);
+			resolve(data);
 		});
+	}
+
+	_getData(tableName) {
+		switch(tableName) {
+			case 'dbo.tblCategories':
+				return [ 
+					{categoryId: 1, categoryName: 'Основное'},
+					{categoryId: 2, categoryName: 'Байпас'},
+				];
+			case 'dbo.tblSystems':
+				return [ 
+					{systemId: 1, systemName: 'Отопление'},
+					{systemId: 2, systemName: 'ГВС'},
+				];			
+			case 'dbo.tblOwners':
+				return [ 
+					{ownerId: 1, ownerName: 'АГТС', ownerShortName: 'АГТС'},
+					{ownerId: 2, ownerName: 'Другой', ownerShortName: 'Др.'},
+				];
+			case 'dbo.tblSources':
+				return [ 
+					{sourceId: 1, sourceName: 'ТЭЦ'},
+					{sourceId: 2, sourceName: 'Котельная'},
+				];		
+			case 'dbo.tblCharacters':
+				return [ 
+					{characterId: 1, characterName: 'Свищ'},
+					{characterId: 2, characterName: 'Разрыв'},
+					{characterId: 3, characterName: 'Дефект арматуры'},
+					{characterId: 4, characterName: 'Отпотина'},
+				];	
+			case 'dbo.tblDiameters':
+				return [ 
+					{diameterId: 1, diameterValue: 50},
+					{diameterId: 2, diameterValue: 100},
+					{diameterId: 3, diameterValue: 200},
+					{diameterId: 4, diameterValue: 300},
+				];
+			case 'dbo.tblPeriods':
+				return [ 
+					{periodId: 1, periodName: 'Отопительный сезон'},
+					{periodId: 2, periodName: 'Лето'},
+				];		
+			case 'dbo.tblPlaces':
+				return [ 
+					{placeId: 1, placeName: 'Тепловая камера'},
+					{placeId: 2, placeName: 'Канальная'},
+				];	
+			case 'dbo.tblStatuses':
+				return [ 
+					{statusId: 1, statusName: 'Устранён'},
+					{statusId: 2, statusName: 'Не устранён'},
+					{statusId: 3, statusName: 'Хомут'},
+					{statusId: 4, statusName: 'Забит чоп'},
+				];	
+			case 'dbo.tblTubeTypes':
+				return [ 
+					{tubeTypeId: 1, tubeTypeName: 'Прямая'},
+					{tubeTypeId: 2, tubeTypeName: 'Обратная'},
+					{tubeTypeId: 3, tubeTypeName: 'Перемычка'},
+					{tubeTypeId: 4, tubeTypeName: 'Неопределено'},
+				];	
+			case 'dbo.tblEquipmentTypes':
+				return [ 
+					{equipmentTypeId: 1, equipmentTypeName: 'Труба'},
+					{equipmentTypeId: 2, equipmentTypeName: 'Арматура'},
+					{equipmentTypeId: 3, equipmentTypeName: 'Компенсатор'},
+				];
+			case 'dbo.tblRegions':
+				return [ 
+					{regionId: 1, regionName: 'РЭМТС'},
+					{regionId: 2, regionName: 'РЭРТС'},
+				];		
+			case 'dbo.tblMasters':
+				return [ 
+					{masterId: 1, masterName: 'Стопкан', regionId: 1, number: 1},
+					{masterId: 2, masterName: 'Третьяков', regionId: 2, number: 2},
+				];	
+			case 'dbo.viewOldDefects':
+				return [
+					{
+						defectId: 3,
+						defectSys: null,
+						appearanceDate: '06/06/2018',
+						removeDate: '10/10/2018',
+						statusId: 1,
+						equipmentTypeId: 1,
+						beginPoint: 'ТК-15',
+						endPoint: 'ТК-15-2',
+						equipmentSys: 45645,
+						systemId: 2,
+						categoryId: 1,
+						ownerId: 2,
+						sourceId: 1,
+						tubeTypeId: 2,
+						invNumber: '100444',
+						location: 5,
+						diameterId: 1,
+						characterId: 2,
+						addresse: 'Попова, 37',
+						masterId: 2,
+						periodId: 2,
+						comment: '',
+						flowValue: 0,
+						placeId: 2,
+						coordX: null,
+						coordY: null
+					},
+					{
+						defectId: 4,
+						defectSys: null,
+						appearanceDate: '05/25/2018',
+						removeDate: '08/30/2018',
+						statusId: 1,
+						equipmentTypeId: 1,
+						beginPoint: 'ТК-8',
+						endPoint: 'ТК-9',
+						equipmentSys: 35476,
+						systemId: 1,
+						categoryId: 1,
+						ownerId: 1,
+						sourceId: 1,
+						tubeTypeId: 1,
+						invNumber: '653653',
+						location: 20,
+						diameterId: 4,
+						characterId: 2,
+						addresse: 'Тимме, 10',
+						masterId: 1,
+						periodId: 1,
+						comment: '',
+						flowValue: 100,
+						placeId: 2,
+						coordX: null,
+						coordY: null
+					}
+				]
+			case 'dbo.viewCurrentDefects':
+				return [
+					{
+						defectId: 1,
+						defectSys: null,
+						appearanceDate: '01/10/2018',
+						removeDate: '',
+						statusId: 2,
+						equipmentTypeId: 1,
+						beginPoint: 'ТК-10',
+						endPoint: 'ТК-11',
+						equipmentSys: 54321,
+						systemId: 1,
+						categoryId: 1,
+						ownerId: 1,
+						sourceId: 1,
+						tubeTypeId: 1,
+						invNumber: '100876',
+						location: 10,
+						diameterId: 3,
+						characterId: 1,
+						addresse: 'Логиноава, 33',
+						masterId: 1,
+						periodId: 1,
+						comment: '',
+						flowValue: 0.5,
+						placeId: 2,
+						coordX: null,
+						coordY: null
+					},
+					{
+						defectId: 2,
+						defectSys: null,
+						appearanceDate: '03/11/2018',
+						removeDate: '',
+						statusId: 3,
+						equipmentTypeId: 2,
+						beginPoint: 'ТК-20',
+						endPoint: 'ТК-20-1',
+						equipmentSys: 45633,
+						systemId: 1,
+						categoryId: 1,
+						ownerId: 1,
+						sourceId: 1,
+						tubeTypeId: 1,
+						invNumber: '100555',
+						location: 0,
+						diameterId: 2,
+						characterId: 3,
+						addresse: 'Выучейского, 16',
+						masterId: 1,
+						periodId: 2,
+						comment: '',
+						flowValue: 0,
+						placeId: 1,
+						coordX: null,
+						coordY: null
+					}
+				]
+			default:
+				console.log(tableName);	
+		}
 	}
 
 	getDataBySQL(sqlString) {
-
-		return new Promise((resolve, reject)=> {
-
-			mssql.connect(this.config).then((pool) => {
-    
-			    return pool.request()
-			    //.input('input_parameter', sql.Int, value)
-			    .query(sqlString)
-			}).then((response) => {
-				mssql.close();
-			    resolve(response.recordset);
-			})
-			.catch((err) => {
-				mssql.close();
-				reject(err);
-			});
-
-			mssql.on('error', err => {
-			})
-
-		});
-
+		throw new Exception("Oops");
 	}
 
 	addDefect(defect) {
-
-		return new Promise((resolve, reject)=> {
-
-			mssql.connect(this.config).then((pool) => {
-
-				let appearanceDate = this.dateToSQL(defect.appearanceDate);
-				let removeDate = this.dateToSQL(defect.removeDate);
-				let location = defect.location.toFixed(2).replace(',', '.');
-				let flowValue = defect.flowValue.toFixed(2).replace(',', '.');
-    			let sqlString = `INSERT INTO dbo.tblDefects (
-					defectSys, 
-					appearanceDate,
-					removeDate,
-					statusId,
-					equipmentTypeId,
-					beginPoint,
-					endPoint,
-					equipmentSys,
-					systemId,
-					categoryId,
-					ownerId,
-					sourceId,
-					tubeTypeId,
-					invNumber,
-					location,
-					diameterId,
-					characterId,
-					addresse,
-					masterId,
-					periodId,
-					comment,
-					flowValue,
-					placeId,
-					coordX,
-					coordY ) OUTPUT inserted.defectId VALUES (
-					${defect.defectSys}, 
-					${appearanceDate},
-					${removeDate},
-					${defect.status.statusId},
-					${defect.equipmentType.equipmentTypeId},
-					'${defect.beginPoint}',
-					'${defect.endPoint}',
-					${defect.equipmentSys},
-					${defect.system.systemId},
-					${defect.category.categoryId},
-					${defect.owner.ownerId},
-					${defect.source.sourceId},
-					${defect.tubeType.tubeTypeId},
-					'${defect.invNumber}',
-					${location},
-					${defect.diameter.diameterId},
-					${defect.character.characterId},
-					'${defect.addresse}',
-					${defect.master.masterId},
-					${defect.period.periodId},
-					'${defect.comment}',
-					${flowValue},
-					${defect.place.placeId},
-					${defect.coordX},
-					${defect.coordY}
-					)`;
-			    return pool.request()
-			    .output('defectId', mssql.Int)
-			    .query(sqlString);
-			}).then((response) => {
-				mssql.close();
-			    resolve(response.recordset);
-			})
-			.catch((err) => {
-				mssql.close();
-				console.log('DB ERROR');
-				console.log(err);
-				reject(err);
-			});
-		});
+		throw new Exception("Oops");
 	}
 
 	editDefect(defect) {
-
-		return new Promise((resolve, reject)=> {
-
-			mssql.connect(this.config).then((pool) => {
-				let appearanceDate = this.dateToSQL(defect.appearanceDate);
-				let removeDate = this.dateToSQL(defect.removeDate);
-				let location = defect.location.toFixed(2).replace(',', '.');
-				let flowValue = defect.flowValue.toFixed(2).replace(',', '.');
-    			let sqlString = `UPDATE dbo.tblDefects SET
-					defectSys = ${defect.defectSys},
-					appearanceDate = ${appearanceDate},
-					removeDate = ${removeDate},
-					statusId = ${defect.status.statusId},
-					equipmentTypeId = ${defect.equipmentType.equipmentTypeId},
-					beginPoint = '${defect.beginPoint}',
-					endPoint = '${defect.endPoint}',
-					equipmentSys = ${defect.equipmentSys},
-					systemId = ${defect.system.systemId},
-					categoryId = ${defect.category.categoryId},
-					ownerId = ${defect.owner.ownerId},
-					sourceId = ${defect.source.sourceId},
-					tubeTypeId = ${defect.tubeType.tubeTypeId},
-					invNumber = '${defect.invNumber}',
-					location = ${location},
-					diameterId = ${defect.diameter.diameterId},
-					characterId = ${defect.character.characterId},
-					addresse = '${defect.addresse}',
-					masterId = ${defect.master.masterId},
-					periodId = ${defect.period.periodId},
-					comment = '${defect.comment}',
-					flowValue = ${flowValue},
-					placeId = ${defect.place.placeId},
-					coordX = ${defect.coordX},
-					coordY = ${defect.coordY} 
-					WHERE dbo.tblDefects.defectId = ${defect.defectId}`;
-				// console.log(sqlString);
-			    return pool.request()
-			    // .input('appearanceDate', mssql.date, defect.appearanceDate)
-			    .query(sqlString);
-			}).then((response) => {
-				mssql.close();
-			    resolve(response.recordset);
-			})
-			.catch((err) => {
-				mssql.close();
-				console.log('DB ERROR');
-				console.log(err);
-				reject(err);
-			    // ... error checks
-			});
-		});
+		throw new Exception("Oops");
 	}
 
 	deleteDefect(defectId) {
-
-		return new Promise((resolve, reject)=> {
-
-			mssql.connect(this.config).then((pool) => {
-
-    			let sqlString = `DELETE FROM dbo.tblDefects WHERE dbo.tblDefects.defectId = ${defectId}`;
-			    return pool.request()
-			    .query(sqlString);
-			}).then((response) => {
-				mssql.close();
-			    resolve(response.recordset);
-			})
-			.catch((err) => {
-				mssql.close();
-				console.log('DB ERROR');
-				console.log(err);
-				reject(err);
-			});
-		});
-	}
-
-	dateToSQL (date) {
-
-		if(!date) return 'null';
-
-		let _date = null;
-
-		try {
-			_date = new Date(date);
-		} catch(err) {
-			return 'null';
-		}		
-
-		let yy = _date.getFullYear();
-		let mm = (_date.getMonth() + 1);
-		let dd = _date.getDate();
-		let dateString = "'" + yy + '-' + (mm < 10 ? '0' + mm : mm) + '-' + (dd < 10 ? '0' + dd : dd) + "'";
-
-		return dateString;
-	}
-	
+		throw new Exception("Oops");
+	}	
 }

@@ -1,0 +1,11 @@
+<div class="col-xs-12">
+	<label for="status" class="col-xs-3 control-label">{{filterObjectController.label}}</label>
+	<div class="col-xs-3">
+		<select class="form-control" name="operator" id="operator" ng-model="filterObjectController.filter.operator" ng-options="operator.name for operator in filterObjectController.operators">
+		</select>
+	</div>
+	<div class="col-xs-6">
+		<select class="form-control" name="value" id="value" ng-model="filterObjectController.filter.value" ng-options="value.id as value.name for value in filterObjectController.values">
+		</select>
+	</div>
+</div>

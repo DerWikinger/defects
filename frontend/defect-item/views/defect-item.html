@@ -7,7 +7,7 @@
 						{{defectController.defect.defectId}}
 					</div>
 					<div name="appearanceDateString" class="col-xs-2 list-item-data xxs-hidden" class="appearanceDateString">
-						{{defectController.appearanceDateString}}
+						{{'' + (defectController.defect.appearanceDate.getDate() < 10 ? '0' + defectController.defect.appearanceDate.getDate() : defectController.defect.appearanceDate.getDate()) + '/' + (defectController.defect.appearanceDate.getMonth() < 9 ? '0' + (+defectController.defect.appearanceDate.getMonth()+1) : (defectController.defect.appearanceDate.getMonth()+1)) + '/' + (defectController.defect.appearanceDate.getFullYear()-2000) }}	
 					</div>
 					<div class="col-xs-2 list-item-data xmd-hidden">
 						{{defectController.defect.beginPoint}}						
@@ -37,7 +37,7 @@
 						{{defectController.defect.defectId}}
 					</div>
 					<div name="appearanceDateString"  class="col-xs-2 list-item-data" class="appearanceDateString">
-						{{defectController.appearanceDateString}}		
+						{{'' + (defectController.defect.appearanceDate.getDate() < 10 ? '0' + defectController.defect.appearanceDate.getDate() : defectController.defect.appearanceDate.getDate()) + '/' + (defectController.defect.appearanceDate.getMonth() < 9 ? '0' + (+defectController.defect.appearanceDate.getMonth()+1) : (defectController.defect.appearanceDate.getMonth()+1)) + '/' + (defectController.defect.appearanceDate.getFullYear()-2000) }}	
 					</div>
 					<div class="col-xs-3 list-item-data">
 						{{defectController.defect.beginPoint}}

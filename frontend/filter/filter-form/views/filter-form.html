@@ -1,0 +1,40 @@
+<div class="filter-form">
+	<h2>Параметры поиска дефектов</h2>
+	<div class="container main">
+			<form class="form-horizontal">
+				<div class="row">
+					<filter-simple class="filter" filter="filterFormController.defectId" label="Номер дефекта" operators="filterFormController.simpleOperators">
+					</filter-simple>
+					<filter-object class="filter" label="Состояние дефекта" filter="filterFormController.status" values="filterFormController.statuses" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-date class="filter" filter="filterFormController.appearanceDate" label="Дата обнаружения" operators="filterFormController.dateOperators">
+					</filter-date>	
+					<filter-date class="filter" filter="filterFormController.removeDate" label="Дата устранения" operators="filterFormController.dateOperators">
+					</filter-date>	
+					<filter-object class="filter" label="Тип оборудования" filter="filterFormController.equipmentType" values="filterFormController.equipmentTypes" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-object class="filter" label="Период" filter="filterFormController.period" values="filterFormController.periods" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-object class="filter" label="Район" filter="filterFormController.region" values="filterFormController.regions" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-object class="filter" label="Мастер" filter="filterFormController.master" values="filterFormController.masters" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-object class="filter" label="Диаметр" filter="filterFormController.diameter" values="filterFormController.diameters" operators="filterFormController.simpleOperators">
+					</filter-object>
+					<filter-object class="filter" label="Характер дефекта" filter="filterFormController.character" values="filterFormController.characters" operators="filterFormController.objectOperators">
+					</filter-object>
+					<filter-object class="filter" label="Направление" filter="filterFormController.tubeType" values="filterFormController.tubeTypes" operators="filterFormController.objectOperators">
+					</filter-object>
+				</div>
+			</form>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<div class="col-xs-12">
+				<input type="button" class="btn btn-default" ng-click="filterFormController.onResetClick()" id="reset-button" value="Сбросить"></input>
+				<input type="button" class="btn btn-default" ng-click="filterFormController.onOkClick()" id="ok-button" value="Ok"></input>
+				<input type="button" class="btn btn-default" ng-click="filterFormController.onCancelClick()" id="cancel-button" value="Cancel"></input>
+			</div>
+		</div>
+	</div>
+</div>
