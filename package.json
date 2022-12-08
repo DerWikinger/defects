@@ -22,7 +22,7 @@
     "@uirouter/angularjs": "^1.0.17",
     "angular": "^1.6.9",
     "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.2.1",
     "mssql": "^4.1.0",
